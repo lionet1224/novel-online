@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lionet - 在线转码小说</title>
+    <link rel="stylesheet" href="./style/bootstrap.css">
+    <link rel="stylesheet" href="./style/style.css">
+    <script src="./js/vue.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./js/socket.io.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="./js/tool.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container mt-4">
+            <div class="alert alert-danger" v-if="errors.length">
+                <ul class="mb-0">
+                    <li v-for="item in errors">
+                        <b>{{ item }}</b>
+                    </li>
+                </ul>
+            </div>
+    
+            <div class="alert alert-info" v-if="infos.length">
+                <ul class="mb-0">
+                    <li v-for="item in infos">
+                        <b>{{ item }}</b>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="chapter">
+                <h1>{{ data.title }}</h1>
+                <a href="#" @click="clearChapter">清除缓存</a>
+
+                <div class="content mt-3" v-html="data.content"></div>
+
+                <div class="links mb-5 float-right">
+                    <a v-if="data.prevHref" :href="prevHref">上一章</a>
+                    <a v-if="data.nextHref" class="ml-3" :href="nextHref">下一章</a v-if="data.prevHref">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/chapter.js"></script>
+</body>
+
+</html>

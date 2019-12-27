@@ -1,0 +1,16 @@
+const { path } = require('../common');
+
+global.ROOTPATH = path.join(__dirname, '../');
+
+const Server = require('../server')
+const server = new Server();
+
+process.on("uncaughtExpection",function(err){
+    console.log('捕获异常！错误信息: ' + err.message);        
+})
+
+try{
+    server.start();
+} catch(err){
+    console.log('捕获错误：' + err);
+}

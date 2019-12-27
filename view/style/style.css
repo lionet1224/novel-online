@@ -1,0 +1,48 @@
+@font-face{
+    font-family: '华文';
+    src: url('../fonts/huawenxihei.ttf')
+}
+@font-face{
+    font-family: '思源';
+    src: url('../fonts/SourceHanSansCN-Light.otf')
+}
+
+*{
+    font-family: '思源';
+}
+
+.load{
+    width: 50px;
+    display: block;
+    animation: 2s loading infinite linear;
+    margin: 0 auto;
+}
+
+@keyframes loading{
+    0%{transform: rotate(0);}
+    100%{transform: rotate(360deg);}
+}
+
+.fade-enter-active, .fade-leave-active{
+    transition: all 1s;
+}
+
+.fade-enter{
+    transform: translateY(20px);
+    opacity: 0;
+}
+.fade-leave-to{
+    display: none;
+}
+
+.w-20{
+    width: 20%;
+}
+
+.chapter{
+    font-size: 20px;
+}
+
+img{
+    width: 100%;
+}

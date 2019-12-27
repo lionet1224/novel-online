@@ -20,24 +20,24 @@ function search(name, replite, key, id) {
                 };
             }
         })
-            .then((obj) => {
-                let $ = obj.$;
-                dom.load($);
-                let data = dom.getSearchList(obj.path);
-                emitMsg(id, 1);
+        .then((obj) => {
+            let $ = obj.$;
+            dom.load($);
+            let data = dom.getSearchList(obj.path);
+            emitMsg(id, 1);
 
-                resolve({
-                    url: href,
-                    data,
-                    origin: dom.get('name'),
-                    originKey: key
-                });
-            })
-            .catch(err => {
-                console.error(`请求 《${name}》${replite.name} 时发生错误: ` + err);
-                emitMsg(id, 0);
-                reject('请求' + replite.name + '时错误，错误代码: ' + (err.code || err));
-            })
+            resolve({
+                url: href,
+                data,
+                origin: dom.get('name'),
+                originKey: key
+            });
+        })
+        .catch(err => {
+            console.error(`请求 《${name}》${replite.name} 时发生错误: ` + err);
+            emitMsg(id, 0);
+            reject('请求' + replite.name + '时错误，错误代码: ' + (err.code || err));
+        })
     })
 }
 

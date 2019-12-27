@@ -59,7 +59,7 @@ module.exports = {
         infoImage: '#fmimg img/attrsrc',
         infoDescription: '#intro/html/allSpace',
         infoChapterList: '#list dd',
-        infoChapterIndex: 9,
+        infoChapterIndex: 0,
         infoChapterTitle: 'a/text',
         infoChapterHref: 'a/attrhref/addhref',
 

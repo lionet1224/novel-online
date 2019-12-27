@@ -2,8 +2,9 @@ const { request, userAgent } = require('../config')
 const rq = require('request')
 
 module.exports = (config = {}) => {
-    config = Object.assign(config, request);
+    config = Object.assign(request, config);
     return new Promise((resolve, reject) => {
+        if(!config.uri || config.uri == "") return;
         let prefix = config.uri.slice(0, 4);
         if(prefix != 'http') config.uri = 'http://' + config.uri;
         

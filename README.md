@@ -9,11 +9,11 @@ npm run start
 
 然后在页面中打开`127.0.0.1`/`localhost`即可进入页面
 
-> 1.0.3 - 因为程序还使用了redis，所以还需要启动一下redis服务
+> 因为程序还使用了redis，所以还需要启动一下redis服务
 
 # 配置说明
 
-在`config/`文件夹中可以看到所有的配置文件，其中可以在`redis.js`文件中将`use`属性改为`true`来开启redis服务。
+在`config/`文件夹中可以看到所有的配置文件，其中可以在`redis.js`文件中将`use`属性改为`false`来关闭redis服务。
 
 `origin.js`是所有的来源配置。
 
@@ -25,7 +25,6 @@ npm run start
 
 ## 1.0.4
 
-* 默认redis服务关闭
 * 将a标签的`href="#"`改为`href="javascript:void(0)"`
 
 ## 1.0.3

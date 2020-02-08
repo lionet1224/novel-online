@@ -30,7 +30,8 @@ function addBookData(data) {
 		data = {
 			title: data.title,
 			originkey: data.originkey,
-			author: data.author
+            author: data.author,
+            bookHref: data.bookHref
 		};
 		local.unshift(data);
 		setBookData(local);

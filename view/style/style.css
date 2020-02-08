@@ -14,6 +14,10 @@
     margin: 0 auto;
 }
 
+.chapters a:visited{
+    color: black !important;
+}
+
 @keyframes loading{
     0%{transform: rotate(0);}
     100%{transform: rotate(360deg);}

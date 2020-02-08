@@ -6,6 +6,11 @@ new Vue({
         data: {},
         personNumber: 0
     },
+    computed: {
+        lastChapter(){
+            return this.data.list[this.data.list.length - 1];
+        }
+    },
     methods: {
         bindIo(){
             this.io.on('infoMsg', res => {
@@ -26,7 +31,7 @@ new Vue({
                 author: this.data.author,
             }
 
-            window.open(`/chapter.html?${toStr(data)}`);
+            return `/chapter.html?${toStr(data)}`;
         }
     },
     mounted(){
@@ -52,6 +57,7 @@ new Vue({
                     }, 500);
 
                     // 添加历史记录
+                    data.bookHref = this.searchData.href;
                     addBookData(data)
                 })
             })

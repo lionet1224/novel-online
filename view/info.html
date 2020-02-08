@@ -52,12 +52,12 @@
 
                 <div class="chapters mt-3">
                     <p v-if="data.list">共有 {{ data.list.length }} 章</p>
-                    <p>最新章节: {{ data.newChapter }}</p>
+                    <p v-if="data.list">最新章节: <a :href="getChapter(lastChapter.href)" target="_blank">{{ lastChapter.title }}</a></p>
                     <p>更新时间: {{ data.updated }}</p>
     
                     <div class="row">
                         <div class="col-12 col-md-4 mt-3" v-for="item in data.list">
-                            <a href="javascript:void(0)" @click="getChapter(item.href)" class="text-secondary">{{ item.title }}</a>
+                            <a :href="getChapter(item.href)" target="_blank" class="text-secondary">{{ item.title }}</a>
                         </div>
                     </div>
                 </div>

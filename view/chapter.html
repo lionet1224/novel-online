@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lionet - 在线转码小说</title>
+    <title>Lionet - 小说在线转码工具</title>
     <link rel="stylesheet" href="./style/bootstrap.css">
     <link rel="stylesheet" href="./style/style.css">
     <script src="./js/vue.js"></script>
@@ -33,10 +33,17 @@
                     </li>
                 </ul>
             </div>
-
+ 
             <div class="chapter">
                 <h1>{{ data.title }}</h1>
-                <a href="javasciprt:void(0)" @click="clearChapter">清除缓存</a>
+                <template v-if="data.content">
+                    <p>{{ chapterContentLength }} 字</p>
+                    <a href="javasciprt:void(0)" @click="clearChapter">清除缓存</a>
+                </template>
+                <template v-if="!infos.length && !data.content">
+                    <p>到底啦, 没有更多章节了。</p>
+                    <a href="/index.html">返回首页</a>
+                </template>
 
                 <div class="content mt-3" v-html="data.content"></div>
 

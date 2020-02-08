@@ -19,17 +19,24 @@ npm run start
 
 `server.js`是服务地址的配置，如端口和host。
 
-其他的就没有什么好介绍的了。
-
 # 更新日志
+
+## 1.0.5
+
+* add: 历史记录功能
+* add: 到达最终章的显示效果
+* add: 章节字数统计
+* update: 对这个网站的介绍
+* update: 章节页面展示效果修改
 
 ## 1.0.4
 
-* 将a标签的`href="#"`改为`href="javascript:void(0)"`
+* add: 搜索错误后的提示
+* update: 将a标签的`href="#"`改为`href="javascript:void(0)"`
 
 ## 1.0.3
 
-* 将font文件删除
+* delete: 将font文件删除
 
 # 重要说明
 

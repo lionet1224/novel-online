@@ -21,23 +21,26 @@ new Vue({
         getChapter(href){
             let data = {
                 href,
-                key: this.data.originkey
+                key: this.data.originkey,
+                bookTitle: this.data.title,
+                author: this.data.author,
             }
 
             window.open(`/chapter.html?${toStr(data)}`);
         }
     },
     mounted(){
-        let data = toObj(location.search);
-        if(data.href && data.key){
+        let searchData = toObj(location.search);
+        this.searchData = searchData;
+        if(searchData.href && searchData.key){
             this.io = io(`ws://${config.socket.ip}:${config.socket.port}`);
             this.bindIo();
 
             this.io.on('connect', res => {
                 axios.get('chapter/list', {
                     params: {
-                        href: data.href,
-                        origin: data.key,
+                        href: searchData.href,
+                        origin: searchData.key,
                         socketId: this.io.id
                     }
                 }).then(res => {
@@ -47,6 +50,9 @@ new Vue({
                     setTimeout(() => {
                         this.infos = [];
                     }, 500);
+
+                    // 添加历史记录
+                    addBookData(data)
                 })
             })
         } else {

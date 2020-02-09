@@ -52,3 +52,9 @@
 img{
     width: 100%;
 }
+
+@media (max-width: 375px){
+    .history td{
+        font-size: 10px;
+    }
+}

@@ -52,7 +52,8 @@ function updateBookData(data) {
 			item.author == decodeURI(data.author)
 		) {
 			item.chapterTitle = data.title;
-			item.chapterHref = data.href;
+            item.chapterHref = data.href;
+            item.lastChapter = data.lastChapter;
 			let old = local.splice(i, 1)[0];
 			local.unshift(old);
 			break;

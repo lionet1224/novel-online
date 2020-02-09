@@ -62,7 +62,10 @@ new Vue({
 					document.title = this.data.title + " - lionet";
 					setTimeout(() => {
 						this.infos = [];
-					}, 500);
+                    }, 500);
+                    
+                    let lastChapter = false;
+                    !this.data.content && (lastChapter = true);
 
 					// 添加到历史记录中
 					updateBookData({
@@ -70,7 +73,8 @@ new Vue({
 						href,
 						bookTitle: this.searchData.bookTitle,
 						author: this.searchData.author,
-						origin: this.searchData.key
+                        origin: this.searchData.key,
+                        lastChapter
 					});
 				});
 		},

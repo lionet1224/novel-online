@@ -80,17 +80,17 @@
                     <tbody>
                         <transition-group name="fade" appear>
                             <tr v-for="(item, i) in items" :key="i + 1">
-                                <td class="w-20">
+                                <td>
                                     <b @click="getChapterList(item.href, item.originKey)"><a class="text-secondary" href="javascript:void(0)">{{ item.title }}</a></b>
                                 </td>
-                                <td  class="w-20">
+                                <td>
                                     <a class="text-secondary" href="javascript:void(0)" @click="searchAuthor(item.author)" class='ml-1 mr-1'>{{ item.author }}</a>
                                 </td>
-                                <td  class="w-25">
+                                <td  class="w-30">
                                     <a href="javascript:void(0)" class="text-secondary" @click="getChapterList(item.href, item.originKey)">{{ item.newChapter }}</a>
                                 </td>
-                                <td  class="w-20">
-                                    <i class="ml-2 text-secondary">{{ item.updated }}</i>
+                                <td>
+                                    <i class="text-secondary">{{ item.updated }}</i>
                                 </td>
                                 <td>
                                     <a class="text-secondary" :href="item.href" target="_blank">{{ item.origin }}</a>
@@ -114,26 +114,31 @@
         <!-- 历史记录 -->
         <div class="history">
             <div class="container">
-                <h3>历史记录</h3>
+                <h3>阅读记录</h3>
 
                 <table v-if="bookData.length" class="table table-hover">
                     <tbody>
                         <transition-group name="fade" appear>
                             <tr v-for="(item, i) in bookData" :key="i + 1">
-                                <td class="w-20">
-                                    <b @click="getChapterList(item.bookHref, item.originkey)"><a href="javascript:void(0)">{{ item.title }}</a></b>
-                                </td>
-                                <td  class="w-20">
-                                    <span class="ml-2">{{ item.author }}</span>
-                                </td>
-                                <td  class="w-25">
-                                    <a href="javascript:void(0)" v-if="item.chapterTitle" @click="getChapter(item.chapterHref, item.originkey, item.title, item.author)">{{ item.chapterTitle }}</a>
-                                </td>
-                                <td  class="w-20">
-                                    <span class="ml-2">来源: {{ origins && origins[item.originkey] ? origins[item.originkey].name : '未知' }}</span class="ml-3">
+                                <td>
+                                    <b @click="getChapterList(item.bookHref, item.originkey)"><a href="javascript:void(0)" class="text-secondary">{{ item.title }}</a></b>
                                 </td>
                                 <td>
-                                    <a href="javascript: void(0)" @click="deleteBookData(i)">删除记录</a>
+                                    <span class="text-secondary">{{ item.author }}</span>
+                                </td>
+                                <td  class="w-30">
+                                    <span v-if="item.lastChapter" class="text-secondary">
+                                        到底啦(lionet权威认证)
+                                    </span>
+                                    <template v-else>
+                                        <a href="javascript:void(0)" class="text-secondary" v-if="item.chapterTitle" @click="getChapter(item.chapterHref, item.originkey, item.title, item.author)">{{ item.chapterTitle }}</a>
+                                    </template>
+                                </td>
+                                <td>
+                                    <span class="text-secondary">来源: {{ origins && origins[item.originkey] ? origins[item.originkey].name : '未知' }}</span class="ml-3">
+                                </td>
+                                <td>
+                                    <a class="text-secondary" href="javascript: void(0)" @click="deleteBookData(i)">删除记录</a>
                                 </td>
                             </tr>
                         </transition-group>

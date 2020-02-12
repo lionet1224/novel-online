@@ -7,7 +7,7 @@ npm install
 npm run start
 ```
 
-然后在页面中打开`127.0.0.1`/`localhost`即可进入页面
+然后在页面中打开`127.0.0.1`/`localhost`即可进入页面, 默认端口为81, 需要更改可以在`config/server.js`。
 
 > 因为程序还使用了redis，所以还需要启动一下redis服务
 
@@ -29,6 +29,7 @@ npm run start
 * update: 详情页最新章节更新为链接
 * update: 首页样式调整
 * update: 历史记录更改为阅读记录
+* update: 修改解析origin数据的方式，之前的`attrhref`改为`attr-*(href)`
 * fix: 历史记录点击书籍名称无法正确跳转
 
 ## 1.0.5
@@ -36,7 +37,7 @@ npm run start
 * add: 历史记录功能
 * add: 到达最终章的显示效果
 * add: 章节字数统计
-* update: 对这个网站的介绍
+* update: 对这个工具的介绍
 * update: 章节页面展示效果修改
 
 ## 1.0.4
@@ -47,12 +48,6 @@ npm run start
 ## 1.0.3
 
 * delete: 将font文件删除
-
-# 未来开发的方向
-
-* 章节页面小工具：删除指定字符
-* 章节页面无缝阅读下一章
-* 章节页面自定义页面背景文字大小间隙
 
 # 重要说明
 

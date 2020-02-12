@@ -13,7 +13,7 @@ module.exports = {
         searchList: 'tbody>tr',
         searchIndex: 1,
         searchTitle: 'td/a/eq-0/text',
-        searchHref: 'td/a/eq-0/attrhref',
+        searchHref: 'td/a/eq-0/attr-href',
         searchAuthor: 'td/eq-2/text',
         searchNewChapter: 'td/eq-1/text',
         searchUpdated: 'td/eq-4/text',
@@ -23,17 +23,17 @@ module.exports = {
         infoAuthor: '#maininfo p/eq-0/text/allSpace/not-作者：',
         infoNewChapter: '#maininfo p/eq-3/text/not-最新章节：',
         infoUpdated: '#maininfo p/eq-2/text/not-最后更新：',
-        infoImage: '#fmimg img/attrsrc/addhref',
+        infoImage: '#fmimg img/attr-src/addhref',
         infoDescription: '#intro p/eq-0/html/allSpace',
         infoChapterList: '#list dd',
         infoChapterIndex: 9,
         infoChapterTitle: 'a/text',
-        infoChapterHref: 'a/attrhref/addhref',
+        infoChapterHref: 'a/attr-href/addhref',
 
         chapterTitle: 'h1/text',
         chapterContent: '#content/remove-div/html',
-        chapterPrevHref: '.bottem2 a/eq-2/attrhref/addhref',
-        chapterNextHref: '.bottem2 a/eq-4/attrhref/addhref'
+        chapterPrevHref: '.bottem2 a/eq-2/attr-href/addhref',
+        chapterNextHref: '.bottem2 a/eq-4/attr-href/addhref'
     },
     biququ: {
         name: '笔趣趣',
@@ -46,7 +46,7 @@ module.exports = {
         searchList: '#search-main ul>li',
         searchIndex: 1,
         searchTitle: '.s2>a/text',
-        searchHref: '.s2>a/attrhref',
+        searchHref: '.s2>a/attr-href',
         searchAuthor: '.s4/text',
         searchNewChapter: '.s3/text',
         searchUpdated: '.s6/text',
@@ -56,17 +56,17 @@ module.exports = {
         infoAuthor: '#maininfo p/eq-0/text/allSpace/not-作者：',
         infoNewChapter: '#maininfo p/eq-3/text/not-最新更新：',
         infoUpdated: '#maininfo p/eq-1/text/not-最后更新：',
-        infoImage: '#fmimg img/attrsrc',
+        infoImage: '#fmimg img/attr-src',
         infoDescription: '#intro/html/allSpace',
         infoChapterList: '#list dd',
         infoChapterIndex: 0,
         infoChapterTitle: 'a/text',
-        infoChapterHref: 'a/attrhref/addhref',
+        infoChapterHref: 'a/attr-href/addhref',
 
         chapterTitle: 'h1/text',
         chapterContent: '#content/remove-div/html',
-        chapterPrevHref: '#pager_prev/attrhref/addhref',
-        chapterNextHref: '#pager_next/attrhref/addhref'
+        chapterPrevHref: '#pager_prev/attr-href/addhref',
+        chapterNextHref: '#pager_next/attr-href/addhref'
     },
     biquge5200: {
         name: '笔趣阁5200',
@@ -80,7 +80,7 @@ module.exports = {
         searchList: '.grid>tbody>tr',
         searchIndex: 1,
         searchTitle: 'td/eq-0/a/html',
-        searchHref: 'td/eq-0/a/attrhref',
+        searchHref: 'td/eq-0/a/attr-href',
         searchAuthor: 'td/eq-2/text',
         searchNewChapter: 'td/eq-1/text',
         searchUpdated: 'td/eq-4/text',
@@ -90,17 +90,17 @@ module.exports = {
         infoAuthor: '#maininfo p/eq-0/text/allSpace/not-作者：',
         infoNewChapter: 'dd/eq-0/text',
         infoUpdated: '#maininfo p/eq-2/text/not-最后更新：',
-        infoImage: '#fmimg img/attrsrc',
+        infoImage: '#fmimg img/attr-src',
         infoDescription: '#intro/html/allSpace',
         infoChapterList: '#list dd',
         infoChapterIndex: 9,
         infoChapterTitle: 'a/text',
-        infoChapterHref: 'a/attrhref',
+        infoChapterHref: 'a/attr-href',
 
         chapterTitle: 'h1/text',
         chapterContent: '#content/remove-div/html',
-        chapterPrevHref: '.bottem1 a/eq-1/attrhref',
-        chapterNextHref: '.bottem1 a/eq-3/attrhref'
+        chapterPrevHref: '.bottem1 a/eq-1/attr-href',
+        chapterNextHref: '.bottem1 a/eq-3/attr-href'
     },
     quanxiaoshuo: {
         name: '全小说',
@@ -113,7 +113,7 @@ module.exports = {
         searchList: '.main.list>ul.list_content',
         searchIndex: 0,
         searchTitle: '.cc2>a/text',
-        searchHref: '.cc2>a/attrhref/addhref',
+        searchHref: '.cc2>a/attr-href/addhref',
         searchAuthor: '.cc4>a/text',
         searchNewChapter: '.cc3/text',
         searchUpdated: '.cc5/text',
@@ -127,11 +127,11 @@ module.exports = {
         infoChapterList: '.chapters .chapter',
         infoChapterIndex: 0,
         infoChapterTitle: 'a/text',
-        infoChapterHref: 'a/attrhref/addhref',
+        infoChapterHref: 'a/attr-href/addhref',
 
         chapterTitle: 'h1/text',
         chapterContent: '#content/remove-div/html',
-        chapterPrevHref: '#prevLink/attrhref/addhref',
-        chapterNextHref: '#nextLink/attrhref/addhref'
+        chapterPrevHref: '#prevLink/attr-href/addhref',
+        chapterNextHref: '#nextLink/attr-href/addhref'
     }
 }

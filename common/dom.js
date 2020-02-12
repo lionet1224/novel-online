@@ -28,11 +28,8 @@ class Dom {
 				case "text":
 					result = result.text();
 					break;
-				case "attrhref":
-					result = result.attr("href");
-					break;
-				case "attrsrc":
-					result = result.attr("src");
+				case "attr":
+					result = result.attr(arr[1]);
 					break;
 				case "eq":
 					result = result.eq(arr[1]);

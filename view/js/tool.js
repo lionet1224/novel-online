@@ -65,3 +65,28 @@ function updateBookData(data) {
 function getBookData() {
 	return JSON.parse(localStorage.getItem(bookDataKey) || "[]");
 }
+
+function getId(){
+	let id = localStorage.getItem('socketId');
+	if(!id){
+		id = Math.random().toString(16).slice(2);
+		localStorage.setItem('socketId', id);
+	}
+	return id;
+}
+
+function getSet(){
+	let data = localStorage.getItem('userSet') || '{}';
+	data = JSON.parse(data);
+	let init = {
+		autoChapter: false,
+		getChapterListFlag: true
+	};
+	data = $.extend(init, data);
+	setSet(data);
+	return data;
+}
+
+function setSet(data){
+	localStorage.setItem('userSet', JSON.stringify(data));
+}

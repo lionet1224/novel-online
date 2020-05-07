@@ -23,7 +23,7 @@ function getChapter(uri, replite, socketId){
         .then($ => {
             sendMsg(socketId, '开始解析页面...');
             dom.load($);
-            let data = dom.getChapter();
+            let data = dom.getChapter(uri);
             sendMsg(socketId, '解析完毕...');
             resolve(data);
         })
@@ -48,7 +48,9 @@ module.exports = (href, key, socketId) => {
         let redisData = await redis.get('data', 'chapter-' + href);
         if(redisData){
             sendMsg(socketId, '返回缓存数据...');
-            resolve(JSON.parse(redisData));
+            let data = JSON.parse(redisData);
+            data.cache = true;
+            resolve(data);
             return;
         }
 

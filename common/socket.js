@@ -11,16 +11,21 @@ class Socket{
 
     listen(){
         this.io.on('connection', client => {
-            this.users[client.id] = client;
-
-            this.webNumber();
+            client.on('conn', (id) => {
+                this.users[id] = client;
+                this.emit('conn', '链接成功', id);
+                this.webNumber();
+            })
+            // this.users[client.id] = client;
 
             client.on('disconnect', () => {
                 delete this.users[client.id];
                 this.webNumber();
             })
         });
-        server.listen(socket.port);
+        server.listen(socket.port, () => {
+            console.log(`成功启动socket服务 :${socket.port}`)
+        });
     }
 
     webNumber(){
@@ -28,6 +33,7 @@ class Socket{
     }
 
     emit(name, data, id){
+        if(id && !this.users[id]) return;
         let conn = id ? this.users[id] : this.io;
         conn.emit(name, data);
     }

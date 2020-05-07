@@ -11,7 +11,7 @@ class Dom {
 	}
 
 	get(name, val = "") {
-		return this.replite[name] || val;
+		return (this.replite && this.replite[name]) || val;
 	}
 
 	parse(dom, selector) {
@@ -83,7 +83,7 @@ class Dom {
 					href: path,
 					author: this.getDom(null, "infoAuthor"),
 					newChapter: this.getDom(null, "infoNewChapter"),
-					updated: this.getDom(null, "infoUpdated")
+					updated: this.getDom(null, "infoUpdated"),
 				}
 			];
 		} else {
@@ -95,7 +95,7 @@ class Dom {
 					href: this.getDom(item, "searchHref"),
 					author: this.getDom(item, "searchAuthor"),
 					newChapter: this.getDom(item, "searchNewChapter"),
-					updated: this.getDom(item, "searchUpdated")
+					updated: this.getDom(item, "searchUpdated"),
 				};
 				list.push(data);
 			}
@@ -110,7 +110,8 @@ class Dom {
 			newChapter: this.getDom(null, "infoNewChapter"),
 			updated: this.getDom(null, "infoUpdated"),
 			imageUrl: this.getDom(null, "infoImage"),
-			description: this.getDom(null, "infoDescription")
+			description: this.getDom(null, "infoDescription"),
+			origin: this.replite.name
 		};
 		let list = [];
 		let chapterList = this.$(this.get("infoChapterList"));
@@ -126,12 +127,13 @@ class Dom {
 		return result;
 	}
 
-	getChapter() {
+	getChapter(uri) {
 		let result = {
 			title: this.getDom(null, "chapterTitle"),
 			content: this.getDom(null, "chapterContent"),
 			prevHref: this.getDom(null, "chapterPrevHref"),
-			nextHref: this.getDom(null, "chapterNextHref")
+			nextHref: this.getDom(null, "chapterNextHref"),
+			currentHref: uri
 			// chapterContentLength
 		};
 		return result;

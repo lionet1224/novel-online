@@ -35,7 +35,7 @@ function getChapterList(uri, replite, socketId){
     })
 }
 
-module.exports = (href, key, socketId) => {
+module.exports = (href, key, socketId, cache) => {
     return new Promise(async (resolve, reject) => {
         sendMsg(socketId, '正确进入执行函数中...');
         sendMsg(socketId, '判断参数是否正确...');
@@ -44,10 +44,20 @@ module.exports = (href, key, socketId) => {
             resolve({});
             return;
         }
+        if(cache == 'true'){
+            let cacheData = await redis.get('data', 'chapter-list-' + href);
+            if(cacheData){
+                cacheData = JSON.parse(cacheData);
+                cacheData.cache = true;
+                resolve(cacheData);
+                return;
+            }
+        }
         let data = await getChapterList(href, origin[key], socketId);
         data = Object.assign(data, {
             originkey: key
         })
+        await redis.set('data', 'chapter-list-' + href, JSON.stringify(data), 60 * 60 * 24 * 30);
         sendMsg(socketId, '返回数据...');
         resolve(data);
     })

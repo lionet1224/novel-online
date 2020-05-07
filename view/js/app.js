@@ -15,7 +15,9 @@ new Vue({
 		io: null,
 		loadNum: 0,
 		personNumber: 0,
-		bookData: []
+		bookData: [],
+
+		isConn: false
 	},
 	computed: {
 		loadMax() {
@@ -25,6 +27,11 @@ new Vue({
 	methods: {
 		getBook() {
 			if (this.isLoad) return;
+
+			if(!this.isConn){
+				this.bindIo();
+			}
+
 			this.isShow = true;
 			this.isLoad = true;
 			this.isRedis = false;
@@ -36,7 +43,7 @@ new Vue({
 				.post("book/search", {
 					name: this.bookTitle,
 					origins: this.checkOrigins,
-					socketId: this.io && this.io.id
+					socketId: this.id
 				})
 				.then(res => {
 					this.isLoad = false;
@@ -62,12 +69,18 @@ new Vue({
 			});
 		},
 		bindIo() {
-			this.io.on("searchResult", res => {
-				this.loadNum++;
-			});
-			this.io.on("webPersonNumber", res => {
-				this.personNumber = res;
-			});
+			this.id = getId();
+			this.io.emit('conn', this.id);
+			this.io.on('conn', (msg) => {
+				console.log(msg)
+				this.isConn = true;
+				this.io.on("searchResult", res => {
+					this.loadNum++;
+				});
+				this.io.on("webPersonNumber", res => {
+					this.personNumber = res;
+				});
+			})
 		},
 		deleteSearch() {
 			$http
@@ -111,6 +124,7 @@ new Vue({
         }
 	},
 	mounted() {
+		// 创建一个唯一id
 		$http.get("origin").then(res => {
 			res = res.data;
 			this.origins = res.data;
@@ -121,6 +135,11 @@ new Vue({
 		this.bindIo();
 
 		// 展示历史记录
-		this.bookData = getBookData();
+		let bookData = getBookData();
+		bookData.map((val, i) => {
+			setTimeout(() => {
+				this.bookData.push(val);
+			}, i * 100);
+		})
 	}
 });

@@ -40,7 +40,8 @@
 
             <div class="info mt-4" v-if="data.list">
                 <h1>{{ data.title }}</h1>
-                <b>{{ data.author }}</b>
+                <b>{{ data.author }}</b> ·
+                <b>{{ data.origin }}</b>
                 <div class="row mt-3">
                     <div v-if="data.imageUrl" class="d-none d-md-block col-md-2">
                         <img :src="data.imageUrl" alt="bookImage">
@@ -51,9 +52,17 @@
                 </div>
 
                 <div class="chapters mt-3">
-                    <p v-if="data.list">共有 {{ data.list.length }} 章</p>
-                    <p v-if="data.list">最新章节: <a :href="getChapter(lastChapter.href)" target="_blank">{{ lastChapter.title }}</a></p>
-                    <p>更新时间: {{ data.updated }}</p>
+                    <div class="chapterInfo">
+                        <p v-if="data.list">共有 {{ data.list.length }} 章</p>
+                        <p v-if="data.list">最新章节: <a :href="getChapter(lastChapter.href)" target="_blank">{{ lastChapter.title }}</a></p>
+                        <p>更新时间: {{ data.updated }}</p>
+                    </div>
+
+                    <div class="tools">
+                        <a @click="updateOrder('asc')" :class="{'text-dark': order == 'asc'}" href="javascript:void(0);">正序</a>
+                        |
+                        <a @click="updateOrder('desc')" :class="{'text-dark': order == 'desc'}" href="javascript:void(0);">倒序</a>
+                    </div>
     
                     <div class="row">
                         <div class="col-12 col-md-4 mt-3" v-for="item in data.list">
@@ -66,7 +75,8 @@
 
         <footer class="mt-4">
             <div class="container">
-                <p>仅供学习使用, 在线页面: <span>{{ personNumber }}</span></p>
+                <p>在线人数: <span>{{ personNumber }}</span></p>
+                <p>仅供学习交流, 严禁使用此工具进行任何违法行为。</p>
                 <p>Copyright &copy; 2019 lionet. All Rights Reserved.</p>
             </div>
         </footer>

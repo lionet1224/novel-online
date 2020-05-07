@@ -27,7 +27,7 @@ router.delete('/book/search', async (ctx, next) => {
 
 router.get('/chapter/list', async (ctx, next) => {
     let data = ctx.request.query;
-    let result = await getBookChapterList(data.href, data.origin, data.socketId);
+    let result = await getBookChapterList(data.href, data.origin, data.socketId, data.cache);
     ctx.body = toJson(result, 'success');
 })
 

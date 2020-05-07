@@ -6,7 +6,8 @@
   "bin": "bin/www",
   "scripts": {
     "dev": "nodemon bin/www",
-    "start": "pm2 start bin/www"
+    "start": "pm2 start bin/www",
+    "release:patch": "npm version patch && git push && git push --tags"
   },
   "author": "",
   "license": "ISC",

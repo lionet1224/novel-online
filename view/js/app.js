@@ -75,6 +75,8 @@ new Vue({
 				if (!origin.data) return;
 				for (let i = 0; i < origin.data.length; i++) {
 					let item = origin.data[i];
+					if(item.title.replace(/\s*/, '') == '' &&
+						item.author.replace(/\s*/, '') == '') return;
 					item.origin = origin.origin;
 					item.originKey = origin.originKey;
 					(function(i, item, app) {
@@ -141,7 +143,6 @@ new Vue({
 		}
 	},
 	mounted() {
-		// 创建一个唯一id
 		$http.get("origin").then(res => {
 			res = res.data;
 			this.origins = res.data;

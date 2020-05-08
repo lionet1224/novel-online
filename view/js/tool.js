@@ -99,8 +99,35 @@ function setSet(data){
 	localStorage.setItem('userSet', JSON.stringify(data));
 }
 
-function loadFont(font = '思源'){
-	$('*').css('font-family', font)
+function loadFont(ele = '*', font = '思源') {
+	var span = document.createElement("span");
+	// 这几个字母和符号宽度比较容易变化
+	span.innerHTML = "gW@i#Q!T";
+	// 设置为不可见，但可以测量宽度
+	span.className = 'testFamily'
+	// span.style.visibility = "hidden";
+	// 字体大小为e68a84e799bee5baa631333332613664 500px，如果宽度变化比较容易区分
+	span.style.fontSize = "500px";
+	// 设置字体
+	span.style.fontFamily = font;
+	// 添加到页面
+	document.body.appendChild(span);
+	// 获取宽度
+	var width_now = span.offsetWidth;
+	// 每 0.05 秒检查一次是否加载
+	var interval_check = setInterval(function() {
+			// 宽度变化，说明字体被加载
+			if(span.offsetWidth != width_now) {
+				console.log(1)
+					clearInterval(interval_check);
+					// 设置字体为
+					$(ele).css('font-family', font);
+					// ele.style.fontFamily = font;
+					// 移除 span
+					document.body.removeChild(span);
+					span = null;
+			}
+	}, 50);
 }
 
 module.exports = {

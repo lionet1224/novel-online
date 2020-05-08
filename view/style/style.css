@@ -240,3 +240,9 @@ stroke-dashoffset: 0;
 .color-item:hover{
     filter: brightness(.9);
 }
+
+.testFamily{
+    visibility: hidden;
+    position: fixed;
+    left: 1000000px;
+}

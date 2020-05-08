@@ -88,7 +88,9 @@ function getSet(){
 		autoChapter: false,
 		getChapterListFlag: true,
 
-		color: null
+		color: null,
+		fontSize: 20,
+		fontBottom: 16
 	};
 	data = $.extend(init, data);
 	setSet(data);

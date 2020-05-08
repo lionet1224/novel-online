@@ -24,7 +24,7 @@ new Vue({
 		data: [],
 		key: "",
 
-		menuType: 'list',
+		menuType: 'set',
 		listError: false,
 		
 		order: 'asc',
@@ -34,6 +34,8 @@ new Vue({
 		autoChapter: false,
 		autoChapterFlag: false,
 		getChapterListFlag: true,
+		fontSize: 20,
+		fontBottom: 16,
 
 		colors: [
 			{bg: 'rgba(255, 255, 255,.8)'},
@@ -58,6 +60,14 @@ new Vue({
 		color(){
 			$('body').css('background-color', this.color.bg);
 			$('#app .container').css('color', this.color.font || '#212529')
+			this.storeSet();
+		},
+		fontSize(){
+			$('#app .container .content').css('font-size', this.fontSize + 'px');
+			this.storeSet();
+		},
+		fontBottom(){
+			$('#app .container .content *').css('margin-bottom', this.fontBottom + 'px');
 			this.storeSet();
 		}
 	},
@@ -252,12 +262,16 @@ new Vue({
 			this.autoChapter = setData.autoChapter;
 			this.getChapterListFlag = setData.getChapterListFlag;
 			this.color = setData.color || this.colors[0];
+			this.fontSize = setData.fontSize || this.fontSize;
+			this.fontBottom = setData.fontBottom || this.fontBottom;
 		},
 		storeSet(){
 			setSet({
 				autoChapter: this.autoChapter,
 				getChapterListFlag: this.getChapterListFlag,
-				color: this.color
+				color: this.color,
+				fontSize: this.fontSize,
+				fontBottom: this.fontBottom
 			})
 		},
 		loadChapter(){

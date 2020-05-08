@@ -77,12 +77,12 @@
                 <div v-if="items.length" class="table table-hover">
                     <transition-group name="fade" appear>
                         <div v-if="item.title != ''" v-for="(item, i) in items" :key="i + 1" class="item border-bottom mt-3">
-                            <h4 @click="getChapterList(item.href, item.originKey)">
-                                <a class="text-dark" href="javascript:void(0)">{{ item.title }}</a>
+                            <h4>
+                                <a class="text-dark" target="_blank" :href="getChapterList(item.href, item.originKey)">{{ item.title }}</a>
                             </h4>
                             <p class="mb-0">
                                 <a class="text-dark" href="javascript:void(0)" @click="searchAuthor(item.author)" class='ml-1 mr-1'>{{ item.author }}</a>
-                                 · <a href="javascript:void(0)" class="text-dark" @click="getChapterList(item.href, item.originKey)">{{ item.newChapter }}</a> 
+                                 · <a class="text-dark" target="_blank" :href="getChapterList(item.href, item.originKey)">{{ item.newChapter }}</a> 
                                  · {{ item.updated }}</p>
                             <p>此条数据来自: <a :href="item.href" class="text-dark">{{ item.origin }}</a></p>
 
@@ -148,8 +148,8 @@
                             </td>
                         </tr> -->
                         <div v-if="item.title != '' && item.title != null" v-for="(item, i) in bookData" :key="i + 1" class="item border-bottom pb-2 mt-3">
-                            <h4 @click="getChapterList(item.bookHref, item.originkey)">
-                                <a class="text-dark" href="javascript:void(0)">{{ item.title }}</a>
+                            <h4>
+                                <a class="text-dark" target="_blank" :href="getChapterList(item.bookHref, item.originkey)">{{ item.title }}</a>
                             </h4>
                             <p class="mb-0">
                                 <a class="text-dark" href="javascript:void(0)" @click="searchAuthor(item.author)" class='ml-1 mr-1'>{{ item.author }}</a>
@@ -157,7 +157,7 @@
                                     ·  到底啦(lionet权威认证)
                                 </span>
                                 <template v-else-if="item.chapterTitle">
-                                    · <a href="javascript:void(0)" class="text-dark" v-if="item.chapterTitle" @click="getChapter(item.chapterHref, item.originkey, item.title, item.author)">{{ item.chapterTitle }}</a>
+                                    · <a :href="getChapter(item.chapterHref, item.originkey, item.title, item.author)" class="text-dark" v-if="item.chapterTitle">{{ item.chapterTitle }}</a>
                                 </template>
                             <p class="mb-0">此条数据来自: {{ origins && origins[item.originkey] ? origins[item.originkey].name : '未知' }}</p>
                             <a class="text-dark" href="javascript: void(0)" @click="deleteBookData(i)">删除记录</a>

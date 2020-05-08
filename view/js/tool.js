@@ -46,22 +46,28 @@ function setBookData(data) {
 
 function updateBookData(data) {
 	let local = getBookData();
+	let find = findBookData(data.bookTitle, data.author, data.origin);
+
+	find.item.chapterTitle = data.title;
+	find.item.chapterHref = data.href;
+	find.item.lastChapter = data.lastChapter;
+	local.splice(find.i, 1)[0];
+	local.unshift(find.item);
+	setBookData(local);
+}
+
+function findBookData(title, author, origin){
+	let local = getBookData();
 	for (let i = 0; i < local.length; i++) {
 		let item = local[i];
 		if (
-			item.title == decodeURI(data.bookTitle) &&
-			item.originkey == decodeURI(data.origin) &&
-			item.author == decodeURI(data.author)
+			item.title == decodeURI(title) &&
+			item.originkey == decodeURI(origin) &&
+			item.author == decodeURI(author)
 		) {
-			item.chapterTitle = data.title;
-            item.chapterHref = data.href;
-            item.lastChapter = data.lastChapter;
-			let old = local.splice(i, 1)[0];
-			local.unshift(old);
-			break;
+			return {item, i};
 		}
 	}
-	setBookData(local);
 }
 
 function getBookData() {
@@ -82,7 +88,9 @@ function getSet(){
 	data = JSON.parse(data);
 	let init = {
 		autoChapter: false,
-		getChapterListFlag: true
+		getChapterListFlag: true,
+
+		color: null
 	};
 	data = $.extend(init, data);
 	setSet(data);
@@ -101,6 +109,7 @@ module.exports = {
 	getBookData,
 	setBookData,
 	addBookData,
+	findBookData,
 	updateBookData,
 	setSet
 }

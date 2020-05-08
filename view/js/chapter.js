@@ -10,6 +10,8 @@ import {
 	getId,
 	updateBookData,
 	setSet,
+	getBookData,
+	findBookData
 } from './tool'
 import '../style/bootstrap.css'
 import '../style/style.css'
@@ -33,7 +35,19 @@ new Vue({
 
 		autoChapter: false,
 		autoChapterFlag: false,
-		getChapterListFlag: true
+		getChapterListFlag: true,
+
+		colors: [
+			{bg: 'rgba(255, 255, 255,.8)'},
+			{bg: 'rgba(250,245,234,.8)'},
+			{bg: 'rgba(245,234,203,.8)'},
+			{bg: 'rgba(230,242,229,.8)'},
+			{bg: 'rgba(228,241,244,.8)'},
+			{bg: 'rgba(245,228,227,.8)'},
+			{bg: 'rgba(224,224,223,.8)'},
+			{bg: 'rgba(25,27,27,.8)', font: 'white'}
+		],
+		color: null
 	},
 	watch: {
 		autoChapter(){
@@ -41,6 +55,11 @@ new Vue({
 			this.storeSet();
 		},
 		getChapterListFlag(){
+			this.storeSet();
+		},
+		color(){
+			$('body').css('background-color', this.color.bg);
+			$('#app .container').css('color', this.color.font || '#212529')
 			this.storeSet();
 		}
 	},
@@ -122,7 +141,9 @@ new Vue({
 				})
 				.then(res => {
 					if(isLoad){
-						this.autoChapterFlag = false;
+						setTimeout(() => {
+							this.autoChapterFlag = false;
+						}, 1000);
 					}
 					let data = res.data;
 					this.data.push(data.data);
@@ -136,12 +157,12 @@ new Vue({
 
 					// 添加到历史记录中
 					updateBookData({
-						title: this.data.title,
+						title: this.lastData.title,
 						href,
 						bookTitle: this.searchData.bookTitle,
 						author: this.searchData.author,
-                        origin: this.searchData.key,
-                        lastChapter
+						origin: this.searchData.key,
+						lastChapter
 					});
 
 					if(!this.lastData.content) return;
@@ -225,11 +246,13 @@ new Vue({
 			let setData = getSet();
 			this.autoChapter = setData.autoChapter;
 			this.getChapterListFlag = setData.getChapterListFlag;
+			this.color = setData.color || this.colors[0];
 		},
 		storeSet(){
 			setSet({
 				autoChapter: this.autoChapter,
-				getChapterListFlag: this.getChapterListFlag
+				getChapterListFlag: this.getChapterListFlag,
+				color: this.color
 			})
 		},
 		loadChapter(){
@@ -250,6 +273,14 @@ new Vue({
 		this.id = getId();
 		let data = toObj(location.search);
 		this.searchData = data;
+		let find = findBookData(data.bookTitle, data.author, data.key);
+		// 章节数据使用本地存储中的
+		if(find.item.chapterHref != data.href){
+			this.searchData.href = find.item.chapterHref;
+			location.search = `?` + toStr(this.searchData);
+			return;
+		}
+
 		this.loadSet();
 		if (data.href && data.key) {
 			this.key = data.key;

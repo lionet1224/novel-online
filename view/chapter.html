@@ -88,6 +88,13 @@
                     <div class="top">回到顶部</div>
                 </div>
                 <div class="mt-4" v-else-if="menuType == 'set'">
+                    <h2>阅读配置</h2>
+                    <div class="colors">
+                        <h4>颜色设置</h4>
+                        <div @click="color = item" v-for="item in colors" :style="{'background-color': item.bg}" class="color-item">
+                        </div>
+                    </div>
+                    <h2 class="mt-3">系统配置</h2>
                     <div class="set-item">
                         <div class="ckbx-style-11">
                             <input type="checkbox" id="autoChapter" v-model="autoChapter" name="ckbx-style-11">

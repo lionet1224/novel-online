@@ -6,6 +6,7 @@ class Socket{
     constructor(){
         this.io = io;
         this.users = {};
+        this.idIo  = {};
         this.listen();
     }
 
@@ -13,13 +14,15 @@ class Socket{
         this.io.on('connection', client => {
             client.on('conn', (id) => {
                 this.users[id] = client;
+                this.idIo[client.id] = id;
                 this.emit('conn', '链接成功', id);
                 this.webNumber();
             })
             // this.users[client.id] = client;
 
             client.on('disconnect', () => {
-                delete this.users[client.id];
+                delete this.users[this.idIo[client.id]];
+                delete this.idIo[client.id];
                 this.webNumber();
             })
         });

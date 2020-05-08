@@ -121,7 +121,7 @@ new Vue({
 				href,
 				key
 			};
-			window.open("/info.html?" + toStr(data));
+			return "/info.html?" + toStr(data);
 		},
 		getChapter(href, key, title, author) {
 			let data = {
@@ -131,15 +131,15 @@ new Vue({
 				author
 			};
 
-			window.open(`/chapter.html?${toStr(data)}`);
-        },
-        deleteBookData(index){
-            let data = getBookData();
-            data.splice(index, 1);
-            setBookData(data);
-            this.bookData = data;
-            alert('删除成功');
-        }
+			return `/chapter.html?${toStr(data)}`
+		},
+		deleteBookData(index){
+				let data = getBookData();
+				data.splice(index, 1);
+				setBookData(data);
+				this.bookData = data;
+				alert('删除成功');
+		}
 	},
 	mounted() {
 		// 创建一个唯一id

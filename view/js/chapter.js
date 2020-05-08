@@ -275,7 +275,7 @@ new Vue({
 		this.searchData = data;
 		let find = findBookData(data.bookTitle, data.author, data.key);
 		// 章节数据使用本地存储中的
-		if(find.item.chapterHref != data.href){
+		if(find.item.chapterHref && find.item.chapterHref != data.href){
 			this.searchData.href = find.item.chapterHref;
 			location.search = `?` + toStr(this.searchData);
 			return;

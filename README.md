@@ -21,6 +21,12 @@ npm run start
 
 # 更新日志
 
+## 1.1.0
+
+* add: webpack打包增加babel转码
+* update: 修改package的资源位置
+* fix: 保存的章节记录数据为空，导致阅读页面一直刷新
+
 ## 1.0.9
 
 * add: 增加阅读章节页更换背景颜色

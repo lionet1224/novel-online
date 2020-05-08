@@ -2,26 +2,20 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 
-// socketIo: path.resolve(__dirname,'view/js/socket.io.js'),
-// axios: path.resolve(__dirname,'view/js/axios.js'),
-// config: path.resolve(__dirname,'view/js/config.js'),
-// jquery: path.resolve(__dirname,'view/js/jquery.js'),
-// tool: path.resolve(__dirname,'view/js/tool.js'),
-// vue: path.resolve(__dirname,'view/js/vue.js'),
-// chapter: path.resolve(__dirname,'view/js/chapter.js'),
-// info: path.resolve(__dirname,'view/js/info.js'),
-
 module.exports = {
   mode: 'development',
   entry: {
     app: [
+      "@babel/polyfill",
       path.resolve(__dirname,'view/js/app.js'),
     ],
     chapter: [
+      "@babel/polyfill",
       path.resolve(__dirname,'view/js/jquery.js'),
       path.resolve(__dirname,'view/js/chapter.js'),
     ],
     info: [
+      "@babel/polyfill",
       path.resolve(__dirname,'view/js/info.js'),
     ]
   },    // 入口文件
@@ -56,6 +50,16 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test:/\.js$/,
+        use:{
+          loader:'babel-loader',
+          options:{
+            presets:['@babel/preset-env']
+          }
+        },
+        exclude: /node_modules/
       },
     ]
   },

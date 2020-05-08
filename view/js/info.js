@@ -36,7 +36,6 @@ new Vue({
             this.io.emit('conn', this.id);
             this.io.on('conn', msg => {
                 this.io.on('infoMsg', res => {
-                    console.log(this.infos)
                     this.infos.push(res);
                 })
                 this.io.on('errorsMsg', msg => {
@@ -58,6 +57,15 @@ new Vue({
 
             return `/chapter.html?${toStr(data)}`;
         },
+		getChapterHrefClick(href, title){
+			updateBookData({
+				title,
+				href,
+				bookTitle: this.data.title,
+				author: this.data.author,
+				origin: this.data.originkey
+			});
+		},
         updateOrder(type){
             if(type == this.order) return;
             this.data.list = this.data.list.reverse()

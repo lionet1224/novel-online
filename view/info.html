@@ -63,7 +63,7 @@
     
                     <div class="row">
                         <div class="col-12 col-md-4 mt-3" v-for="item in data.list">
-                            <a :href="getChapter(item.href)" target="_blank" class="text-secondary">{{ item.title }}</a>
+                            <a @click="getChapterHrefClick(item.href, item.title)" :href="getChapter(item.href)" target="_blank" class="text-secondary">{{ item.title }}</a>
                         </div>
                     </div>
                 </div>

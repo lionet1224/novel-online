@@ -24,7 +24,7 @@ new Vue({
 		data: [],
 		key: "",
 
-		menuType: 'set',
+		menuType: 'list',
 		listError: false,
 		
 		order: 'asc',

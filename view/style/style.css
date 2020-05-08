@@ -178,7 +178,7 @@ stroke-dashoffset: 0;
     height: 100%;
     top: 0;
     left: 0;
-    /* display: none; */
+    display: none;
 }
 .bar .content{
     position: absolute;

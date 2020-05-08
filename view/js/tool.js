@@ -1,3 +1,5 @@
+const $ = require('./jquery')
+
 function toObj(str) {
 	let obj = {};
 	let arr = str.slice(1).split("&");
@@ -89,4 +91,16 @@ function getSet(){
 
 function setSet(data){
 	localStorage.setItem('userSet', JSON.stringify(data));
+}
+
+module.exports = {
+	toObj,
+	toStr,
+	getSet,
+	getId,
+	getBookData,
+	setBookData,
+	addBookData,
+	updateBookData,
+	setSet
 }

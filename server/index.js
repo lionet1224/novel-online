@@ -6,7 +6,7 @@ const Koa = require('koa2');
 const bodyParser = require('koa-bodyparser')
 const app = new Koa();
 
-app.use(static(path.join(global.ROOTPATH, './view')))
+app.use(static(path.join(global.ROOTPATH, './view/dist')))
 app.use(bodyParser());
 
 class Server{

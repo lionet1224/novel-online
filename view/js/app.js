@@ -1,3 +1,21 @@
+import Vue from './vue'
+import axios from './axios'
+import config from './config'
+import io from './socket.io'
+import {
+	toObj,
+	toStr,
+	getSet,
+	getId,
+	getBookData,
+	setBookData,
+	addBookData,
+	updateBookData
+} from './tool'
+import '../style/bootstrap.css'
+import '../style/style.css'
+
+window.onload = () => {
 let $http = axios;
 
 new Vue({
@@ -143,3 +161,4 @@ new Vue({
 		})
 	}
 });
+}

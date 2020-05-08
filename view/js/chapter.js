@@ -1,3 +1,21 @@
+import Vue from './vue'
+import axios from './axios'
+import config from './config'
+import io from './socket.io'
+import $ from './jquery'
+import {
+	toObj,
+	toStr,
+	getSet,
+	getId,
+	updateBookData,
+	setSet,
+} from './tool'
+import '../style/bootstrap.css'
+import '../style/style.css'
+import '../style/checkbox.css'
+
+window.onload = () => {
 new Vue({
 	el: "#app",
 	data: {
@@ -80,7 +98,7 @@ new Vue({
 			}
 		},
 		updateOrder(type){
-				if(type == this.order) return;
+				if(type == this.order || !this.chaptersData.list) return;
 				this.chaptersData.list = this.chaptersData.list.sort((a, b) => {
 						return -1;
 				})
@@ -186,10 +204,10 @@ new Vue({
 			this.getChapterList('false');
 		},
 		toChapterPosition(){
-			if(this.chaptersData.list && this.data.title){
+			if(this.chaptersData.list && this.lastData.title){
 				let index = -1;
 				for(let i = 0; i < this.chaptersData.list.length; i++){
-					if(this.chaptersData.list[i].title == this.data.title){
+					if(this.chaptersData.list[i].title == this.lastData.title){
 						index = i;
 						break;
 					}
@@ -267,3 +285,4 @@ new Vue({
 		this.loadChapter();
 	}
 });
+}

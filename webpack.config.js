@@ -20,7 +20,7 @@ module.exports = {
     ]
   },    // 入口文件
   output: {
-    filename: '[name].[hash:8].js',      // 打包后的文件名称
+    filename: '[name].js',      // 打包后的文件名称
     path: path.resolve(__dirname,'view/dist')  // 打包后的目录
   },
   module:{
@@ -40,11 +40,11 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              limit: 0,
+              limit: 500,
               fallback: {
                 loader: 'file-loader',
                 options: {
-                  name: 'fonts/[name].[hash:8].[ext]'
+                  name: 'fonts/[name].[ext]'
                 }
               }
             }
@@ -94,9 +94,9 @@ module.exports = {
       },
       inject: 'head'
     }),
-    new CleanWebpackPlugin(),
+    // new CleanWebpackPlugin(),
     new CopyWebpackPlugin([{
-      from: './view/lib/',
+      from: './view/lib',
       to: 'lib'
     }])
   ]

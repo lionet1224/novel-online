@@ -13,6 +13,7 @@ import '../style/bootstrap.css'
 import '../style/style.css'
 
 window.onload = () => {
+loadFont();
 new Vue({
     el: '#app',
     data: {

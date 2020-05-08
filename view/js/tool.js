@@ -99,6 +99,10 @@ function setSet(data){
 	localStorage.setItem('userSet', JSON.stringify(data));
 }
 
+function loadFont(font = '思源'){
+	$('*').css('font-family', font)
+}
+
 module.exports = {
 	toObj,
 	toStr,
@@ -109,5 +113,6 @@ module.exports = {
 	addBookData,
 	findBookData,
 	updateBookData,
-	setSet
+	setSet,
+	loadFont
 }

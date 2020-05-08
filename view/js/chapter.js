@@ -14,6 +14,7 @@ import '../style/style.css'
 import '../style/checkbox.css'
 
 window.onload = () => {
+loadFont();
 new Vue({
 	el: "#app",
 	data: {

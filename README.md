@@ -21,6 +21,10 @@ npm run start
 
 # 更新日志
 
+## 1.1.1
+
+* fix: 排序章节错乱的问题
+
 ## 1.1.0
 
 * add: webpack打包增加babel转码

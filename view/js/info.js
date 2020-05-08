@@ -60,9 +60,7 @@ new Vue({
         },
         updateOrder(type){
             if(type == this.order) return;
-            this.data.list = this.data.list.sort((a, b) => {
-                return -1;
-            })
+            this.data.list = this.data.list.reverse()
             this.order = type;
         }
     },

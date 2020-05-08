@@ -118,9 +118,7 @@ new Vue({
 		},
 		updateOrder(type){
 				if(type == this.order || !this.chaptersData.list) return;
-				this.chaptersData.list = this.chaptersData.list.sort((a, b) => {
-						return -1;
-				})
+				this.chaptersData.list = this.chaptersData.list.reverse();
 				this.order = type;
 		},
 		getChapter(href, isLoad = false) {

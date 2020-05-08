@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lionet - 小说在线转码工具</title>
+    
+<script src="app.6419db77.js"></script></head>
+
+<body>
+    <div id="app">
+        <header>
+            <div class="container">
+                <h1 class="mt-3">Lionet</h1>
+                <b>小说在线转码工具</b>
+            </div>
+        </header>
+
+        <div class="container">
+            <form method="get" @submit.stop.prevent="getBook">
+                <div class="form-group">
+                    <label for="book_title">
+                        <h2 class="mt-3">输入书名/作者：</h2>
+                    </label>
+                    <input type="text" placeholder="输入后回车" id="book_title" v-model="bookTitle" class="form-control">
+                </div>
+                <div class="d-flex">
+                    <div class="checkbox-item" v-for="(item, key) in origins">
+                        <input class="inp-cbx" v-model="checkOrigins" :value="key" :id="'checkbox-' + key" type="checkbox" style="display:none">
+                        <label class="cbx" :for="'checkbox-' + key"><span>
+                        <svg width="12px" height="10px">
+                            <use xlink:href="#check"></use>
+                        </svg>
+                        </span><span>{{ item.name }}</span></label>
+                    </div>
+                    <svg class="inline-svg">
+                      <symbol id="check" viewbox="0 0 12 10">
+                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                      </symbol>
+                    </svg>
+                </div>
+            </form>
+
+            <div class="alert alert-danger mt-3 mb-4" v-if="data.errors && data.errors.length">
+                <ul class="mb-0">
+                    <li v-for="item in data.errors">
+                        {{ item }}
+                    </li>
+                </ul>
+            </div>
+
+            <p class="mt-3" v-if="isLoad">{{ loadNum }} / {{ loadMax }}</p>
+
+            <div class="mt-4">
+                <p v-if="isRedis">
+                    <b>此为缓存数据 缓存一天 <a href="javascript:void(0)" @click.stop="deleteSearch">删除缓存</a></b>
+                </p>
+                <p v-if="isShow">
+                    共有 {{ items.length }} 条数据
+                </p>
+            </div>
+            <div v-if="isShow" class="content jumbotron">
+                <svg v-if="isLoad" t="1577272216857" class="icon load" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2629" width="200" height="200">
+                    <path d="M393.664871 495.52477c0 11.307533-9.168824 20.466124-20.466124 20.466124l-103.671151 0c-11.307533 0-20.466124-9.15859-20.466124-20.466124 0-11.2973 9.15859-20.466124 20.466124-20.466124l103.671151 0C384.496048 475.058646 393.664871 484.22747 393.664871 495.52477zM805.207925 495.52477c0 11.307533-9.15859 20.466124-20.466124 20.466124l-103.671151 0c-11.2973 0-20.466124-9.15859-20.466124-20.466124 0-11.2973 9.168824-20.466124 20.466124-20.466124l103.671151 0C796.049335 475.058646 805.207925 484.22747 805.207925 495.52477zM547.600823 237.917668l0 103.671151c0 11.307533-9.15859 20.466124-20.466124 20.466124s-20.466124-9.15859-20.466124-20.466124l0-103.671151c0-11.307533 9.15859-20.466124 20.466124-20.466124C538.442232 217.451544 547.600823 226.610134 547.600823 237.917668zM547.600823 649.460722l0 103.681384c0 11.2973-9.15859 20.466124-20.466124 20.466124s-20.466124-9.168824-20.466124-20.466124l0-103.681384c0-11.2973 9.15859-20.466124 20.466124-20.466124C538.442232 628.994598 547.600823 638.163421 547.600823 649.460722zM411.562497 428.754041c-3.786233 6.569626-10.673084 10.233062-17.733896 10.233062-3.479241 0-6.999414-0.880043-10.222829-2.742461l-89.774653-51.861158c-9.782807-5.658883-13.129019-18.173918-7.480368-27.956725 5.658883-9.79304 18.173918-13.139252 27.956725-7.490601l89.774653 51.861158C413.864936 406.456199 417.22138 418.971234 411.562497 428.754041zM767.918647 634.633015c-3.796466 6.559393-10.673084 10.233062-17.744129 10.233062-3.469008 0-6.989181-0.890276-10.212596-2.752694l-89.774653-51.861158c-9.782807-5.64865-13.139252-18.173918-7.480368-27.956725 5.64865-9.79304 18.173918-13.139252 27.956725-7.480368l89.774653 51.861158C770.221086 612.32494 773.567297 624.850208 767.918647 634.633015zM673.723312 282.70778l-51.861158 89.76442c-3.786233 6.559393-10.673084 10.233062-17.744129 10.233062-3.469008 0-6.989181-0.890276-10.212596-2.752694-9.79304-5.64865-13.139252-18.163685-7.480368-27.956725l51.861158-89.76442c5.64865-9.79304 18.163685-13.139252 27.956725-7.490601C676.025751 260.399705 679.382195 272.91474 673.723312 282.70778zM467.854571 639.053698l-51.861158 89.774653c-3.796466 6.559393-10.673084 10.233062-17.744129 10.233062-3.479241 0-6.999414-0.890276-10.222829-2.752694-9.782807-5.658883-13.139252-18.173918-7.480368-27.956725l51.861158-89.774653c5.658883-9.782807 18.173918-13.129019 27.956725-7.480368C470.15701 616.755856 473.503221 629.27089 467.854571 639.053698zM460.435601 379.911636c-3.213181 1.862417-6.733355 2.742461-10.202363 2.742461-7.081279 0-13.957897-3.673669-17.744129-10.243295l-51.809993-89.795119c-5.64865-9.79304-2.292206-22.308075 7.500834-27.956725 9.79304-5.64865 22.308075-2.292206 27.956725 7.500834l51.79976 89.795119C473.585085 361.747951 470.228641 374.262986 460.435601 379.911636zM666.089447 736.400816c-3.223415 1.852184-6.743588 2.742461-10.212596 2.742461-7.071046 0-13.957897-3.673669-17.744129-10.243295l-51.79976-89.805352c-5.64865-9.79304-2.292206-22.308075 7.500834-27.956725 9.782807-5.64865 22.297842-2.281973 27.946492 7.500834l51.809993 89.805352C679.238932 718.237131 675.882488 730.752166 666.089447 736.400816zM760.499677 384.526747l-89.795119 51.809993c-3.223415 1.852184-6.743588 2.742461-10.212596 2.742461-7.071046 0-13.957897-3.673669-17.744129-10.243295-5.64865-9.79304-2.292206-22.308075 7.500834-27.956725l89.805352-51.809993c9.782807-5.638417 22.297842-2.281973 27.946492 7.500834C773.649162 366.363062 770.292718 378.878097 760.499677 384.526747zM404.02073 590.180594l-89.805352 51.79976c-3.213181 1.862417-6.733355 2.742461-10.202363 2.742461-7.081279 0-13.957897-3.673669-17.744129-10.243295-5.64865-9.79304-2.292206-22.308075 7.500834-27.956725l89.795119-51.79976c9.79304-5.64865 22.308075-2.292206 27.956725 7.500834S413.81377 584.531943 404.02073 590.180594z" p-id="2630"></path>
+                </svg>
+                <div v-if="items.length" class="table table-hover">
+                    <transition-group name="fade" appear>
+                        <div v-if="item.title != ''" v-for="(item, i) in items" :key="i + 1" class="item border-bottom mt-3">
+                            <h4>
+                                <a class="text-dark" target="_blank" :href="getChapterList(item.href, item.originKey)">{{ item.title }}</a>
+                            </h4>
+                            <p class="mb-0">
+                                <a class="text-dark" href="javascript:void(0)" @click="searchAuthor(item.author)" class="ml-1 mr-1">{{ item.author }}</a>
+                                 · <a class="text-dark" target="_blank" :href="getChapterList(item.href, item.originKey)">{{ item.newChapter }}</a> 
+                                 · {{ item.updated }}</p>
+                            <p>此条数据来自: <a :href="item.href" class="text-dark">{{ item.origin }}</a></p>
+
+                        </div>
+                        
+                    </transition-group>
+                </div>
+                <div v-else-if="!isLoad">
+                    <h4>没有任何数据</h4>
+                    <p>出现这个情况的可能有：</p>
+
+                    <ul>
+                        <li>的确没有这本书或者这位作家</li>
+                        <li>所有来源均报错，这有可能是当时网络不好获取数据有误，只要删除缓存就可以了</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="history">
+            <div class="container">
+                <h3>阅读记录</h3>
+
+                <div v-if="bookData.length" class="table table-hover">
+                    <transition-group name="fade" appear>
+                        
+                        <div v-if="item.title != '' && item.title != null" v-for="(item, i) in bookData" :key="i + 1" class="item border-bottom pb-2 mt-3">
+                            <h4>
+                                <a class="text-dark" target="_blank" :href="getChapterList(item.bookHref, item.originkey)">{{ item.title }}</a>
+                            </h4>
+                            <p class="mb-0">
+                                <a class="text-dark" href="javascript:void(0)" @click="searchAuthor(item.author)" class="ml-1 mr-1">{{ item.author }}</a>
+                                <span v-if="item.lastChapter" class="text-dark">
+                                    ·  到底啦(lionet权威认证)
+                                </span>
+                                <template v-else-if="item.chapterTitle">
+                                    · <a :href="getChapter(item.chapterHref, item.originkey, item.title, item.author)" class="text-dark" v-if="item.chapterTitle">{{ item.chapterTitle }}</a>
+                                </template>
+                            </p><p class="mb-0">此条数据来自: {{ origins && origins[item.originkey] ? origins[item.originkey].name : '未知' }}</p>
+                            <a class="text-dark" href="javascript: void(0)" @click="deleteBookData(i)">删除记录</a>
+                        </div>
+                    </transition-group>
+                </div>
+                <p v-else>没有任何记录</p>
+            </div>
+        </div>
+
+        <footer class="mt-4">
+            <div class="container">
+                <p>在线人数: <span>{{ personNumber }}</span></p>
+                <p>仅供学习交流, 严禁使用此工具进行任何违法行为。</p>
+                <p>Copyright &copy; 2019 lionet. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    
+</body>
+
+</html>

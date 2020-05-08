@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lionet - 小说在线转码工具</title>
+<script src="chapter.6419db77.js"></script></head>
+
+<body>
+    <div id="app" class="chapterPage">
+        <div class="container mt-4">
+            <div class="alert alert-danger" v-if="errors.length">
+                <ul class="mb-0">
+                    <li v-for="item in errors">
+                        <b>{{ item }}</b>
+                    </li>
+                </ul>
+            </div>
+    
+            <div class="alert alert-info" v-if="infos.length">
+                <ul class="mb-0">
+                    <li v-for="item in infos">
+                        <b>{{ item }}</b>
+                    </li>
+                </ul>
+            </div>
+ 
+            <div class="chapter">
+                <template v-for="(item, i) in data">
+                    <div class="border-bottom mb-5">
+                        <h1>{{ item.title }}</h1>
+                        <template v-if="item.content">
+                            <p>{{ getChapterContentLength(i) }} 字</p>
+                            <a v-if="item.cache" href="javasciprt:void(0)" @click="clearChapter">清除缓存</a>
+                        </template>
+                        <template v-if="!infos.length && !item.content">
+                            <p>到底啦, 没有更多章节了。</p>
+                            <a href="/index.html">返回首页</a>
+                        </template>
+        
+                        <div class="content mt-3" v-html="item.content"></div>
+                    </div>
+                </template>
+
+                <div class="links mb-5 float-right">
+                    <p v-if="autoChapterFlag">加载中...</p>
+                    <template v-else>
+                        <a v-if="lastData.prevHref" :href="prevHref">上一章</a>
+                        <a v-if="lastData.nextHref" class="ml-3" :href="nextHref">下一章</a>
+                    </template>
+                </div>
+            </div>
+        </div>
+        
+        <div class="menu-btn">
+            <svg t="1588856035173" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2174" width="50" height="50"><path d="M408.8 491.5h-129c-47 0-85.3-38.2-85.3-85.3v-129c0-47 38.2-85.3 85.3-85.3h129c47 0 85.3 38.2 85.3 85.3v129c-0.1 47.1-38.3 85.3-85.3 85.3z m-129-242.7c-15.7 0-28.4 12.7-28.4 28.4v129c0 15.7 12.7 28.4 28.4 28.4h129c15.7 0 28.4-12.7 28.4-28.4v-129c0-15.7-12.7-28.4-28.4-28.4h-129zM744.2 491.5h-129c-47 0-85.3-38.2-85.3-85.3v-129c0-47 38.2-85.3 85.3-85.3h129c47 0 85.3 38.2 85.3 85.3v129c0 47.1-38.3 85.3-85.3 85.3z m-129-242.7c-15.7 0-28.4 12.7-28.4 28.4v129c0 15.7 12.7 28.4 28.4 28.4h129c15.7 0 28.4-12.7 28.4-28.4v-129c0-15.7-12.7-28.4-28.4-28.4h-129zM408.8 832h-129c-47 0-85.3-38.2-85.3-85.3v-129c0-47 38.2-85.3 85.3-85.3h129c47 0 85.3 38.2 85.3 85.3v129c-0.1 47.1-38.3 85.3-85.3 85.3z m-129-242.7c-15.7 0-28.4 12.7-28.4 28.4v129c0 15.7 12.7 28.4 28.4 28.4h129c15.7 0 28.4-12.7 28.4-28.4v-129c0-15.7-12.7-28.4-28.4-28.4h-129zM744.2 832h-129c-47 0-85.3-38.2-85.3-85.3v-129c0-47 38.2-85.3 85.3-85.3h129c47 0 85.3 38.2 85.3 85.3v129c0 47.1-38.3 85.3-85.3 85.3z m-129-242.7c-15.7 0-28.4 12.7-28.4 28.4v129c0 15.7 12.7 28.4 28.4 28.4h129c15.7 0 28.4-12.7 28.4-28.4v-129c0-15.7-12.7-28.4-28.4-28.4h-129z" p-id="2175" fill="#515151"></path></svg>
+        </div>
+
+        <div class="bar">
+            <div class="screen"></div>
+            <div class="content">
+                <a @click="updateMenuType('list')" :class="{'text-dark': menuType == 'list'}" href="javascript:void(0);">章节列表</a> / 
+                <a @click="updateMenuType('set')" :class="{'text-dark': menuType == 'set'}" href="javascript:void(0);">配置</a>
+
+                <div v-if="menuType == 'list'" class="mt-3">
+                    <div v-if="getChapterListFlag">
+                        <a @click="updateOrder('asc')" :class="{'text-dark': order == 'asc'}" href="javascript:void(0);">正序</a>
+                        |
+                        <a @click="updateOrder('desc')" :class="{'text-dark': order == 'desc'}" href="javascript:void(0);">倒序</a>
+                        |
+                        <a @click="toChapterPosition()" href="javascript:void(0);">当前章节</a>
+                        <template v-if="chaptersData.cache">
+                            | <a href="javascript:void(0);" @click="refreshList()">刷新列表</a>
+                        </template>
+                    </div>
+                    <p class="mt-2" v-if="!getChapterListFlag">关闭了获取列表</p>
+                    <p class="mt-2" v-else-if="loadChapterList">加载中...</p>
+                    <ol :reversed="order == 'desc'" class="mt-2" v-else-if="!listError">
+                        <li class="col-12" v-for="(item, key) in chaptersData.list">
+                            <a :id="'chapter-list-id-' + key" :href="getChapterHref(item.href)" class="text-secondary">{{ item.title }}</a>
+                        </li>
+                    </ol>
+                    <p v-else>没有获取章节列表 <br>
+                        错误的参数</p>
+
+                    <div class="top">回到顶部</div>
+                </div>
+                <div class="mt-4" v-else-if="menuType == 'set'">
+                    <h2>阅读配置</h2>
+                    <div class="colors">
+                        <h4>颜色设置</h4>
+                        <div @click="color = item" v-for="item in colors" :style="{'background-color': item.bg}" class="color-item">
+                        </div>
+                    </div>
+                    <h2 class="mt-3">系统配置</h2>
+                    <div class="set-item">
+                        <div class="ckbx-style-11">
+                            <input type="checkbox" id="autoChapter" v-model="autoChapter" name="ckbx-style-11">
+                            <label for="autoChapter"></label>
+                        </div>
+                        <b>
+                            <label for="autoChapter">自动下一章</label>
+                        </b>
+                        <p class="text-secondary">到达底部的时候，自动加载下一章的内容</p>
+                    </div>
+                    <div class="set-item">
+                        <div class="ckbx-style-11">
+                            <input type="checkbox" id="getChapterList" v-model="getChapterListFlag" name="ckbx-style-11">
+                            <label for="getChapterList"></label>
+                        </div>
+                        <b>
+                            <label for="getChapterList">获取章节列表</label>
+                        </b>
+                        <p class="text-secondary">关闭可以减轻服务器负担，增加加载速度</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

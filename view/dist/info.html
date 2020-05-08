@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lionet - 小说在线转码工具</title>
+<script src="info.6419db77.js"></script></head>
+
+<body>
+    <div id="app">
+        <div class="container mt-4">
+            <div class="mb-3">
+                <a href="/index.html">回到首页</a>
+            </div>
+
+            <div class="alert alert-danger" v-if="errors.length">
+                <ul class="mb-0">
+                    <li v-for="item in errors">
+                        <b>{{ item }}</b>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="alert alert-info" v-if="infos.length">
+                <ul class="mb-0">
+                    <li v-for="item in infos">
+                        <b>{{ item }}</b>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info mt-4" v-if="data.list">
+                <h1>{{ data.title }}</h1>
+                <b>{{ data.author }}</b> ·
+                <b>{{ data.origin }}</b>
+                <div class="row mt-3">
+                    <div v-if="data.imageUrl" class="d-none d-md-block col-md-2">
+                        <img :src="data.imageUrl" alt="bookImage">
+                    </div>
+                    <div class="col-md-10 col-12" :class="{'col-12': !data.imageUrl}">
+                        <div class="description jumbotron" v-html="data.description"></div>
+                    </div>
+                </div>
+
+                <div class="chapters mt-3">
+                    <div class="chapterInfo">
+                        <p v-if="data.list">共有 {{ data.list.length }} 章</p>
+                        <p v-if="data.list">最新章节: <a :href="getChapter(lastChapter.href)" target="_blank">{{ lastChapter.title }}</a></p>
+                        <p>更新时间: {{ data.updated }}</p>
+                    </div>
+
+                    <div class="tools">
+                        <a @click="updateOrder('asc')" :class="{'text-dark': order == 'asc'}" href="javascript:void(0);">正序</a>
+                        |
+                        <a @click="updateOrder('desc')" :class="{'text-dark': order == 'desc'}" href="javascript:void(0);">倒序</a>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-12 col-md-4 mt-3" v-for="item in data.list">
+                            <a :href="getChapter(item.href)" target="_blank" class="text-secondary">{{ item.title }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-4">
+            <div class="container">
+                <p>在线人数: <span>{{ personNumber }}</span></p>
+                <p>仅供学习交流, 严禁使用此工具进行任何违法行为。</p>
+                <p>Copyright &copy; 2019 lionet. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>

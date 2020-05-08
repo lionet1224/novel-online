@@ -7,7 +7,8 @@ import {
 	getBookData,
 	setBookData,
 	addBookData,
-	updateBookData
+	updateBookData,
+	loadFont
 } from './tool'
 import '../style/bootstrap.css'
 import '../style/style.css'

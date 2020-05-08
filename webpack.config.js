@@ -40,7 +40,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              // limit: 10240,
+              limit: 0,
               fallback: {
                 loader: 'file-loader',
                 options: {

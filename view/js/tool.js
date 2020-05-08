@@ -45,7 +45,7 @@ function setBookData(data) {
 function updateBookData(data) {
 	let local = getBookData();
 	let find = findBookData(data.bookTitle, data.author, data.origin);
-
+	if(!find) return;
 	find.item.chapterTitle = data.title;
 	find.item.chapterHref = data.href;
 	find.item.lastChapter = data.lastChapter;

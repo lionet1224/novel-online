@@ -51,8 +51,8 @@
                 <div class="links mb-5 float-right">
                     <p v-if="autoChapterFlag">加载中...</p>
                     <template v-else>
-                        <a v-if="lastData.prevHref" :href="prevHref">上一章</a>
-                        <a v-if="lastData.nextHref" class="ml-3" :href="nextHref">下一章</a v-if="data.prevHref">
+                        <a @click="getChapterHrefClick(lastData.prevHref)" v-if="lastData.prevHref" :href="prevHref">上一章</a>
+                        <a @click="getChapterHrefClick(lastData.nextHref)" v-if="lastData.nextHref" class="ml-3" :href="nextHref">下一章</a v-if="data.prevHref">
                     </template>
                 </div>
             </div>

@@ -153,6 +153,7 @@ new Vue({
 					}
 					let data = res.data;
 					this.data.push(data.data);
+					this.loadChapter();
 					document.title = this.lastData.title + " - lionet";
 					setTimeout(() => {
 						this.infos = [];
@@ -294,7 +295,7 @@ new Vue({
 		this.searchData = data;
 		let find = findBookData(data.bookTitle, data.author, data.key);
 		// 章节数据使用本地存储中的
-		if(find.item.chapterHref && find.item.chapterHref != data.href){
+		if(find && find.item.chapterHref && find.item.chapterHref != data.href){
 			this.searchData.href = find.item.chapterHref;
 			location.search = `?` + toStr(this.searchData);
 			return;
@@ -332,7 +333,6 @@ new Vue({
 		$(document).scroll((ev) => {
 			this.loadChapter();
 		})
-		this.loadChapter();
 	}
 });
 }

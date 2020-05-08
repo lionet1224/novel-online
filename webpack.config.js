@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -11,7 +12,6 @@ module.exports = {
     ],
     chapter: [
       "@babel/polyfill",
-      path.resolve(__dirname,'view/js/jquery.js'),
       path.resolve(__dirname,'view/js/chapter.js'),
     ],
     info: [
@@ -95,5 +95,9 @@ module.exports = {
       inject: 'head'
     }),
     new CleanWebpackPlugin(),
+    new CopyWebpackPlugin([{
+      from: './view/lib/',
+      to: 'lib'
+    }])
   ]
 }

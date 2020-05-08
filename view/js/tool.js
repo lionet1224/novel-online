@@ -1,5 +1,3 @@
-const $ = require('./jquery')
-
 function toObj(str) {
 	let obj = {};
 	let arr = str.slice(1).split("&");

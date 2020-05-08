@@ -1,8 +1,4 @@
-import Vue from './vue'
-import axios from './axios'
 import config from './config'
-import io from './socket.io'
-import $ from './jquery'
 import {
 	toObj,
 	toStr,

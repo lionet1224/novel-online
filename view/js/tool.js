@@ -118,10 +118,15 @@ function loadFont(ele = '*', font = '思源') {
 	var interval_check = setInterval(function() {
 			// 宽度变化，说明字体被加载
 			if(span.offsetWidth != width_now) {
-				console.log(1)
 					clearInterval(interval_check);
 					// 设置字体为
-					$(ele).css('font-family', font);
+					$('head').append(`
+						<style>
+							${ele} {
+								font-family: ${font}
+							}
+						</style>
+					`);
 					// ele.style.fontFamily = font;
 					// 移除 span
 					document.body.removeChild(span);

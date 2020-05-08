@@ -205,14 +205,23 @@ new Vue({
 		},
 		getChapterHref(href){
 			let data = {
-					href,
-					key: this.searchData.key,
-					bookTitle: this.searchData.bookTitle,
-					author: this.searchData.author,
-					originHref: this.searchData.originHref
+				href,
+				key: this.searchData.key,
+				bookTitle: this.searchData.bookTitle,
+				author: this.searchData.author,
+				originHref: this.searchData.originHref,
 			}
 
 			return `/chapter.html?${toStr(data)}`;
+		},
+		getChapterHrefClick(href, title){
+			updateBookData({
+				title,
+				href,
+				bookTitle: this.searchData.bookTitle,
+				author: this.searchData.author,
+				origin: this.searchData.key
+			});
 		},
 		refreshList(){
 			if(!this.getChapterListFlag) return;

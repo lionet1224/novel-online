@@ -83,7 +83,7 @@
                     <p class="mt-2" v-else-if="loadChapterList">加载中...</p>
                     <ol :reversed="order == 'desc'" class="mt-2" v-else-if="!listError">
                         <li class="col-12" v-for="(item, key) in chaptersData.list">
-                            <a :id="'chapter-list-id-' + key" :href="getChapterHref(item.href)" class="text-secondary">{{ item.title }}</a>
+                            <a @click="getChapterHrefClick(item.href, item.title)" :id="'chapter-list-id-' + key" :href="getChapterHref(item.href)" class="text-secondary">{{ item.title }}</a>
                         </li>
                     </ol>
                     <p v-else>没有获取章节列表 <br>

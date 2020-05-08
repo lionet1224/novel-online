@@ -36,6 +36,7 @@ new Vue({
             this.io.emit('conn', this.id);
             this.io.on('conn', msg => {
                 this.io.on('infoMsg', res => {
+                    console.log(this.infos)
                     this.infos.push(res);
                 })
                 this.io.on('errorsMsg', msg => {

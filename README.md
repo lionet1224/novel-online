@@ -24,6 +24,7 @@ npm run start
 ## 1.2.0
 
 * add: 增加github地址
+* add: 增加字体缩进
 * update: vue使用生产版本
 * fix: 首页无法正确显示报错信息
 * fix: 点击上下章无法跳转

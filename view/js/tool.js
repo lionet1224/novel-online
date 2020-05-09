@@ -90,7 +90,8 @@ function getSet(){
 
 		color: null,
 		fontSize: 20,
-		fontBottom: 16
+		fontBottom: 16,
+		fontIndent: 0
 	};
 	data = $.extend(init, data);
 	setSet(data);

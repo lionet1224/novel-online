@@ -36,6 +36,7 @@ new Vue({
 		getChapterListFlag: true,
 		fontSize: 20,
 		fontBottom: 16,
+		fontIndent: 0,
 
 		colors: [
 			{bg: 'rgba(255, 255, 255,.8)'},
@@ -68,6 +69,10 @@ new Vue({
 		},
 		fontBottom(){
 			$('#app .container .content *').css('margin-bottom', this.fontBottom + 'px');
+			this.storeSet();
+		},
+		fontIndent(){
+			$('#app .container .content *').css('text-indent', this.fontIndent * this.fontSize + 'px');
 			this.storeSet();
 		}
 	},
@@ -269,6 +274,7 @@ new Vue({
 			this.color = setData.color || this.colors[0];
 			this.fontSize = setData.fontSize || this.fontSize;
 			this.fontBottom = setData.fontBottom || this.fontBottom;
+			this.fontIndent = setData.fontIndent || this.fontIndent;
 		},
 		storeSet(){
 			setSet({
@@ -276,7 +282,8 @@ new Vue({
 				getChapterListFlag: this.getChapterListFlag,
 				color: this.color,
 				fontSize: this.fontSize,
-				fontBottom: this.fontBottom
+				fontBottom: this.fontBottom,
+				fontIndent: this.fontIndent
 			})
 		},
 		loadChapter(){

@@ -102,6 +102,9 @@
                     <h4>字体间隙</h4>
                     <input class="rangeMain" min='10' max='42' v-model="fontBottom" type="range" name="fontSize" />
                     <p class="text-secondary mt-2">当前字体间隙: {{ fontBottom }}px</p>
+                    <h4>字体缩进</h4>
+                    <input class="rangeMain" min='0' max='10' v-model="fontIndent" type="range" name="fontSize" />
+                    <p class="text-secondary mt-2">当前字体间隙: {{ fontIndent }}x{{fontSize}}px</p>
                     
                     <h2 class="mt-3">系统配置</h2>
                     <div class="set-item">

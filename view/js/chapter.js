@@ -104,10 +104,11 @@ new Vue({
 				this.data[i].content && this.data[i].content.replace(/[\w|\<|\>]/g, "").length
 			)
 		},
-		bindIo() {
+		bindIo(fn) {
 			this.io.emit('conn', this.id);
 			this.io.on('conn', (msg) => {
 				console.log(msg)
+				fn.call(this);
 				this.io.on("infoMsg", res => {
 					this.infos.push(res);
 				});
@@ -153,7 +154,6 @@ new Vue({
 					}
 					let data = res.data;
 					this.data.push(data.data);
-					this.loadChapter();
 					document.title = this.lastData.title + " - lionet";
 					setTimeout(() => {
 						this.infos = [];
@@ -171,6 +171,10 @@ new Vue({
 						origin: this.searchData.key,
 						lastChapter
 					});
+
+					setTimeout(() => {
+						this.loadChapter();
+					}, 0);
 
 					if(!this.lastData.content) return;
 
@@ -306,12 +310,12 @@ new Vue({
 			this.key = data.key;
 			this.href = data.href;
 			this.io = io(`ws://${config.socket.ip}:${config.socket.port}`);
-			this.bindIo();
-
-			this.getChapter(data.href);
-			if(this.getChapterListFlag){
-				this.getChapterList();
-			}
+			this.bindIo(() => {
+				this.getChapter(data.href);
+				if(this.getChapterListFlag){
+					this.getChapterList();
+				}
+			});
 		} else {
 			this.errors.push("没有href/key参数");
 		}

@@ -31,10 +31,12 @@ new Vue({
         }
     },
     methods: {
-        bindIo(){
+        bindIo(fn){
             this.id = getId();
             this.io.emit('conn', this.id);
             this.io.on('conn', msg => {
+                console.log(msg)
+                fn.call(this);
                 this.io.on('infoMsg', res => {
                     this.infos.push(res);
                 })
@@ -77,26 +79,26 @@ new Vue({
         this.searchData = searchData;
         if(searchData.href && searchData.key){
             this.io = io(`ws://${config.socket.ip}:${config.socket.port}`);
-            this.bindIo();
-
-            axios.get('chapter/list', {
-                params: {
-                    href: searchData.href,
-                    origin: searchData.key,
-                    socketId: this.id
-                }
-            }).then(res => {
-                let data = res.data.data;
-                this.data = data;
-                document.title = this.data.title + ' - lionet';
-                setTimeout(() => {
-                    this.infos = [];
-                }, 500);
-
-                // 添加历史记录
-                data.bookHref = this.searchData.href;
-                addBookData(data)
-            })
+            this.bindIo(() => {
+                axios.get('chapter/list', {
+                    params: {
+                        href: searchData.href,
+                        origin: searchData.key,
+                        socketId: this.id
+                    }
+                }).then(res => {
+                    let data = res.data.data;
+                    this.data = data;
+                    document.title = this.data.title + ' - lionet';
+                    setTimeout(() => {
+                        this.infos = [];
+                    }, 500);
+    
+                    // 添加历史记录
+                    data.bookHref = this.searchData.href;
+                    addBookData(data)
+                })
+            });
         } else {
             this.errors.push('没有href/key参数');
         }

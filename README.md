@@ -23,7 +23,7 @@ npm run start
 
 ## 1.2.0
 
-* add: 增加github的star按钮
+* add: 增加github地址
 * update: vue使用生产版本
 * fix: 首页无法正确显示报错信息
 * fix: 点击上下章无法跳转

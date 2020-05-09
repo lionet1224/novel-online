@@ -65,7 +65,8 @@ new Vue({
 				href,
 				bookTitle: this.data.title,
 				author: this.data.author,
-				origin: this.data.originkey
+				origin: this.data.originkey,
+                originHref: this.searchData.href
 			});
 		},
         updateOrder(type){

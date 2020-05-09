@@ -51,7 +51,7 @@
                 <div class="chapters mt-3">
                     <div class="chapterInfo">
                         <p v-if="data.list">共有 {{ data.list.length }} 章</p>
-                        <p v-if="data.list">最新章节: <a :href="getChapter(lastChapter.href)" target="_blank">{{ lastChapter.title }}</a></p>
+                        <p v-if="data.list">最后一章: <a :href="getChapter(lastChapter.href)" target="_blank">{{ lastChapter.title }}</a></p>
                         <p>更新时间: {{ data.updated }}</p>
                     </div>
 

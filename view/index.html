@@ -161,7 +161,7 @@
                                     ·  到底啦(lionet权威认证)
                                 </span>
                                 <template v-else-if="item.chapterTitle">
-                                    · <a :href="getChapter(item.chapterHref, item.originkey, item.title, item.author)" class="text-dark" v-if="item.chapterTitle">{{ item.chapterTitle }}</a>
+                                    · <a :href="getChapter(item.chapterHref, item.originkey, item.title, item.author, item.bookHref)" class="text-dark" v-if="item.chapterTitle">{{ item.chapterTitle }}</a>
                                 </template>
                             <p class="mb-0">此条数据来自: {{ origins && origins[item.originkey] ? origins[item.originkey].name : '未知' }}</p>
                             <a class="text-dark" href="javascript: void(0)" @click="deleteBookData(i)">删除记录</a>

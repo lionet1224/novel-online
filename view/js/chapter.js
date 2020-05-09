@@ -33,7 +33,7 @@ new Vue({
 
 		autoChapter: false,
 		autoChapterFlag: false,
-		getChapterListFlag: true,
+		getChapterListFlag: false,
 		fontSize: 20,
 		fontBottom: 16,
 		fontIndent: 0,
@@ -214,8 +214,11 @@ new Vue({
 				});
 		},
 		getChapterList(cache = 'true'){
+			if(!this.getChapterListFlag) return;
+			this.loadChapterList = true;
 			if(!this.searchData.originHref){
 				this.listError = true;
+				this.loadChapterList = false;
 				return;
 			}
 			axios.get('chapter/list', {
@@ -236,8 +239,7 @@ new Vue({
 				href,
 				key: this.searchData.key,
 				bookTitle: this.searchData.bookTitle,
-				author: this.searchData.author,
-				originHref: this.searchData.originHref,
+				author: this.searchData.author
 			}
 
 			return `/chapter.html?${toStr(data)}`;
@@ -327,9 +329,7 @@ new Vue({
 			this.io = io(`ws://${config.socket.ip}:${config.socket.port}`);
 			this.bindIo(() => {
 				this.getChapter(data.href);
-				if(this.getChapterListFlag){
-					this.getChapterList();
-				}
+				this.getChapterList();
 			});
 		} else {
 			this.errors.push("没有href/key参数");

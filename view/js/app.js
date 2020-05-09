@@ -124,12 +124,13 @@ new Vue({
 			};
 			return "/info.html?" + toStr(data);
 		},
-		getChapter(href, key, title, author) {
+		getChapter(href, key, title, author, originHref) {
 			let data = {
 				href,
 				key,
 				bookTitle: title,
-				author
+				author,
+				originHref
 			};
 
 			return `/chapter.html?${toStr(data)}`

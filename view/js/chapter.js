@@ -68,11 +68,11 @@ new Vue({
 			this.storeSet();
 		},
 		fontBottom(){
-			$('#app .container .content *').css('margin-bottom', this.fontBottom + 'px');
+			this.setFontBottom();
 			this.storeSet();
 		},
 		fontIndent(){
-			$('#app .container .content *').css('text-indent', this.fontIndent * this.fontSize + 'px');
+			this.setFontIndent();
 			this.storeSet();
 		}
 	},
@@ -104,6 +104,12 @@ new Vue({
 		}
 	},
 	methods: {
+		setFontBottom(){
+			$('#app .container .content *').css('margin-bottom', this.fontBottom + 'px');
+		},
+		setFontIndent(){
+			$('#app .container .content *').css('text-indent', this.fontIndent * this.fontSize + 'px');
+		},
 		getChapterContentLength(i){
 			return (
 				this.data[i].content && this.data[i].content.replace(/[\w|\<|\>]/g, "").length
@@ -179,6 +185,8 @@ new Vue({
 
 					setTimeout(() => {
 						this.loadChapter();
+						this.setFontBottom();
+						this.setFontIndent();
 					}, 0);
 
 					if(!this.lastData.content) return;

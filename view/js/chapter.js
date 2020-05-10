@@ -239,7 +239,8 @@ new Vue({
 				href,
 				key: this.searchData.key,
 				bookTitle: this.searchData.bookTitle,
-				author: this.searchData.author
+				author: this.searchData.author,
+				originHref: this.searchData.originHref
 			}
 
 			return `/chapter.html?${toStr(data)}`;

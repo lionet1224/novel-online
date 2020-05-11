@@ -208,13 +208,18 @@ stroke-dashoffset: 0;
 
 .top{
     position: fixed;
-    right: 30px;
+    left: 30px;
     bottom: 20px;
     background: white;
     border: 1px solid #dedede;
     padding: 10px 15px;
     cursor: pointer;
     display: none;
+}
+.hiddenBar{
+    position: fixed;
+    right: 20px;
+    top: 20px;
 }
 .top:hover{
     filter: brightness(.9);

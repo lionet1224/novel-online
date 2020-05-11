@@ -28,8 +28,10 @@ npm run start
 ## 1.2.2(开发中)
 
 * add: 记忆的地方更新
+* add: 章节页添加关闭菜单的按钮
 * update: 没有登录点击加入书架跳转至登录
-* update: 将touch事件改为click
+* update: 章节页将touch事件改为click
+* update: 章节页将菜单改到左边
 * fix: 一些报错
 * fix: ...
 

@@ -446,7 +446,7 @@ new Vue({
 			$('.top').click();
 		})
 		
-		$('.screen').click(() => {
+		$('.screen, .hiddenBar').click(() => {
 			$('.bar').fadeOut();
 			$('body').removeClass('overflowHidden')
 			let flag = $('.chapterBottom').hasClass('d-none');

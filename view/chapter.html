@@ -69,6 +69,7 @@
                 <a @click="updateMenuType('set')" :class="{'text-dark': menuType == 'set'}" href="javascript:void(0);">配置</a>
 
                 <div v-if="menuType == 'list'" class="mt-3">
+                    <a v-if="this.searchData" :href="getBookHref()">书籍详情</a>
                     <div v-if="getChapterListFlag">
                         <a @click="updateOrder('asc')" :class="{'text-dark': order == 'asc'}" href="javascript:void(0);">正序</a>
                         |
@@ -83,7 +84,7 @@
                     <p class="mt-2" v-else-if="loadChapterList">加载中...</p>
                     <ol :reversed="order == 'desc'" class="mt-2" v-else-if="!listError">
                         <li class="col-12" v-for="(item, key) in chaptersData.list">
-                            <a :class='lastData.title == item.title ? "text-primary" : "text-secondary"' @click="getChapterHrefClick(item.href, item.title)" :id="'chapter-list-id-' + key" :href="getChapterHref(item.href)">{{ item.title }}</a>
+                            <a :class='href == item.href ? "text-primary" : "text-secondary"' @click="getChapterHrefClick(item.href, item.title)" :id="'chapter-list-id-' + key" :href="getChapterHref(item.href)">{{ item.title }}</a>
                         </li>
                     </ol>
                     <p v-else>没有获取章节列表 <br>

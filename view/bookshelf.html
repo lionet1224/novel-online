@@ -44,7 +44,7 @@
                     </ul>
                 </div>
                 <div class="items">
-                    <div class="row">
+                    <div class="row" v-if="list.length">
                         <div v-if="item" class="col-4 col-md-2" v-for="(item, i) in list">
                             <div @click="goBook(item, i)" class="item d-flex justify-content-center align-items-center">
                                 <figure>
@@ -53,7 +53,7 @@
                                         <label :for="'checkbox-' + i"></label>
                                     </div>
                                     <div class="images d-flex justify-content-center align-items-center">
-                                        <img v-if="item.bookImage" class="lazyload" :data-original="item.bookImage" :alt="item.bookTitle">
+                                        <img v-if="item.bookImage" class="lazyload" width="110" height="160" :data-original="item.bookImage" :alt="item.bookTitle">
                                         <div v-else class="imgScreen">
                                             <p>没有图片</p>
                                         </div>
@@ -64,6 +64,9 @@
                                 </figure>
                             </div>
                         </div>
+                    </div>
+                    <div v-else>
+                        <p>没有任何书籍哦</p>
                     </div>
                 </div>
             </div>

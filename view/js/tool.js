@@ -98,50 +98,20 @@ function getSet(){
 		debug: false
 	};
 	data = $.extend(init, data);
-	setSet(data);
+	// setSet(data);
 	return data;
 }
 
 function setSet(data){
-	localStorage.setItem('userSet', JSON.stringify(data));
+	let conf = getSet();
+	conf = $.extend(conf, data);
+	localStorage.setItem('userSet', JSON.stringify(conf));
 }
 
 function loadFont() {
 	let conf = getSet();
 	if(!conf.font) return;
-	// var span = document.createElement("span");
-	// // 这几个字母和符号宽度比较容易变化
-	// span.innerHTML = "gW@i#Q!T";
-	// // 设置为不可见，但可以测量宽度
-	// span.className = 'testFamily'
-	// // span.style.visibility = "hidden";
-	// // 字体大小为e68a84e799bee5baa631333332613664 500px，如果宽度变化比较容易区分
-	// span.style.fontSize = "500px";
-	// // 设置字体
-	// span.style.fontFamily = font;
-	// // 添加到页面
-	// document.body.appendChild(span);
-	// // 获取宽度
-	// var width_now = span.offsetWidth;
-	// // 每 0.05 秒检查一次是否加载
-	// var interval_check = setInterval(function() {
-	// 		// 宽度变化，说明字体被加载
-	// 		if(span.offsetWidth != width_now) {
-	// 				clearInterval(interval_check);
-	// 				// 设置字体为
-	// 				$('head').append(`
-	// 					<style>
-	// 						${ele} {
-	// 							font-family: ${font}
-	// 						}
-	// 					</style>
-	// 				`);
-	// 				// ele.style.fontFamily = font;
-	// 				// 移除 span
-	// 				document.body.removeChild(span);
-	// 				span = null;
-	// 		}
-	// }, 50);
+	
 	$('.fontSet').remove();
 	$('head').append(`
 		<style class="fontSet">

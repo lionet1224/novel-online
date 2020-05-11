@@ -312,7 +312,7 @@ new Vue({
 			if(this.chaptersData.list && this.lastData.title){
 				let index = -1;
 				for(let i = 0; i < this.chaptersData.list.length; i++){
-					if(this.chaptersData.list[i].title == this.lastData.title){
+					if(this.chaptersData.list[i].href == this.href){
 						index = i;
 						break;
 					}
@@ -350,6 +350,13 @@ new Vue({
 					this.isStore = true;
 				})
 			}
+		},
+
+		getBookHref(){
+			return `/info.html?` + toStr({
+				href: this.searchData.originHref,
+				key: this.searchData.key
+			})
 		},
 
 		loadSet(){
@@ -468,7 +475,7 @@ new Vue({
 				
 				setTimeout(() => {
 					this.isShowFlag = false;
-				}, 100)
+				}, 200)
 			}, 50);
 		})
 		$(document).on('touchend', (ev) => {

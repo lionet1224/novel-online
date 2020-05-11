@@ -25,10 +25,11 @@ npm run start
 
 # 更新日志
 
-## 1.2.2
+## 1.2.2(开发中)
 
 * add: 记忆的地方更新
 * update: 没有登录点击加入书架跳转至登录
+* update: 将touch事件改为click
 * fix: 一些报错
 * fix: ...
 

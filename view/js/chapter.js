@@ -486,36 +486,52 @@ new Vue({
 			})
 		})
 
-		$(document).on('touchstart', (ev) => {
-			this.touchTime && clearTimeout(this.touchTime)
-			this.touchTime = setTimeout(() => {
-				let width = $(document).width();
-				if(width > 800) return;
-				this.touchOutTime && clearTimeout(this.touchOutTime);
-				let height = document.documentElement.clientHeight || document.body.clientHeight;
-				let offset = ev.changedTouches[0];
-				if(offset.clientX > width / 2 - 100 && offset.clientX < width / 2 + 100 &&
-					offset.clientY > height / 2 - 150 && offset.clientY < height / 2 + 150){
-					this.isShowFlag = true;
-				}
+		// $(document).on('touchstart', (ev) => {
+		// 	this.touchTime && clearTimeout(this.touchTime)
+		// 	this.touchTime = setTimeout(() => {
+		// 		let width = $(document).width();
+		// 		if(width > 800) return;
+		// 		this.touchOutTime && clearTimeout(this.touchOutTime);
+		// 		let height = document.documentElement.clientHeight || document.body.clientHeight;
+		// 		let offset = ev.changedTouches[0];
+		// 		if(offset.clientX > width / 2 - 100 && offset.clientX < width / 2 + 100 &&
+		// 			offset.clientY > height / 2 - 150 && offset.clientY < height / 2 + 150){
+		// 			this.isShowFlag = true;
+		// 		}
 				
-				this.touchOutTime = setTimeout(() => {
-					this.isShowFlag = false;
-				}, 200)
-			}, 50);
-		})
-		$(document).on('touchend', (ev) => {
-			if(this.isShowFlag){
-				setTimeout(() => {
-					let flag = $('.chapterBottom').hasClass('d-none');
-					if(flag){
-						$('.chapterBottom').removeClass('d-none');
-						$('.addBookshelf').show();
-					} else {
-						$('.chapterBottom').addClass('d-none');
-						$('.addBookshelf').hide();
-					}
-				}, 0);
+		// 		this.touchOutTime = setTimeout(() => {
+		// 			this.isShowFlag = false;
+		// 		}, 200)
+		// 	}, 50);
+		// })
+		// $(document).on('touchend', (ev) => {
+		// 	if(this.isShowFlag){
+		// 		setTimeout(() => {
+		// 			let flag = $('.chapterBottom').hasClass('d-none');
+		// 			if(flag){
+		// 				$('.chapterBottom').removeClass('d-none');
+		// 				$('.addBookshelf').show();
+		// 			} else {
+		// 				$('.chapterBottom').addClass('d-none');
+		// 				$('.addBookshelf').hide();
+		// 			}
+		// 		}, 0);
+		// 	}
+		// })
+		$(document).on('click', ev => {
+			let width = $(document).width();
+			if(width > 800) return;
+			let height = document.documentElement.clientHeight || document.body.clientHeight;
+			if(ev.clientX > width / 2 - 100 && ev.clientX < width / 2 + 100 &&
+				ev.clientY > height / 2 - 150 && ev.clientY < height / 2 + 150){
+				let flag = $('.chapterBottom').hasClass('d-none');
+				if(flag){
+					$('.chapterBottom').removeClass('d-none');
+					$('.addBookshelf').show();
+				} else {
+					$('.chapterBottom').addClass('d-none');
+					$('.addBookshelf').hide();
+				}
 			}
 		})
 

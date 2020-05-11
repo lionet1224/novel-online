@@ -190,12 +190,12 @@ stroke-dashoffset: 0;
     height: 100%;
     width: 340px;
     background: white;
-    right: 0;
+    left: 0;
     top: 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     padding: 20px;
     overflow-y: auto;
-    animation: left .5s;
+    animation: right .5s;
 }
 
 .bar ol{
@@ -220,8 +220,8 @@ stroke-dashoffset: 0;
     filter: brightness(.9);
 }
 
-@keyframes left{
-    0%{transform: translateX(340px);}
+@keyframes right{
+    0%{transform: translateX(-340px);}
     100%{transform: translateX(0px);}
 }
 

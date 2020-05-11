@@ -28,7 +28,8 @@ new Vue({
         personNumber: 0,
 
         order: 'asc',
-        isStore: true
+        isStore: false,
+        isLogin: false
     },
     computed: {
         lastChapter(){
@@ -80,6 +81,10 @@ new Vue({
             this.order = type;
         },
         addBookshelf(){
+			if(!this.isLogin){
+				location.href = '/user.html?type=login&to=back';
+				return;
+			}
             if(this.isStore){
                 deleteBookshelf(
                     this.data.title, 
@@ -128,6 +133,7 @@ new Vue({
 
                     // 判断是否登录
                     userTestToken().then(res => {
+                        this.isLogin = true;
                         findBookshelf(
                             this.data.title,
                             this.searchData.href,
@@ -136,6 +142,8 @@ new Vue({
                         ).then(res => {
                             this.isStore = res.data.data.flag;
                         })
+                    }).catch(err => {
+                        // $('.addBookshelf').hide();
                     })
                 })
             });

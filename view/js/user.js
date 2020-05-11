@@ -153,6 +153,10 @@ new Vue({
               }
               msg += this.to;
               setTimeout(() => {
+                if(this.to == 'back'){
+                  history.go(-1);
+                  return;
+                }
                 location.href = this.to + '.html';
               }, 1000);
               this.infos.push(msg);

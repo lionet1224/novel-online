@@ -66,7 +66,9 @@ new Vue({
 		}],
 		font: '',
 
-		href: null
+		href: null,
+
+		isLogin: false
 	},
 	watch: {
 		autoChapter(){
@@ -212,20 +214,22 @@ new Vue({
 					});
 
 					// 保存到服务器
-					storeBookShelf(
-						decodeURI(this.searchData.bookTitle),
-						this.searchData.originHref,
-						null,
-						decodeURI(this.searchData.author),
-						this.searchData.key,
-						decodeURI(this.lastData.title),
-						href
-					).catch(err => {
-						console.error(err.data.data.msg);
-						if(this.debug){
-							alert('保存浏览记录时发生错误: ' + err.data.data.msg);
-						}
-					})
+					if(this.isLogin){
+						storeBookShelf(
+							decodeURI(this.searchData.bookTitle),
+							this.searchData.originHref,
+							null,
+							decodeURI(this.searchData.author),
+							this.searchData.key,
+							decodeURI(this.lastData.title),
+							href
+						).catch(err => {
+							console.error(err.response.data.msg);
+							if(this.debug){
+								alert('保存浏览记录时发生错误: ' + err.response.data.msg);
+							}
+						})
+					}
 
 					setTimeout(() => {
 						this.loadChapter();
@@ -320,28 +324,32 @@ new Vue({
 			}
 		},
 		addBookshelf(){
-				if(this.isStore){
-						deleteBookshelf(
-							this.searchData.bookTitle, 
-							this.searchData.originHref,
-							this.searchData.author,
-							this.searchData.key
-						).then(res => {
-							this.isStore = false;
-						})
-				} else {
-					storeBookShelf(
+			if(!this.isLogin){
+				location.href = '/user.html?type=login&to=back';
+				return;
+			}
+			if(this.isStore){
+					deleteBookshelf(
 						this.searchData.bookTitle, 
 						this.searchData.originHref,
-						null,
 						this.searchData.author,
-						this.searchData.key,
-						this.lastData.title,
-						this.href
+						this.searchData.key
 					).then(res => {
-						this.isStore = true;
+						this.isStore = false;
 					})
-				}
+			} else {
+				storeBookShelf(
+					this.searchData.bookTitle, 
+					this.searchData.originHref,
+					null,
+					this.searchData.author,
+					this.searchData.key,
+					this.lastData.title,
+					this.href
+				).then(res => {
+					this.isStore = true;
+				})
+			}
 		},
 
 		loadSet(){
@@ -480,6 +488,7 @@ new Vue({
 
 		// 判断是否登录
 		userTestToken().then(res => {
+			this.isLogin = true;
 			findBookshelf(
 					decodeURI(this.searchData.bookTitle),
 					this.searchData.originHref,

@@ -218,8 +218,8 @@ function bottomBarBind(flag){
 }
 
 let $http = axios.create({
-	// baseURL: 'http://blog.lionet.top:3000',
-	baseURL: 'http://127.0.0.1:8888/api/v1',
+	baseURL: 'http://blog.lionet.top:3000/api/v1',
+	// baseURL: 'http://127.0.0.1:8888/api/v1',
 })
 // $http.interceptors.response.use(res=>res, err => {
 

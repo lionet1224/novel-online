@@ -8,13 +8,13 @@ import {
 	setBookData,
 	addBookData,
 	updateBookData,
-	loadFont
+	loadFont,
+	bottomBarBind
 } from './tool'
 import '../style/bootstrap.css'
 import '../style/style.css'
 
 window.onload = () => {
-loadFont();
 let $http = axios;
 
 new Vue({
@@ -160,6 +160,10 @@ new Vue({
 				this.bookData.push(val);
 			}, i * 100);
 		})
+
+		loadFont();
+
+		bottomBarBind();
 	}
 });
 }

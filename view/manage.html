@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lionet - 小说在线转码工具</title>
+    <script src="./lib/axios.js"></script>
+    <script src="./lib/vue.js"></script>
+    <script src="./lib/socket.io.js"></script>
+    <script src="./lib/jquery.js"></script>
+    <script src="./lib/lazyload.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <header class="d-none d-md-block mb-4">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="left">
+                        <h1 class="mt-3">Lionet</h1>
+                        <b>小说在线转码工具
+                            <!-- <iframe style="margin-left: 10px;" src="https://ghbtns.com/github-btn.html?user=jialeliang&repo=novel-online&type=star&count=true" frameborder="0" scrolling="0" width="150" height="20" title="Star jialeliang/novel-online on GitHub"></iframe> -->
+                        </b>
+                        <a class="d-none d-md-block" href="/">回到首页</a>
+                    </div>
+                    <div class="right">
+                        <!-- <button class="btn bookshelf-btn btn-info d-none d-md-block">前往书架</button> -->
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+          <h3 class="mb-3 mt-3">系统配置</h3>
+          <div class="set-item">
+              <div class="ckbx-style-11">
+                  <input type="checkbox" id="autoChapter" v-model="autoChapter" name="ckbx-style-11">
+                  <label for="autoChapter"></label>
+              </div>
+              <b>
+                  <label for="autoChapter">自动下一章</label>
+              </b>
+              <p class="text-secondary">到达底部的时候，自动加载下一章的内容</p>
+          </div>
+          <div class="set-item">
+              <div class="ckbx-style-11">
+                  <input type="checkbox" id="getChapterList" v-model='getChapterListFlag' name="ckbx-style-11">
+                  <label for="getChapterList"></label>
+              </div>
+              <b>
+                  <label for="getChapterList">获取章节列表</label>
+              </b>
+              <p class="text-secondary">关闭可以减轻服务器负担，增加加载速度</p>
+          </div>
+          <div class="set-item">
+              <div class="ckbx-style-11">
+                  <input type="checkbox" id="debug" v-model='debug' name="ckbx-style-11">
+                  <label for="debug"></label>
+              </div>
+              <b>
+                  <label for="debug">开启debug</label>
+              </b>
+              <p class="text-secondary">可能出现一些错误，打开查看</p>
+          </div>
+          <h3 class="mb-3 mt-3">字体配置</h3>
+          <div class="set-item">
+            <div class="font-items">
+              <div @click="font = item.font" class="item border" :class="{'bg-primary text-white': item.font == font}" v-for="item in fonts">
+                {{ item.name }}
+              </div>
+            </div>
+            <p class="text-secondary mt-1">字体需要下载，所以不会及时替换，等待片刻即可。</p>
+          </div>
+        </div>
+
+        <div class="top">回到顶部</div>
+    </div>
+</body>
+
+</html>

@@ -14,6 +14,18 @@ module.exports = {
       "@babel/polyfill",
       path.resolve(__dirname,'view/js/chapter.js'),
     ],
+    bookshelf: [
+      "@babel/polyfill",
+      path.resolve(__dirname,'view/js/bookshelf.js'),
+    ],
+    user: [
+      "@babel/polyfill",
+      path.resolve(__dirname,'view/js/user.js'),
+    ],
+    manage: [
+      "@babel/polyfill",
+      path.resolve(__dirname,'view/js/manage.js'),
+    ],
     info: [
       "@babel/polyfill",
       path.resolve(__dirname,'view/js/info.js'),
@@ -94,10 +106,43 @@ module.exports = {
       },
       inject: 'head'
     }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'view/bookshelf.html'),
+      filename: 'bookshelf.html',
+      chunks: ['bookshelf'],
+      minify: { // 压缩HTML文件
+        removeComments: true, // 移除HTML中的注释
+        minifyCSS: true// 压缩内联css
+      },
+      inject: 'head'
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'view/user.html'),
+      filename: 'user.html',
+      chunks: ['user'],
+      minify: { // 压缩HTML文件
+        removeComments: true, // 移除HTML中的注释
+        minifyCSS: true// 压缩内联css
+      },
+      inject: 'head'
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, 'view/manage.html'),
+      filename: 'manage.html',
+      chunks: ['manage'],
+      minify: { // 压缩HTML文件
+        removeComments: true, // 移除HTML中的注释
+        minifyCSS: true// 压缩内联css
+      },
+      inject: 'head'
+    }),
     // new CleanWebpackPlugin(),
     new CopyWebpackPlugin([{
       from: './view/lib',
       to: 'lib'
+    }, {
+      from: './view/img',
+      to: 'img',
     }])
   ]
 }

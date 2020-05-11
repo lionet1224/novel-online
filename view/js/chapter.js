@@ -8,14 +8,18 @@ import {
 	setSet,
 	getBookData,
 	findBookData,
-	loadFont
+	loadFont,
+	storeBookShelf,
+	bottomBarBind,
+	deleteBookshelf,
+	userTestToken,
+	findBookshelf
 } from './tool'
 import '../style/bootstrap.css'
 import '../style/style.css'
 import '../style/checkbox.css'
 
 window.onload = () => {
-loadFont();
 new Vue({
 	el: "#app",
 	data: {
@@ -30,6 +34,8 @@ new Vue({
 		order: 'asc',
 		chaptersData: {},
 		loadChapterList: true,
+
+		isStore: false,
 
 		autoChapter: false,
 		autoChapterFlag: false,
@@ -48,7 +54,19 @@ new Vue({
 			{bg: 'rgba(224,224,223,.8)'},
 			{bg: 'rgba(25,27,27,.8)', font: 'white'}
 		],
-		color: null
+		color: null,
+		debug: false,
+
+		fonts: [{
+			name: '微软雅黑',
+			font: '微软雅黑'
+		}, {
+			name: '思源黑体',
+			font: '思源'
+		}],
+		font: '',
+
+		href: null
 	},
 	watch: {
 		autoChapter(){
@@ -74,6 +92,13 @@ new Vue({
 		fontIndent(){
 			this.setFontIndent();
 			this.storeSet();
+		},
+		debug(){
+			this.storeSet();
+		},
+		font(){
+			this.storeSet();
+			loadFont(this.font);
 		}
 	},
 	computed: {
@@ -85,6 +110,7 @@ new Vue({
 					key: this.key,
 					bookTitle: this.searchData.bookTitle,
 					author: this.searchData.author,
+					originHref: this.searchData.originHref
 				})
 			);
 		},
@@ -96,6 +122,7 @@ new Vue({
 					key: this.key,
 					bookTitle: this.searchData.bookTitle,
 					author: this.searchData.author,
+					originHref: this.searchData.originHref
 				})
 			);
 		},
@@ -148,6 +175,7 @@ new Vue({
 				origin: this.key
 			};
 			data.socketId = this.id;
+			this.href = href;
 
 			if(isLoad){
 				this.autoChapterFlag = true;
@@ -182,6 +210,22 @@ new Vue({
 						origin: this.searchData.key,
 						lastChapter
 					});
+
+					// 保存到服务器
+					storeBookShelf(
+						decodeURI(this.searchData.bookTitle),
+						this.searchData.originHref,
+						null,
+						decodeURI(this.searchData.author),
+						this.searchData.key,
+						decodeURI(this.lastData.title),
+						href
+					).catch(err => {
+						console.error(err.data.data.msg);
+						if(this.debug){
+							alert('保存浏览记录时发生错误: ' + err.data.data.msg);
+						}
+					})
 
 					setTimeout(() => {
 						this.loadChapter();
@@ -251,7 +295,7 @@ new Vue({
 				href,
 				bookTitle: this.searchData.bookTitle,
 				author: this.searchData.author,
-				origin: this.searchData.key
+				origin: this.searchData.key,
 			});
 		},
 		refreshList(){
@@ -270,11 +314,34 @@ new Vue({
 					}
 				}
 				let elem = $(`#chapter-list-id-${index}`);
-				$('.bar .content').scrollTop(0)
 				$('.bar .content').animate({
-					scrollTop: elem.offset() ? elem.offset().top - 50 : 0,
+					scrollTop: elem.offset() ? elem.offset().top - 150 - $(document).scrollTop() : 0,
 				})
 			}
+		},
+		addBookshelf(){
+				if(this.isStore){
+						deleteBookshelf(
+							this.searchData.bookTitle, 
+							this.searchData.originHref,
+							this.searchData.author,
+							this.searchData.key
+						).then(res => {
+							this.isStore = false;
+						})
+				} else {
+					storeBookShelf(
+						this.searchData.bookTitle, 
+						this.searchData.originHref,
+						null,
+						this.searchData.author,
+						this.searchData.key,
+						this.lastData.title,
+						this.href
+					).then(res => {
+						this.isStore = true;
+					})
+				}
 		},
 
 		loadSet(){
@@ -286,6 +353,8 @@ new Vue({
 			this.fontSize = setData.fontSize || this.fontSize;
 			this.fontBottom = setData.fontBottom || this.fontBottom;
 			this.fontIndent = setData.fontIndent || this.fontIndent;
+			this.debug = setData.debug || false;
+			this.font = setData.font || '微软雅黑';
 		},
 		storeSet(){
 			setSet({
@@ -294,7 +363,9 @@ new Vue({
 				color: this.color,
 				fontSize: this.fontSize,
 				fontBottom: this.fontBottom,
-				fontIndent: this.fontIndent
+				fontIndent: this.fontIndent,
+				debug: this.debug,
+				font: this.font
 			})
 		},
 		loadChapter(){
@@ -324,6 +395,7 @@ new Vue({
 		}
 
 		this.loadSet();
+		loadFont();
 		if (data.href && data.key) {
 			this.key = data.key;
 			this.href = data.href;
@@ -338,20 +410,98 @@ new Vue({
 
 		$('.menu-btn').click(() => {
 			$('.bar').show();
-			$('body').css('overflow', 'hidden')
+			$('body').addClass('overflowHidden')
+			$('.top').click();
 		})
 		
 		$('.screen').click(() => {
 			$('.bar').fadeOut();
-			$('body').css('overflow', 'visible')
+			$('body').removeClass('overflowHidden')
+			let flag = $('.chapterBottom').hasClass('d-none');
+			if(!flag){
+				$('.chapterBottom').addClass('d-none');
+				$('.addBookshelf').hide();
+			}
 		})
 		
+		$('.bar .content').scroll(() => {
+			let top = $('.bar .content').scrollTop();
+			if(top >= 500){
+					$('.top').show();
+			} else {
+					$('.top').hide();
+			}
+		})
 		$('.top').click(() => {
 			$('.bar .content').scrollTop(0)
 		})
 
 		$(document).scroll((ev) => {
 			this.loadChapter();
+
+			let flag = $('.chapterBottom').hasClass('d-none');
+			if(!flag){
+				$('.chapterBottom').addClass('d-none');
+				$('.addBookshelf').hide();
+			}
+		})
+
+		$(document).on('touchstart', (ev) => {
+			this.touchTime && clearTimeout(this.touchTime)
+			this.touchTime = setTimeout(() => {
+				let width = $(document).width();
+				if(width > 800) return;
+				let height = document.documentElement.clientHeight || document.body.clientHeight;
+				let offset = ev.changedTouches[0];
+				if(offset.clientX > width / 2 - 100 && offset.clientX < width / 2 + 100 &&
+					offset.clientY > height / 2 - 150 && offset.clientY < height / 2 + 150){
+					this.isShowFlag = true;
+				}
+				
+				setTimeout(() => {
+					this.isShowFlag = false;
+				}, 100)
+			}, 50);
+		})
+		$(document).on('touchend', (ev) => {
+			if(this.isShowFlag){
+				setTimeout(() => {
+					let flag = $('.chapterBottom').hasClass('d-none');
+					if(flag){
+						$('.chapterBottom').removeClass('d-none');
+						$('.addBookshelf').show();
+					} else {
+						$('.chapterBottom').addClass('d-none');
+						$('.addBookshelf').hide();
+					}
+				}, 0);
+			}
+		})
+
+		// 判断是否登录
+		userTestToken().then(res => {
+			findBookshelf(
+					decodeURI(this.searchData.bookTitle),
+					this.searchData.originHref,
+					decodeURI(this.searchData.author),
+					this.searchData.key,
+			).then(res => {
+					this.isStore = res.data.data.flag;
+			})
+		})
+
+		bottomBarBind(true);
+
+		$('.menu-chapter-list-btn').click(() => {
+			this.menuType = 'list';
+			$('.menu-btn').click();
+
+			this.toChapterPosition();
+		})
+		
+		$('.manage-btn').click(() => {
+			this.menuType = 'set';
+			$('.menu-btn').click();
 		})
 	}
 });

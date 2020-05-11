@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lionet - 小说在线转码工具</title>
+    <!-- <link rel="stylesheet" href="./style/bootstrap.css">
+    <link rel="stylesheet" href="./style/style.css">
+    <script src="./js/vue.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="./js/tool.js"></script>
+    <script src="./js/socket.io.js"></script> -->
+    <script src="./lib/axios.js"></script>
+    <script src="./lib/vue.js"></script>
+    <script src="./lib/socket.io.js"></script>
+    <script src="./lib/jquery.js"></script>
+    <script src="./lib/rule.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="left">
+                        <h1 class="mt-3">Lionet</h1>
+                        <b>小说在线转码工具
+                            <!-- <iframe style="margin-left: 10px;" src="https://ghbtns.com/github-btn.html?user=jialeliang&repo=novel-online&type=star&count=true" frameborder="0" scrolling="0" width="150" height="20" title="Star jialeliang/novel-online on GitHub"></iframe> -->
+                        </b>
+                        <a class="d-none d-md-block" href="/">回到首页</a>
+                    </div>
+                    <div class="right">
+                        <!-- <button class="btn btn-info d-none d-md-block">前往书架</button> -->
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content container">
+            <div class="jumbotron mt-3">
+                <div class="alert alert-danger" v-if="errors.length">
+                    <ul class="mb-0">
+                        <li v-for="item in errors">{{ typeof item == 'object' ? item[0] : item }}</li>
+                    </ul>
+                </div>
+                <div class="alert alert-success" v-if="infos.length">
+                    <ul class="mb-0">
+                        <li v-for="item in infos">{{ item }}</li>
+                    </ul>
+                </div>
+                <form @submit.stop.prevent v-if='type == "login"' class="form mt-3 login-form" method="POST" @submit.stop.prevent="">
+                    <h2 class="text-center">登录</h2>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <label class="w-100">
+                                邮箱(email):
+                                <input 
+                                name='email'
+                                v-model="login.email"
+                                l-validate="required|email"
+                                class="form-control" type="text" placeholder="输入你的用户名">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <label class="w-100">
+                                密码(password):
+                                <input
+                                name='password'
+                                v-model='login.password'
+                                l-validate="required|min:6|max:18"
+                                class="form-control" type="password" placeholder="输入你的密码">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <button :disabled="loginFlag" class="btn w-100 btn-success">登录</button>
+                            <a :href="getHref('register')">没有账号？注册一个</a>
+                        </div>
+                    </div>
+                </form>
+                <form @submit.stop.prevent v-else class="form mt-3 register-form" method="POST">
+                    <h2 class="text-center">注册</h2>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <label class="w-100">
+                                用户名(username):
+                                <input name="username" v-model="register.username"
+                                l-validate="required|min:1|max:10"
+                                class="form-control" type="text" placeholder="输入你的用户名">
+                            </label>
+                            <p class="text-secondary f-m">最少1位，最长10位</p>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <label class="w-100">
+                                密码(password):
+                                <input name="password"
+                                l-validate="required|min:6|max:18"
+                                 v-model="register.password" class="form-control" type="password" placeholder="输入你的密码">
+                            </label>
+                            <p class="text-secondary f-m">最少6位，最长18位</p>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <label class="w-100">
+                                确认密码(confirm_password):
+                                <input name="confirm_password"
+                                l-validate="required|dbpassword"
+                                 v-model="register.confirm_password" class="form-control" type="password" placeholder="输入你的密码">
+                            </label>
+                            <p class="text-secondary f-m">输入跟密码一致的值</p>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <label class="w-100">
+                                邮箱(email):
+                                <input name="email"
+                                l-validate="required|email"
+                                 v-model="register.email" class="form-control" v-model="register.email" type="email" placeholder="输入你的邮箱">
+                            </label>
+                            <p class="text-secondary f-m">这需要是一个邮箱</p>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <div class="row">
+                                <div class="col-7">
+                                    <label class="w-100">
+                                        验证码(authcode):
+                                        <input name="authCode"
+                                        l-validate="required|min:6|max:6"
+                                        v-model="register.authCode" class="form-control" type="text" placeholder="输入你的验证码">
+                                    </label>
+                                </div>
+                                <div class="col-5 pl-0 d-flex align-items-end">
+                                    <button @click.stop.prevent="sendAuthCode" :disabled="!register.email" class="btn mb-2 btn-info w-100 sendAuthCode">发送验证码</button>
+                                </div>
+                                <p class="text-secondary f-m ml-3">输入一个6位的验证码</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-4 offset-md-4">
+                            <button :disabled="registerFlag" class="btn w-100 btn-success">注册</button>
+                            <a :href="getHref('login')">已有账号，去登录</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer class="mt-4">
+            <div class="container">
+                <p>在线人数: <span>{{ personNumber }}</span></p>
+                <p><a href="https://github.com/jialeliang/novel-online">Github地址</a> 觉得不错的话，给个Star支持一下叭~</p>
+                <p>仅供学习交流, 严禁使用此工具进行任何违法行为。</p>
+                <p>Copyright &copy; 2019 lionet. All Rights Reserved.</p>
+            </div>
+        </footer>
+        
+        <div class="bottomBar">
+            <div class="items">
+                <div class="item home-btn">
+                    <svg t="1589098298000" class="icon" viewBox="0 0 1032 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2196" fill="#666" width="40" height="40"><path d="M1032.005818 536.110545h-194.304v-46.545454h81.198546L564.386909 138.24a35.444364 35.444364 0 0 0-49.733818 0L160.116364 489.565091h81.105454v46.545454H47.034182L481.885091 105.169455a82.106182 82.106182 0 0 1 115.269818 0l434.850909 430.94109z" p-id="2197"></path><path d="M433.617455 933.399273h-138.333091a103.726545 103.726545 0 0 1-103.610182-103.610182V512.837818h46.545454v316.951273c0 31.488 25.6 57.064727 57.064728 57.064727h91.787636v-252.974545h46.545455v299.52zM783.755636 933.399273h-138.309818v-299.52h46.545455v252.974545h91.764363c31.488 0 57.064727-25.6 57.064728-57.064727V512.837818h46.545454v316.951273a103.726545 103.726545 0 0 1-103.610182 103.610182z" p-id="2198"></path><path d="M389.445818 631.552h299.752727v46.545455h-299.752727z" p-id="2199"></path></svg>
+                </div>
+                <div class="item bookshelf-btn">
+                    <svg t="1589098538995" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1430" fill="#666" width="40" height="40"><path d="M921.735 733.468v38.168s2.076 19.328-38.168 57.252c-47.984 45.662-549.786 61.141-648.851 0C135.652 767.744 101.13 542.63 101.13 542.63v-38.17H62.962v57.252s44.053 243.426 171.755 305.341c168.718 56.5 475.487 54.952 648.851 0 62.688-22.445 76.335-95.417 76.335-95.417v-38.168h-38.168z m-142.786 17.733c21.006 36.553 67.667 49.156 104.221 28.149 36.551-21.006 49.154-67.667 28.149-104.219l-152.14-264.739c-21.007-36.553-67.669-49.154-104.221-28.151-36.553 21.007-49.156 67.667-28.149 104.221l152.14 264.739z m-95.465-319.319c18.275-10.504 41.607-4.202 52.11 14.072l142.631 248.193c10.504 18.277 4.202 41.607-14.074 52.11-18.277 10.504-41.607 4.202-52.11-14.076L669.41 483.989c-10.504-18.275-4.202-41.607 14.074-52.107zM497.098 761.59c7.544 41.479 47.286 68.986 88.763 61.442 41.479-7.546 68.988-47.284 61.442-88.765l-102.455-563.27c-7.544-41.479-47.284-68.988-88.763-61.442-41.479 7.544-68.988 47.286-61.442 88.763L497.098 761.59z m-30.769-595.71c20.74-3.771 40.61 9.983 44.383 30.721L609.754 741.1c3.771 20.738-9.983 40.609-30.721 44.381-20.74 3.773-40.61-9.981-44.383-30.721l-99.041-544.496c-3.772-20.739 9.982-40.611 30.72-44.384zM311.05 809.801c42.16 0 76.337-34.177 76.337-76.333V160.951c0-42.158-34.177-76.335-76.337-76.335-42.158 0-76.333 34.177-76.333 76.335v572.517c-0.001 42.156 34.175 76.333 76.333 76.333z m-38.166-629.766c0-21.08 17.088-38.166 38.166-38.166 21.08 0 38.17 17.086 38.17 38.166v553.433c0 21.078-17.09 38.168-38.17 38.168-21.078 0-38.166-17.09-38.166-38.168V180.035z" p-id="1431"></path></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="./js/app.js"></script> -->
+</body>
+
+</html>

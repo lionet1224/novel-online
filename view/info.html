@@ -16,7 +16,7 @@
     <div id="app">
         <div class="container mt-4">
             <div class="mb-3">
-                <a href="/index.html">回到首页</a>
+                <a class="d-none d-md-block" href="/">回到首页</a>
             </div>
 
             <div class="alert alert-danger" v-if="errors.length">
@@ -44,7 +44,10 @@
                         <img :src="data.imageUrl" alt="bookImage">
                     </div>
                     <div class="col-md-10 col-12" :class="{'col-12': !data.imageUrl}">
-                        <div class="description jumbotron" v-html="data.description"></div>
+                        <div class="description word-wrap jumbotron mb-0" v-html="data.description"></div>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <button @click="addBookshelf" class="btn" :class="isStore ? 'btn-danger' : 'btn-success'">{{ isStore ? '已在' : '加入' }}书架</button>
                     </div>
                 </div>
 
@@ -73,10 +76,14 @@
         <footer class="mt-4">
             <div class="container">
                 <p>在线人数: <span>{{ personNumber }}</span></p>
-                <p>仅供学习交流, 严禁使用此工具进行任何违法行为。<a href="https://github.com/jialeliang/novel-online">Github地址</a> 求Star。</p>
+                <p><a href="https://github.com/jialeliang/novel-online">Github地址</a> 觉得不错的话，给个Star支持一下叭~</p>
+                <p>仅供学习交流, 严禁使用此工具进行任何违法行为。</p>
                 <p>Copyright &copy; 2019 lionet. All Rights Reserved.</p>
             </div>
         </footer>
+
+        <div class="top">回到顶部</div>
+
     </div>
 </body>
 

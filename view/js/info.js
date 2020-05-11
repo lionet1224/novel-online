@@ -8,13 +8,17 @@ import {
 	setBookData,
 	addBookData,
 	updateBookData,
-	loadFont
+    loadFont,
+    userTestToken,
+    findBookshelf,
+    storeBookShelf,
+    deleteBookshelf,
+    bottomBarBind
 } from './tool'
 import '../style/bootstrap.css'
 import '../style/style.css'
 
 window.onload = () => {
-loadFont();
 new Vue({
     el: '#app',
     data: {
@@ -23,7 +27,8 @@ new Vue({
         data: {},
         personNumber: 0,
 
-        order: 'asc'
+        order: 'asc',
+        isStore: true
     },
     computed: {
         lastChapter(){
@@ -73,6 +78,28 @@ new Vue({
             if(type == this.order) return;
             this.data.list = this.data.list.reverse()
             this.order = type;
+        },
+        addBookshelf(){
+            if(this.isStore){
+                deleteBookshelf(
+                    this.data.title, 
+                    this.searchData.href,
+                    this.data.author,
+                    this.data.originkey
+                ).then(res => {
+                    this.isStore = false;
+                })
+            } else {
+                storeBookShelf(
+                    this.data.title, 
+                    this.searchData.href,
+                    this.data.imageUrl,
+                    this.data.author,
+                    this.data.originkey
+                ).then(res => {
+                    this.isStore = true;
+                })
+            }
         }
     },
     mounted(){
@@ -98,11 +125,38 @@ new Vue({
                     // 添加历史记录
                     data.bookHref = this.searchData.href;
                     addBookData(data)
+
+                    // 判断是否登录
+                    userTestToken().then(res => {
+                        findBookshelf(
+                            this.data.title,
+                            this.searchData.href,
+                            this.data.author,
+                            this.data.originkey,
+                        ).then(res => {
+                            this.isStore = res.data.data.flag;
+                        })
+                    })
                 })
             });
         } else {
             this.errors.push('没有href/key参数');
         }
+        
+        $(document).scroll(() => {
+            let top = $('html, body').scrollTop();
+            if(top >= 500){
+                $('.top').show();
+            } else {
+                $('.top').hide();
+            }
+        })
+		$('.top').click(() => {
+			$('html, body').scrollTop(0)
+        })
+        
+        loadFont();
+        bottomBarBind();
     }
 })
 }

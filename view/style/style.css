@@ -7,6 +7,10 @@
     font-family: '微软雅黑';
 }
 
+#app{
+    overflow-y: auto;
+}
+
 .load{
     width: 50px;
     display: block;
@@ -179,6 +183,7 @@ stroke-dashoffset: 0;
     top: 0;
     left: 0;
     display: none;
+    z-index: 100;
 }
 .bar .content{
     position: absolute;
@@ -209,6 +214,7 @@ stroke-dashoffset: 0;
     border: 1px solid #dedede;
     padding: 10px 15px;
     cursor: pointer;
+    display: none;
 }
 .top:hover{
     filter: brightness(.9);
@@ -271,4 +277,111 @@ input[type="range"]::-webkit-slider-thumb {
 
 .chapter .content{
     word-wrap: break-word;
+}
+
+.word-wrap{
+    word-wrap: break-word;
+}
+
+footer{
+    /* padding-bottom: 70px; */
+}
+
+.bottomBar{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    border: 1px solid #dedede;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    display: none;
+}
+.bottomBar .items{
+    display: flex;
+    justify-content: space-around;
+    padding-top: 10px;
+}
+
+.f-m{
+    font-size: 14px;
+    margin-bottom: 0;
+    display: none;
+}
+
+.imgScreen{
+    width: 100%;
+    height: 160px;
+    background: rgb(180, 180, 180);
+    color: white;
+    text-align: center;
+    line-height: 160px;
+}
+.bookshelf .images{
+    width: 110px;
+    height: 160px;
+    overflow: hidden;
+}
+.bookshelf figcaption{
+    margin-top: 10px;
+    text-align: center;
+}
+.bookshelf .item{
+    margin-top: 15px;
+    cursor: pointer;
+    transition: .4s;
+}
+.bookshelf .item:hover{
+    filter: brightness(.9);
+}
+.bookshelf h5{
+    font-size: 16px;
+}
+
+.bookshelf figure{
+    position: relative;
+}
+
+.ckbx-square-4{
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}
+
+.manage-top{
+    height: 40px;
+}
+
+.overflowHidden{
+    overflow-y: hidden;
+}
+
+.font-items .item{
+    padding: 10px 20px;
+    transition: .3s;
+    cursor: pointer;
+}
+.font-items .item:hover{
+    filter: brightness(.8);
+}
+
+.chapterBottom{
+    animation: .5s top;
+}
+
+@keyframes top{
+    0%{transform: translateY(60px);}
+    100%{transform: translateY(0);}
+}
+
+.addBookshelf{
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    /* display: none; */
+}
+
+header .item{
+    display: inline-block;
 }

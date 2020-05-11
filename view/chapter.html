@@ -34,7 +34,7 @@
             <div class="chapter">
                 <template v-for="(item, i) in data">
                     <div class="border-bottom mb-5">
-                        <h1>{{ item.title }}</h1>
+                        <h1 :id="'book-title-' + i">{{ item.title }}</h1>
                         <template v-if="item.content">
                             <p>{{ getChapterContentLength(i) }} 字</p>
                             <a v-if="item.cache" href="javasciprt:void(0)" @click="clearChapter">清除缓存</a>
@@ -137,6 +137,16 @@
                             <label for="getChapterList">获取章节列表</label>
                         </b>
                         <p class="text-secondary">关闭可以减轻服务器负担，增加加载速度</p>
+                    </div>
+                    <div class="set-item">
+                        <div class="ckbx-style-11">
+                            <input type="checkbox" id="getChapterScrollTop" v-model='getChapterScrollTopFlag' name="ckbx-style-11">
+                            <label for="getChapterScrollTop"></label>
+                        </div>
+                        <b>
+                            <label for="getChapterScrollTop">记忆的地方</label>
+                        </b>
+                        <p class="text-secondary">进入章节页的时候回滚到之前看到的地方</p>
                     </div>
                     <div class="set-item">
                         <div class="ckbx-style-11">

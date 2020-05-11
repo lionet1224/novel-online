@@ -26,6 +26,7 @@ new Vue({
     data: {
       getChapterListFlag: true,
       autoChapter: false,
+      getChapterScrollTopFlag: false,
 
       fonts: [{
         name: '微软雅黑',
@@ -50,6 +51,9 @@ new Vue({
       },
       debug(){
         this.storeSet();
+      },
+      getChapterScrollTopFlag(){
+        this.storeSet();
       }
     },
     computed: {
@@ -63,13 +67,15 @@ new Vue({
         this.getChapterListFlag = setData.getChapterListFlag;
         this.font = setData.font || '微软雅黑';
         this.debug = setData.debug || false;
+        this.getChapterScrollTopFlag = setData.getChapterScrollTopFlag || false;
       },
       storeSet(){
         setSet({
           autoChapter: this.autoChapter,
           getChapterListFlag: this.getChapterListFlag,
           font: this.font,
-          debug: this.debug
+          debug: this.debug,
+          getChapterScrollTopFlag: this.getChapterScrollTopFlag
         })
       },
     },

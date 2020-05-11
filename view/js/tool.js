@@ -46,9 +46,10 @@ function updateBookData(data) {
 	let local = getBookData();
 	let find = findBookData(data.bookTitle, data.author, data.origin);
 	if(!find) return;
-	find.item.chapterTitle = data.title;
-	find.item.chapterHref = data.href;
-	find.item.lastChapter = data.lastChapter;
+	find.item.chapterTitle = data.title || find.item.chapterTitle;
+	find.item.chapterHref = data.href || find.item.chapterHref;
+	find.item.lastChapter = data.lastChapter || find.item.lastChapter;
+	find.item.chapterScrollTop = data.chapterScrollTop != undefined ? data.chapterScrollTop : find.item.chapterScrollTop;
 	local.splice(find.i, 1)[0];
 	local.unshift(find.item);
 	setBookData(local);
@@ -87,6 +88,7 @@ function getSet(){
 	let init = {
 		autoChapter: false,
 		getChapterListFlag: true,
+		getChapterScrollTopFlag: false,
 
 		color: null,
 		fontSize: 20,

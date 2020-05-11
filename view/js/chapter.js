@@ -43,6 +43,7 @@ new Vue({
 		fontSize: 20,
 		fontBottom: 16,
 		fontIndent: 0,
+		getChapterScrollTopFlag: false,
 
 		colors: [
 			{bg: 'rgba(255, 255, 255,.8)'},
@@ -76,6 +77,9 @@ new Vue({
 			this.storeSet();
 		},
 		getChapterListFlag(){
+			this.storeSet();
+		},
+		getChapterScrollTopFlag(){
 			this.storeSet();
 		},
 		color(){
@@ -170,7 +174,7 @@ new Vue({
 				this.chaptersData.list = this.chaptersData.list.reverse();
 				this.order = type;
 		},
-		getChapter(href, isLoad = false) {
+		getChapter(href, isLoad = false, fn) {
 			if(this.autoChapterFlag) return;
 			let data = {
 				href,
@@ -198,6 +202,8 @@ new Vue({
 					document.title = this.lastData.title + " - lionet";
 					setTimeout(() => {
 						this.infos = [];
+
+						fn && fn();
 					}, 500);
 					
 					let lastChapter = false;
@@ -300,6 +306,7 @@ new Vue({
 				bookTitle: this.searchData.bookTitle,
 				author: this.searchData.author,
 				origin: this.searchData.key,
+				chapterScrollTop: 0
 			});
 		},
 		refreshList(){
@@ -370,6 +377,7 @@ new Vue({
 			this.fontIndent = setData.fontIndent || this.fontIndent;
 			this.debug = setData.debug || false;
 			this.font = setData.font || '微软雅黑';
+			this.getChapterScrollTopFlag = setData.getChapterScrollTopFlag || false;
 		},
 		storeSet(){
 			setSet({
@@ -380,7 +388,8 @@ new Vue({
 				fontBottom: this.fontBottom,
 				fontIndent: this.fontIndent,
 				debug: this.debug,
-				font: this.font
+				font: this.font,
+				getChapterScrollTopFlag: this.getChapterScrollTopFlag
 			})
 		},
 		loadChapter(){
@@ -416,7 +425,15 @@ new Vue({
 			this.href = data.href;
 			this.io = io(`ws://${config.socket.ip}:${config.socket.port}`);
 			this.bindIo(() => {
-				this.getChapter(data.href);
+				this.getChapter(data.href, false, () => {
+					if(this.getChapterScrollTopFlag){
+						setTimeout(() => {
+							$('html, body').animate({
+								scrollTop: find.item.chapterScrollTop || 0
+							})
+						}, 0);
+					}
+				});
 				this.getChapterList();
 			});
 		} else {
@@ -459,6 +476,14 @@ new Vue({
 				$('.chapterBottom').addClass('d-none');
 				$('.addBookshelf').hide();
 			}
+
+			let top = $(document).scrollTop() - $('#book-title-' + (this.data.length - 1)).offset().top + 25;
+			updateBookData({
+				chapterScrollTop: top,
+				bookTitle: this.searchData.bookTitle,
+				author: this.searchData.author,
+				origin: this.searchData.key
+			})
 		})
 
 		$(document).on('touchstart', (ev) => {
@@ -466,6 +491,7 @@ new Vue({
 			this.touchTime = setTimeout(() => {
 				let width = $(document).width();
 				if(width > 800) return;
+				this.touchOutTime && clearTimeout(this.touchOutTime);
 				let height = document.documentElement.clientHeight || document.body.clientHeight;
 				let offset = ev.changedTouches[0];
 				if(offset.clientX > width / 2 - 100 && offset.clientX < width / 2 + 100 &&
@@ -473,7 +499,7 @@ new Vue({
 					this.isShowFlag = true;
 				}
 				
-				setTimeout(() => {
+				this.touchOutTime = setTimeout(() => {
 					this.isShowFlag = false;
 				}, 200)
 			}, 50);

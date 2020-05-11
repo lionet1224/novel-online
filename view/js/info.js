@@ -72,7 +72,8 @@ new Vue({
 				bookTitle: this.data.title,
 				author: this.data.author,
 				origin: this.data.originkey,
-                originHref: this.searchData.href
+                originHref: this.searchData.href,
+                chapterScrollTop: 0
 			});
 		},
         updateOrder(type){

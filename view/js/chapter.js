@@ -604,7 +604,7 @@ new Vue({
 				}
 			}
 
-			if(!this.bookType) return;
+			if(!this.bookType || !this.currentData) return;
 			if(ev.clientX >= width / 2 + 100) {
 				if(Math.abs(this.pagingNum) >= this.pagingMaxNum && !this.data[this.dataIndex + 1]) return;
 				this.pagingNum -= 1;
@@ -629,7 +629,7 @@ new Vue({
 			}, 1500);
 		})
 		.on('touchmove', (ev) => {
-			if(!this.bookType) return;
+			if(!this.bookType || !this.currentData) return;
 			let left = ev.changedTouches[0].clientX - touchOffset.clientX;
 			if(this.pagingNum >= 0 && left >= 0 && !this.data[this.dataIndex - 1]){
 				touchT = false;
@@ -642,7 +642,7 @@ new Vue({
 			this.pageLeft.call(this, left);
 		})
 		.on('touchend', ev => {
-			if(!this.bookType) return;
+			if(!this.bookType || !this.currentData) return;
 			let left = ev.changedTouches[0].clientX - touchOffset.clientX;
 			if(((Math.abs(left) >= 20 && touchFlag) || Math.abs(left) >= $('.wrapper').width() / 2) && touchT){
 				this.pagingNum += left > 0 ? 1 : -1;
@@ -685,6 +685,7 @@ new Vue({
 			let anim = .3;
 			hideBottom();
 			if(this.pagingNum >= 1) {
+				this.pagingNum = false;
 				this.dataIndex -= 1;
 				updateBookData({
 					pagingNum: this.pagingNum,

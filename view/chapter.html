@@ -85,7 +85,7 @@
         </div>
 
         <div class="paging-info" v-if="bookType">
-            <div class="nums" v-if="pagingMaxNum != 0">
+            <div class="nums" v-if="pagingMaxNum != 0 && pagingNum !== false">
                 {{ Math.abs(pagingNum) + 1 }} / {{ pagingMaxNum }}
             </div>
             <div class="title text-secondary" v-if="currentData">

@@ -535,12 +535,19 @@ new Vue({
 			this.errors.push("没有href/key参数");
 		}
 
-		$(window).on('resize', () => {
+		function resize(){
 			let dWidth = document.documentElement.clientWidth || document.body.clientWidth;
 			if(dWidth >= 800){
 				this.bookType = false;
+				$('.bar .content').removeClass('left').addClass('right');
+			} else {
+				$('.bar .content').removeClass('right').addClass('left');
 			}
+		}
+		$(window).on('resize', () => {
+			resize.call(this);
 		})
+		resize.call(this);
 
 		$('.menu-btn').click(() => {
 			if(!this.chaptersData.list){

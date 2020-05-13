@@ -190,12 +190,28 @@ stroke-dashoffset: 0;
     height: 100%;
     width: 340px;
     background: white;
-    left: 0;
     top: 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     padding: 20px;
     overflow-y: auto;
+}
+.bar .content.left{
+    left: 0;
     animation: right .5s;
+}
+.bar .content.right{
+    right: 0;
+    animation: left .5s;
+}
+
+@keyframes right{
+    0%{transform: translateX(-340px);}
+    100%{transform: translateX(0px);}
+}
+
+@keyframes left{
+    0%{transform: translateX(340px);}
+    100%{transform: translateX(0px);}
 }
 
 .bar ol{
@@ -223,11 +239,6 @@ stroke-dashoffset: 0;
 }
 .top:hover{
     filter: brightness(.9);
-}
-
-@keyframes right{
-    0%{transform: translateX(-340px);}
-    100%{transform: translateX(0px);}
 }
 
 .set-item{

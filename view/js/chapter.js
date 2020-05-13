@@ -194,9 +194,18 @@ new Vue({
 			if(type == this.menuType) return;
 			this.menuType = type;
 
-			if(type == 'list' && !this.chaptersData.list){
-				this.refreshList();
+			if(!this.chaptersData.list){
+				this.getChapterList();
+			} else {
+				this.reloadList();
 			}
+		},
+		reloadList(){
+			let list = this.chaptersData.list.filter(i => i);
+			this.chaptersData.list = [];
+			setTimeout(() => {
+				this.chaptersData.list = list;
+			}, 100);
 		},
 		updateOrder(type){
 				if(type == this.order || !this.chaptersData.list) return;
@@ -365,7 +374,7 @@ new Vue({
 			if(!this.getChapterListFlag) return;
 			this.chaptersData = {};
 			this.loadChapterList = true;
-			this.getChapterList('false');
+			this.getChapterList(false);
 		},
 		toChapterPosition(){
 			if(this.chaptersData.list && this.lastData.title){
@@ -378,7 +387,7 @@ new Vue({
 				}
 				let elem = $(`#chapter-list-id-${index}`);
 				$('.bar .content').animate({
-					scrollTop: elem.offset() ? elem.offset().top - 150 - $(document).scrollTop() : 0,
+					scrollTop: elem.offset() ? elem.offset().top - 150 + $('.bar .content').scrollTop() - $(document).scrollTop() : 0,
 				})
 			}
 		},
@@ -513,11 +522,10 @@ new Vue({
 								$('.container').css({
 									'opacity': 1
 								});
-							}, 100);
+							}, 0);
 						}
 					}
 				});
-				this.getChapterList();
 			});
 		} else {
 			this.errors.push("没有href/key参数");
@@ -531,13 +539,15 @@ new Vue({
 		})
 
 		$('.menu-btn').click(() => {
+			if(!this.chaptersData.list){
+				this.getChapterList();
+			}
 			$('.bar').show();
 			$('body').addClass('overflowHidden')
-			$('.top').click();
 		})
 		
 		function hideBar(){
-			$('.bar').fadeOut();
+			$('.bar').hide();
 			$('body').removeClass('overflowHidden')
 			let flag = $('.chapterBottom').hasClass('d-none');
 			if(!flag){
@@ -611,7 +621,9 @@ new Vue({
 			this.menuType = 'list';
 			$('.menu-btn').click();
 
-			this.toChapterPosition();
+			setTimeout(() => {
+				this.toChapterPosition();
+			}, 100);
 		})
 		
 		$('.manage-btn').click(() => {

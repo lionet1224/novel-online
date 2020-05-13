@@ -30,6 +30,7 @@ npm run start
 * update: 修改设置的描述
 * update: 滑动距离从10改为5
 * update: 滑动最大距离为设备宽度1/2改为1/3
+* fix: ... 
 
 ## 1.2.3
 

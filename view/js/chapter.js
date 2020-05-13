@@ -555,6 +555,8 @@ new Vue({
 		$('.menu-btn').click(() => {
 			if(!this.chaptersData.list){
 				this.getChapterList();
+			} else {
+				this.reloadList();
 			}
 			$('.bar').show();
 			$('body').addClass('overflowHidden')

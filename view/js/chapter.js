@@ -205,8 +205,13 @@ new Vue({
 		reloadList(){
 			let list = this.chaptersData.list.filter(i => i);
 			this.chaptersData.list = [];
+			this.loadChapterList = true;
 			setTimeout(() => {
 				this.chaptersData.list = list;
+				this.loadChapterList = false;
+				setTimeout(() => {
+					this.toChapterPosition();
+				}, 0);
 			}, 100);
 		},
 		updateOrder(type){

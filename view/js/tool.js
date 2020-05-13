@@ -45,11 +45,23 @@ function setBookData(data) {
 function updateBookData(data) {
 	let local = getBookData();
 	let find = findBookData(data.bookTitle, data.author, data.origin);
-	if(!find) return;
+	if(!find){
+		if(data.bookTitle && data.origin && data.author && data.bookHref){
+			addBookData({
+				title: data.bookTitle,
+				originkey: data.origin,
+				author: data.author,
+				bookHref: data.bookHref
+			});
+			updateBookData(data);
+		}
+		return;
+	}
 	find.item.chapterTitle = data.title || find.item.chapterTitle;
 	find.item.chapterHref = data.href || find.item.chapterHref;
 	find.item.lastChapter = data.lastChapter || find.item.lastChapter;
 	find.item.chapterScrollTop = data.chapterScrollTop != undefined ? data.chapterScrollTop : find.item.chapterScrollTop;
+	find.item.pagingNum = data.pagingNum != undefined ? data.pagingNum : find.item.pagingNum;
 	local.splice(find.i, 1)[0];
 	local.unshift(find.item);
 	setBookData(local);
@@ -97,7 +109,9 @@ function getSet(){
 
 		font: '微软雅黑',
 
-		debug: false
+		debug: false,
+		// scroll paging
+		bookType: false
 	};
 	data = $.extend(init, data);
 	// setSet(data);

@@ -390,3 +390,25 @@ footer{
 header .item{
     display: inline-block;
 }
+
+.paging{
+    height: 90vh;
+    overflow: hidden;
+}
+.paging .wrapper{
+    height: 100%;
+    columns: calc(100vw - 32px) 1;
+    column-gap: 16px;
+    overflow: visible;
+    transform: translateX(0);
+}
+
+.paging-info{
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+}
+
+.links{
+    position: relative;
+}

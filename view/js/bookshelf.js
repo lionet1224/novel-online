@@ -67,7 +67,8 @@ new Vue({
                     key: data.origin,
                     author: data.author,
                     originHref: data.bookHref,
-                    bookTitle: data.bookTitle
+                    bookTitle: data.bookTitle,
+                    image: data.bookImage
                 })
             } else {
                 location.href = '/info.html?' + toStr({

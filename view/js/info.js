@@ -60,7 +60,8 @@ new Vue({
                 key: this.data.originkey,
                 bookTitle: this.data.title,
                 author: this.data.author,
-                originHref: this.searchData.href
+                originHref: this.searchData.href,
+                image: this.data.imageUrl
             }
 
             return `/chapter.html?${toStr(data)}`;
@@ -73,7 +74,8 @@ new Vue({
 				author: this.data.author,
 				origin: this.data.originkey,
                 originHref: this.searchData.href,
-                chapterScrollTop: 0
+                chapterScrollTop: 0,
+                pagingNum: 0
 			});
 		},
         updateOrder(type){

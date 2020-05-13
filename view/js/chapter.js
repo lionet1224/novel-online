@@ -26,6 +26,7 @@ new Vue({
 		errors: [],
 		infos: [],
 		data: [],
+		dataIndex: null,
 		key: "",
 
 		menuType: 'list',
@@ -57,6 +58,7 @@ new Vue({
 		],
 		color: null,
 		debug: false,
+		bookType: false,
 
 		fonts: [{
 			name: '微软雅黑',
@@ -69,7 +71,10 @@ new Vue({
 
 		href: null,
 
-		isLogin: false
+		isLogin: false,
+
+		pagingNum: 0,
+		pagingMaxNum: 0,
 	},
 	watch: {
 		autoChapter(){
@@ -105,6 +110,17 @@ new Vue({
 		font(){
 			this.storeSet();
 			loadFont(this.font);
+		},
+		bookType(){
+			if(this.bookType){
+				$('.chapter').addClass('paging');
+			} else {
+				this.pagingNum = 0;
+				this.pageLeft();
+				$('.chapter').removeClass('paging');
+			}
+			this.storeSet();
+			this.getMaxPaging();
 		}
 	},
 	computed: {
@@ -132,8 +148,12 @@ new Vue({
 				})
 			);
 		},
+
 		lastData(){
 			return this.data[this.data.length - 1] || {};
+		},
+		currentData(){
+			return this.data[this.dataIndex] || null;
 		}
 	},
 	methods: {
@@ -154,7 +174,9 @@ new Vue({
 				console.log(msg)
 				fn.call(this);
 				this.io.on("infoMsg", res => {
-					this.infos.push(res);
+					if(!this.bookType){
+						this.infos.push(res);
+					}
 				});
 				this.io.on("errorsMsg", msg => {
 					this.errors.push(msg);
@@ -173,6 +195,15 @@ new Vue({
 				if(type == this.order || !this.chaptersData.list) return;
 				this.chaptersData.list = this.chaptersData.list.reverse();
 				this.order = type;
+		},
+		getMaxPaging(fn){
+			setTimeout(() => {
+				let offset = $('.chapter .content p:last-child').offset();
+				if(!offset) return;
+				this.pagingMaxNum = Math.ceil(offset.left / $('.wrapper').width());
+				this.currentData.paging = this.pagingMaxNum;
+				fn && fn();
+			}, 0);
 		},
 		getChapter(href, isLoad = false, fn) {
 			if(this.autoChapterFlag) return;
@@ -205,6 +236,12 @@ new Vue({
 
 						fn && fn();
 					}, 500);
+
+					this.dataIndex = this.data.length - 1;
+					setTimeout(() => {
+						this.getMaxPaging();
+						this.pageLeft.call(this, 0);
+					}, 0);
 					
 					let lastChapter = false;
 					!this.lastData.content && (lastChapter = true);
@@ -216,6 +253,7 @@ new Vue({
 						bookTitle: this.searchData.bookTitle,
 						author: this.searchData.author,
 						origin: this.searchData.key,
+						bookHref: this.searchData.originHref,
 						lastChapter
 					});
 
@@ -238,7 +276,7 @@ new Vue({
 					}
 
 					setTimeout(() => {
-						this.loadChapter();
+						// this.loadChapter();
 						this.setFontBottom();
 						this.setFontIndent();
 					}, 0);
@@ -294,7 +332,8 @@ new Vue({
 				key: this.searchData.key,
 				bookTitle: this.searchData.bookTitle,
 				author: this.searchData.author,
-				originHref: this.searchData.originHref
+				originHref: this.searchData.originHref,
+				image: this.searchData.image
 			}
 
 			return `/chapter.html?${toStr(data)}`;
@@ -306,7 +345,8 @@ new Vue({
 				bookTitle: this.searchData.bookTitle,
 				author: this.searchData.author,
 				origin: this.searchData.key,
-				chapterScrollTop: 0
+				chapterScrollTop: 0,
+				pagingNum: 0
 			});
 		},
 		refreshList(){
@@ -348,7 +388,7 @@ new Vue({
 				storeBookShelf(
 					this.searchData.bookTitle, 
 					this.searchData.originHref,
-					null,
+					this.searchData.image || null,
 					this.searchData.author,
 					this.searchData.key,
 					this.lastData.title,
@@ -378,6 +418,12 @@ new Vue({
 			this.debug = setData.debug || false;
 			this.font = setData.font || '微软雅黑';
 			this.getChapterScrollTopFlag = setData.getChapterScrollTopFlag || false;
+			this.bookType = setData.bookType || false;
+
+			let width = document.documentElement.clientWidth || document.body.clientWidth;
+			if(width >= 800){
+				this.bookType = false;
+			}
 		},
 		storeSet(){
 			setSet({
@@ -389,7 +435,8 @@ new Vue({
 				fontIndent: this.fontIndent,
 				debug: this.debug,
 				font: this.font,
-				getChapterScrollTopFlag: this.getChapterScrollTopFlag
+				getChapterScrollTopFlag: this.getChapterScrollTopFlag,
+				bookType: this.bookType
 			})
 		},
 		loadChapter(){
@@ -404,6 +451,12 @@ new Vue({
 					this.getChapter(this.lastData.nextHref, true);
 				}, 100);
 			}
+		},
+		pageLeft(left = 0, anim = 0){
+			$('.paging .wrapper').css({
+				'transform': `translateX(calc(${this.pagingNum * 100}vw - ${this.pagingNum * (14)}px + ${left}px))`,
+				'transition': anim + 's'
+			})
 		}
 	},
 	mounted() {
@@ -427,11 +480,18 @@ new Vue({
 			this.bindIo(() => {
 				this.getChapter(data.href, false, () => {
 					if(this.getChapterScrollTopFlag){
-						setTimeout(() => {
-							$('html, body').animate({
-								scrollTop: find.item.chapterScrollTop || 0
-							})
-						}, 0);
+						if(!this.bookType){
+							setTimeout(() => {
+								$('html, body').animate({
+									scrollTop: find.item.chapterScrollTop || 0
+								})
+							}, 0);
+						} else {
+							setTimeout(() => {
+								this.pagingNum = find.item.pagingNum || 0;
+								this.pageLeft(0, .3);
+							}, 0);
+						}
 					}
 				});
 				this.getChapterList();
@@ -447,6 +507,7 @@ new Vue({
 		})
 		
 		$('.screen, .hiddenBar').click(() => {
+			if(this.menuType == 'set') return;
 			$('.bar').fadeOut();
 			$('body').removeClass('overflowHidden')
 			let flag = $('.chapterBottom').hasClass('d-none');
@@ -465,10 +526,12 @@ new Vue({
 			}
 		})
 		$('.top').click(() => {
+			if(this.menuType == 'set') return;
 			$('.bar .content').scrollTop(0)
 		})
 
 		$(document).scroll((ev) => {
+			if(this.bookType) return;
 			this.loadChapter();
 
 			let flag = $('.chapterBottom').hasClass('d-none');
@@ -486,55 +549,6 @@ new Vue({
 			})
 		})
 
-		// $(document).on('touchstart', (ev) => {
-		// 	this.touchTime && clearTimeout(this.touchTime)
-		// 	this.touchTime = setTimeout(() => {
-		// 		let width = $(document).width();
-		// 		if(width > 800) return;
-		// 		this.touchOutTime && clearTimeout(this.touchOutTime);
-		// 		let height = document.documentElement.clientHeight || document.body.clientHeight;
-		// 		let offset = ev.changedTouches[0];
-		// 		if(offset.clientX > width / 2 - 100 && offset.clientX < width / 2 + 100 &&
-		// 			offset.clientY > height / 2 - 150 && offset.clientY < height / 2 + 150){
-		// 			this.isShowFlag = true;
-		// 		}
-				
-		// 		this.touchOutTime = setTimeout(() => {
-		// 			this.isShowFlag = false;
-		// 		}, 200)
-		// 	}, 50);
-		// })
-		// $(document).on('touchend', (ev) => {
-		// 	if(this.isShowFlag){
-		// 		setTimeout(() => {
-		// 			let flag = $('.chapterBottom').hasClass('d-none');
-		// 			if(flag){
-		// 				$('.chapterBottom').removeClass('d-none');
-		// 				$('.addBookshelf').show();
-		// 			} else {
-		// 				$('.chapterBottom').addClass('d-none');
-		// 				$('.addBookshelf').hide();
-		// 			}
-		// 		}, 0);
-		// 	}
-		// })
-		$(document).on('click', ev => {
-			let width = $(document).width();
-			if(width > 800) return;
-			let height = document.documentElement.clientHeight || document.body.clientHeight;
-			if(ev.clientX > width / 2 - 100 && ev.clientX < width / 2 + 100 &&
-				ev.clientY > height / 2 - 150 && ev.clientY < height / 2 + 150){
-				let flag = $('.chapterBottom').hasClass('d-none');
-				if(flag){
-					$('.chapterBottom').removeClass('d-none');
-					$('.addBookshelf').show();
-				} else {
-					$('.chapterBottom').addClass('d-none');
-					$('.addBookshelf').hide();
-				}
-			}
-		})
-
 		// 判断是否登录
 		userTestToken().then(res => {
 			this.isLogin = true;
@@ -550,6 +564,8 @@ new Vue({
 
 		bottomBarBind(true);
 
+		$('#app').css('padding-bottom', '0')
+
 		$('.menu-chapter-list-btn').click(() => {
 			this.menuType = 'list';
 			$('.menu-btn').click();
@@ -561,6 +577,119 @@ new Vue({
 			this.menuType = 'set';
 			$('.menu-btn').click();
 		})
+		
+		$(document).on('click', ev => {
+			let width = $(document).width();
+			if(width > 800) return;
+			let height = document.documentElement.clientHeight || document.body.clientHeight;
+			if(ev.clientX > width / 2 - 100 && ev.clientX < width / 2 + 100 &&
+				ev.clientY > height / 2 - 150 && ev.clientY < height / 2 + 150){
+				let flag = $('.chapterBottom').hasClass('d-none');
+				if(flag){
+					$('.chapterBottom').removeClass('d-none');
+					$('.addBookshelf').show();
+				} else {
+					$('.chapterBottom').addClass('d-none');
+					$('.addBookshelf').hide();
+				}
+			}
+
+			if(!this.bookType) return;
+			if(ev.clientX >= width / 2 + 100) {
+				if(Math.abs(this.pagingNum) >= this.pagingMaxNum && !this.data[this.dataIndex + 1]) return;
+				this.pagingNum -= 1;
+				touchEnd.call(this);
+			}
+			if(ev.clientX <= width / 2 - 100){
+				if(this.pagingNum + 1 > 0 && !this.data[this.dataIndex - 1]) return;
+				this.pagingNum += 1;
+				touchEnd.call(this);
+			}
+		})
+
+		let touchOffset = {};
+		let touchFlag = false;
+		let touchT = true;
+		$('.chapter').on('touchstart', (ev) => {
+			if(!this.bookType) return;
+			touchFlag = true;
+			touchOffset = ev.changedTouches[0];
+			setTimeout(() => {
+				touchFlag = false;
+			}, 1500);
+		})
+		.on('touchmove', (ev) => {
+			if(!this.bookType) return;
+			let left = ev.changedTouches[0].clientX - touchOffset.clientX;
+			if(this.pagingNum >= 0 && left >= 0 && !this.data[this.dataIndex - 1]){
+				touchT = false;
+				return;
+			}
+			if(Math.abs(this.pagingNum) + 1 >= this.pagingMaxNum && left <= 0 && !this.data[this.dataIndex + 1]) {
+				touchT = false;
+				return;
+			}
+			this.pageLeft.call(this, left);
+		})
+		.on('touchend', ev => {
+			if(!this.bookType) return;
+			let left = ev.changedTouches[0].clientX - touchOffset.clientX;
+			if(((Math.abs(left) >= 20 && touchFlag) || Math.abs(left) >= $('.wrapper').width() / 2) && touchT){
+				this.pagingNum += left > 0 ? 1 : -1;
+				// if(this.pagingNum >= 0) this.pagingNum = 0;
+				// if(Math.abs(this.pagingNum) + 1 >= this.pagingMaxNum) {
+				// 	this.pagingNum = -this.pagingMaxNum + 1;
+				// 	// this.getChapter(this.lastData.nextHref, true);
+				// }
+				touchEnd.call(this);
+			} else {
+				this.pageLeft.call(this, 0, .3);
+			}
+		})
+
+		function storePaging(){
+			updateBookData({
+				pagingNum: this.pagingNum,
+				bookTitle: this.searchData.bookTitle,
+				author: this.searchData.author,
+				origin: this.searchData.key
+			})
+		}
+
+		function loadContent(num = 0){
+			setTimeout(() => {
+				this.setFontBottom();
+				this.setFontIndent();
+				this.pagingNum = num;
+				storePaging.call(this);
+				this.pagingMaxNum = this.currentData.paging;
+				this.pageLeft.call(this, 0);
+			}, 0);
+		}
+
+		function touchEnd(){
+			let anim = .3;
+			if(this.pagingNum >= 1) {
+				this.dataIndex -= 1;
+				loadContent.call(this, -this.currentData.paging + 1);
+				return;
+			}
+			if(Math.abs(this.pagingNum) >= this.pagingMaxNum){
+				this.pagingNum = 0;
+				if(this.data[this.dataIndex + 1]){
+					this.dataIndex += 1;
+					loadContent.call(this);
+					return;
+				} else {
+					this.dataIndex += 1;
+					this.pagingMaxNum = 1;
+					this.getChapter(this.lastData.nextHref, true);
+				}
+				anim = 0;
+			}
+			storePaging.call(this);
+			this.pageLeft.call(this, 0, anim);
+		}
 	}
 });
 }

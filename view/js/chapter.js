@@ -492,7 +492,10 @@ new Vue({
 			this.io = io(`ws://${config.socket.ip}:${config.socket.port}`);
 			this.bindIo(() => {
 				if(this.bookType) {
-					$('.chapter').css('opacity', 0);
+					$('.container').css({
+						'opacity': 0,
+						'transition': 'opacity .3s'
+					});
 				}
 				this.getChapter(data.href, false, () => {
 					if(this.getChapterScrollTopFlag){
@@ -507,7 +510,9 @@ new Vue({
 							this.pageLeft(0, 0);
 							this.rollback = true;
 							setTimeout(() => {
-								$('.chapter').css('opacity', 1);
+								$('.container').css({
+									'opacity': 1
+								});
 							}, 100);
 						}
 					}

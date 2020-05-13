@@ -635,10 +635,10 @@ new Vue({
 				touchT = false;
 				return;
 			}
-			if(Math.abs(this.pagingNum) + 1 >= this.pagingMaxNum && left <= 0 && !this.data[this.dataIndex + 1]) {
-				touchT = false;
-				return;
-			}
+			// if(Math.abs(this.pagingNum) + 1 >= this.pagingMaxNum && left <= 0 && !this.data[this.dataIndex + 1]) {
+			// 	touchT = false;
+			// 	return;
+			// }
 			this.pageLeft.call(this, left);
 		})
 		.on('touchend', ev => {

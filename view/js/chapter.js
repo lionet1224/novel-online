@@ -345,6 +345,10 @@ new Vue({
 				let data = res.data.data;
 				this.chaptersData = data;
 				this.loadChapterList = false;
+
+				setTimeout(() => {
+					this.toChapterPosition();
+				}, 0);
 			})
 		},
 		getChapterHref(href){
@@ -620,10 +624,6 @@ new Vue({
 		$('.chapter-list-btn').click(() => {
 			this.menuType = 'list';
 			$('.menu-btn').click();
-
-			setTimeout(() => {
-				this.toChapterPosition();
-			}, 100);
 		})
 		
 		$('.manage-btn').click(() => {

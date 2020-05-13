@@ -657,6 +657,7 @@ new Vue({
 		})
 		.on('touchmove', (ev) => {
 			if(!this.bookType || !this.currentData) return;
+			touchT = true;
 			let left = ev.changedTouches[0].clientX - touchOffset.clientX;
 			if(this.pagingNum >= 0 && left >= 0 && !this.data[this.dataIndex - 1]){
 				touchT = false;

@@ -36,7 +36,8 @@ new Vue({
         font: '思源'
       }],
       font: '',
-      debug: false
+      debug: false,
+      bookType: false
     },
     watch: {
       autoChapter(){
@@ -54,6 +55,9 @@ new Vue({
       },
       getChapterScrollTopFlag(){
         this.storeSet();
+      },
+      bookType(){
+        this.storeSet();
       }
     },
     computed: {
@@ -68,6 +72,7 @@ new Vue({
         this.font = setData.font || '微软雅黑';
         this.debug = setData.debug || false;
         this.getChapterScrollTopFlag = setData.getChapterScrollTopFlag || false;
+        this.bookType = setData.bookType || false;
       },
       storeSet(){
         setSet({
@@ -75,7 +80,8 @@ new Vue({
           getChapterListFlag: this.getChapterListFlag,
           font: this.font,
           debug: this.debug,
-          getChapterScrollTopFlag: this.getChapterScrollTopFlag
+          getChapterScrollTopFlag: this.getChapterScrollTopFlag,
+          bookType: this.bookType
         })
       },
     },

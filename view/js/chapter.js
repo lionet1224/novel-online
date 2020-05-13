@@ -682,7 +682,11 @@ new Vue({
 			hideBottom();
 			if(this.pagingNum >= 1) {
 				this.dataIndex -= 1;
+				$('.chapter').css('opacity', 0);
 				loadContent.call(this, -this.currentData.paging + 1);
+				setTimeout(() => {
+					$('.chapter').css('opacity', 1);
+				}, 10);
 				return;
 			}
 			if(Math.abs(this.pagingNum) >= this.pagingMaxNum){
@@ -693,7 +697,7 @@ new Vue({
 					return;
 				} else {
 					this.dataIndex += 1;
-					this.pagingMaxNum = 1;
+					this.pagingMaxNum = 0;
 					this.getChapter(this.lastData.nextHref, true);
 				}
 				anim = 0;

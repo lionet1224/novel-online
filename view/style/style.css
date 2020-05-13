@@ -392,6 +392,7 @@ header .item{
 }
 
 .paging{
+    margin-top: 5vh;
     height: 90vh;
     overflow: hidden;
 }
@@ -403,10 +404,17 @@ header .item{
     transform: translateX(0);
 }
 
-.paging-info{
+.paging-info .nums{
     position: fixed;
     bottom: 10px;
+    left: 15px;
+}
+
+.paging-info .title{
+    position: fixed;
+    top: 10px;
     left: 10px;
+    font-size: 14px;
 }
 
 .links{

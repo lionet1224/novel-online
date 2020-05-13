@@ -45,6 +45,7 @@ new Vue({
 		fontBottom: 16,
 		fontIndent: 0,
 		getChapterScrollTopFlag: false,
+		rollback: false,
 
 		colors: [
 			{bg: 'rgba(255, 255, 255,.8)'},
@@ -93,16 +94,19 @@ new Vue({
 			this.storeSet();
 		},
 		fontSize(){
-			$('#app .container .content').css('font-size', this.fontSize + 'px');
+			this.setFontSize();
 			this.storeSet();
+			this.getMaxPaging();
 		},
 		fontBottom(){
 			this.setFontBottom();
 			this.storeSet();
+			this.getMaxPaging();
 		},
 		fontIndent(){
 			this.setFontIndent();
 			this.storeSet();
+			this.getMaxPaging();
 		},
 		debug(){
 			this.storeSet();
@@ -157,6 +161,9 @@ new Vue({
 		}
 	},
 	methods: {
+		setFontSize(){
+			$('#app .container .content *').css('font-size', this.fontSize + 'px');
+		},
 		setFontBottom(){
 			$('#app .container .content *').css('margin-bottom', this.fontBottom + 'px');
 		},
@@ -202,6 +209,10 @@ new Vue({
 				if(!offset) return;
 				this.pagingMaxNum = Math.ceil(offset.left / $('.wrapper').width());
 				this.currentData.paging = this.pagingMaxNum;
+				if(Math.abs(this.pagingNum) + 1 >= this.pagingMaxNum) {
+					this.pagingNum = -this.pagingMaxNum + 1;
+					this.pageLeft();
+				}
 				fn && fn();
 			}, 0);
 		},
@@ -254,7 +265,7 @@ new Vue({
 						author: this.searchData.author,
 						origin: this.searchData.key,
 						bookHref: this.searchData.originHref,
-						lastChapter
+						lastChapter,
 					});
 
 					// 保存到服务器
@@ -279,6 +290,7 @@ new Vue({
 						// this.loadChapter();
 						this.setFontBottom();
 						this.setFontIndent();
+						this.setFontSize();
 					}, 0);
 
 					if(!this.lastData.content) return;
@@ -453,8 +465,9 @@ new Vue({
 			}
 		},
 		pageLeft(left = 0, anim = 0){
+			let width = $('#app').width();
 			$('.paging .wrapper').css({
-				'transform': `translateX(calc(${this.pagingNum * 100}vw - ${this.pagingNum * (14)}px + ${left}px))`,
+				'transform': `translateX(calc(${this.pagingNum * width}px - ${this.pagingNum * (14)}px + ${left}px))`,
 				'transition': anim + 's'
 			})
 		}
@@ -478,19 +491,24 @@ new Vue({
 			this.href = data.href;
 			this.io = io(`ws://${config.socket.ip}:${config.socket.port}`);
 			this.bindIo(() => {
+				if(this.bookType) {
+					$('.chapter').css('opacity', 0);
+				}
 				this.getChapter(data.href, false, () => {
 					if(this.getChapterScrollTopFlag){
 						if(!this.bookType){
-							setTimeout(() => {
-								$('html, body').animate({
-									scrollTop: find.item.chapterScrollTop || 0
-								})
-							}, 0);
+							$('html, body').animate({
+								scrollTop: find.item.chapterScrollTop || 0
+							}, () => {
+								this.rollback = true;
+							})
 						} else {
+							this.pagingNum = find.item.pagingNum || 0;
+							this.pageLeft(0, 0);
+							this.rollback = true;
 							setTimeout(() => {
-								this.pagingNum = find.item.pagingNum || 0;
-								this.pageLeft(0, .3);
-							}, 0);
+								$('.chapter').css('opacity', 1);
+							}, 100);
 						}
 					}
 				});
@@ -499,6 +517,13 @@ new Vue({
 		} else {
 			this.errors.push("没有href/key参数");
 		}
+
+		$(window).on('resize', () => {
+			let dWidth = document.documentElement.clientWidth || document.body.clientWidth;
+			if(dWidth >= 800){
+				this.bookType = false;
+			}
+		})
 
 		$('.menu-btn').click(() => {
 			$('.bar').show();
@@ -553,6 +578,7 @@ new Vue({
 			let top = $(document).scrollTop() - $('#book-title-' + (this.data.length - 1)).offset().top + 25;
 			updateBookData({
 				chapterScrollTop: top,
+				pagingNum: 0,
 				bookTitle: this.searchData.bookTitle,
 				author: this.searchData.author,
 				origin: this.searchData.key
@@ -576,7 +602,7 @@ new Vue({
 
 		$('#app').css('padding-bottom', '0')
 
-		$('.menu-chapter-list-btn').click(() => {
+		$('.chapter-list-btn').click(() => {
 			this.menuType = 'list';
 			$('.menu-btn').click();
 
@@ -589,6 +615,7 @@ new Vue({
 		})
 		
 		$('.chapter').on('click', ev => {
+			if(this.getChapterScrollTopFlag && !this.rollback) return;
 			let width = $(document).width();
 			if(width > 800) return;
 			let height = document.documentElement.clientHeight || document.body.clientHeight;
@@ -660,6 +687,7 @@ new Vue({
 		function storePaging(){
 			updateBookData({
 				pagingNum: this.pagingNum,
+				chapterScrollTop: 0,
 				bookTitle: this.searchData.bookTitle,
 				author: this.searchData.author,
 				origin: this.searchData.key
@@ -670,6 +698,7 @@ new Vue({
 			$('.chapter').hide();
 			setTimeout(() => {
 				this.setFontBottom();
+				this.setFontSize();
 				this.setFontIndent();
 				this.pagingNum = num;
 				storePaging.call(this);

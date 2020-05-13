@@ -34,7 +34,9 @@ new Vue({
 		
 		order: 'asc',
 		chaptersData: {},
-		loadChapterList: true,
+		loadChapterList: false,
+
+		loadBookShelf: false,
 
 		isStore: false,
 
@@ -327,7 +329,7 @@ new Vue({
 				});
 		},
 		getChapterList(cache = 'true'){
-			if(!this.getChapterListFlag) return;
+			if(!this.getChapterListFlag || this.loadChapterList) return;
 			this.loadChapterList = true;
 			if(!this.searchData.originHref){
 				this.listError = true;
@@ -396,6 +398,7 @@ new Vue({
 			}
 		},
 		addBookshelf(){
+			if(!this.loadBookShelf) return;
 			if(!this.isLogin){
 				location.href = '/user.html?type=login&to=back';
 				return;
@@ -539,9 +542,9 @@ new Vue({
 			let dWidth = document.documentElement.clientWidth || document.body.clientWidth;
 			if(dWidth >= 800){
 				this.bookType = false;
-				$('.bar .content').removeClass('left').addClass('right');
+				$('.bar .content, .top').removeClass('left').addClass('right');
 			} else {
-				$('.bar .content').removeClass('right').addClass('left');
+				$('.bar .content, top').removeClass('right').addClass('left');
 			}
 		}
 		$(window).on('resize', () => {
@@ -615,12 +618,13 @@ new Vue({
 		userTestToken().then(res => {
 			this.isLogin = true;
 			findBookshelf(
-					decodeURI(this.searchData.bookTitle),
-					this.searchData.originHref,
-					decodeURI(this.searchData.author),
-					this.searchData.key,
+				decodeURI(this.searchData.bookTitle),
+				this.searchData.originHref,
+				decodeURI(this.searchData.author),
+				this.searchData.key,
 			).then(res => {
-					this.isStore = res.data.data.flag;
+				this.loadBookShelf = true;
+				this.isStore = res.data.data.flag;
 			})
 		})
 

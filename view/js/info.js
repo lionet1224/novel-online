@@ -26,6 +26,7 @@ new Vue({
         infos: [],
         data: {},
         personNumber: 0,
+        loadBookShelf: false,
 
         order: 'asc',
         isStore: false,
@@ -84,6 +85,7 @@ new Vue({
             this.order = type;
         },
         addBookshelf(){
+            if(!this.loadBookShelf) return
 			if(!this.isLogin){
 				location.href = '/user.html?type=login&to=back';
 				return;
@@ -144,6 +146,7 @@ new Vue({
                             this.data.originkey,
                         ).then(res => {
                             this.isStore = res.data.data.flag;
+                            this.loadBookShelf = true;
                         })
                     }).catch(err => {
                         // $('.addBookshelf').hide();

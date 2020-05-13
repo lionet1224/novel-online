@@ -105,8 +105,8 @@ new Vue({
         });
 
         // 验证是否登录
+        this.isLoad = true;
         userTestToken().then(res => {
-            this.isLoad = true;
             getBookshelf().then(res => {
                 this.isLoad = false;
                 this.list = res.data.data.list;

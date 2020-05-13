@@ -29,6 +29,7 @@ npm run start
 
 * add: 分页模式增加标题显示
 * add: 设置页增加分页配置
+* add: 判断是否在书架中增加loading显示
 * update: 分页模式下面的页数显示优化
 * update: 优化切换章节的显示
 * update: 滑动距离从20改为10

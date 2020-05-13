@@ -18,6 +18,14 @@
     margin: 0 auto;
 }
 
+.chapterLoad{
+    animation: 2s loading infinite linear;
+    vertical-align: middle;
+}
+.vam{
+    vertical-align: middle;
+}
+
 .chapters a:visited{
     color: black !important;
 }
@@ -224,13 +232,18 @@ stroke-dashoffset: 0;
 
 .top{
     position: fixed;
-    left: 30px;
     bottom: 20px;
     background: white;
     border: 1px solid #dedede;
     padding: 10px 15px;
     cursor: pointer;
     display: none;
+}
+.top.left{
+    left: 30px;
+}
+.top.right{
+    right: 30px;
 }
 .hiddenBar{
     position: fixed;

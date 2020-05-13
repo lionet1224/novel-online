@@ -700,7 +700,7 @@ new Vue({
 		.on('touchend', ev => {
 			if(!this.bookType || !this.currentData) return;
 			let left = ev.changedTouches[0].clientX - touchOffset.clientX;
-			if(((Math.abs(left) >= 10 && touchFlag) || Math.abs(left) >= $('.wrapper').width() / 2) && touchT){
+			if(((Math.abs(left) >= 5 && touchFlag) || Math.abs(left) >= $('.wrapper').width() / 2) && touchT){
 				this.pagingNum += left > 0 ? 1 : -1;
 				// if(this.pagingNum >= 0) this.pagingNum = 0;
 				// if(Math.abs(this.pagingNum) + 1 >= this.pagingMaxNum) {

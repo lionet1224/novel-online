@@ -27,7 +27,6 @@ npm run start
 
 ## 1.2.4
 
-* add: 一串无用代码
 * update: 修改设置的描述
 * update: 滑动距离从10改为5
 * update: 滑动最大距离为设备宽度1/2改为1/3

@@ -506,8 +506,7 @@ new Vue({
 			$('.top').click();
 		})
 		
-		$('.screen, .hiddenBar').click(() => {
-			if(this.menuType == 'set') return;
+		function hideBar(){
 			$('.bar').fadeOut();
 			$('body').removeClass('overflowHidden')
 			let flag = $('.chapterBottom').hasClass('d-none');
@@ -515,6 +514,13 @@ new Vue({
 				$('.chapterBottom').addClass('d-none');
 				$('.addBookshelf').hide();
 			}
+		}
+		$('.screen').click(() => {
+			hideBar();
+		})
+		$('.hiddenBar').click(() => {
+			if(this.menuType == 'set') return;
+			hideBar();
 		})
 		
 		$('.bar .content').scroll(() => {
@@ -530,15 +536,19 @@ new Vue({
 			$('.bar .content').scrollTop(0)
 		})
 
-		$(document).scroll((ev) => {
-			if(this.bookType) return;
-			this.loadChapter();
-
+		function hideBottom(){
 			let flag = $('.chapterBottom').hasClass('d-none');
 			if(!flag){
 				$('.chapterBottom').addClass('d-none');
 				$('.addBookshelf').hide();
 			}
+		}
+
+		$(document).scroll((ev) => {
+			if(this.bookType) return;
+			this.loadChapter();
+
+			hideBottom();
 
 			let top = $(document).scrollTop() - $('#book-title-' + (this.data.length - 1)).offset().top + 25;
 			updateBookData({
@@ -578,7 +588,7 @@ new Vue({
 			$('.menu-btn').click();
 		})
 		
-		$(document).on('click', ev => {
+		$('.chapter').on('click', ev => {
 			let width = $(document).width();
 			if(width > 800) return;
 			let height = document.documentElement.clientHeight || document.body.clientHeight;
@@ -669,6 +679,7 @@ new Vue({
 
 		function touchEnd(){
 			let anim = .3;
+			hideBottom();
 			if(this.pagingNum >= 1) {
 				this.dataIndex -= 1;
 				loadContent.call(this, -this.currentData.paging + 1);

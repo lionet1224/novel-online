@@ -515,7 +515,7 @@ new Vue({
 				if(this.bookType) {
 					$('.container').css({
 						'opacity': 0,
-						'transition': 'opacity .3s'
+						'transition': 'opacity 0s'
 					});
 				}
 				this.getChapter(data.href, false, () => {
@@ -532,7 +532,8 @@ new Vue({
 							this.rollback = true;
 							setTimeout(() => {
 								$('.container').css({
-									'opacity': 1
+									'opacity': 1,
+									'transition': 'opacity .3s'
 								});
 							}, 0);
 						}

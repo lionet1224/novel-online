@@ -298,7 +298,7 @@ new Vue({
 			axios
 				.delete("chapter", {
 					params: {
-						href: this.href
+						href: this.currentData.currentHref
 					}
 				})
 				.then(res => {
@@ -682,6 +682,14 @@ new Vue({
 			hideBottom();
 			if(this.pagingNum >= 1) {
 				this.dataIndex -= 1;
+				updateBookData({
+					pagingNum: this.pagingNum,
+					bookTitle: this.searchData.bookTitle,
+					author: this.searchData.author,
+					origin: this.searchData.key,
+					title: this.currentData.title,
+					href: this.currentData.currentHref
+				})
 				$('.chapter').css('opacity', 0);
 				loadContent.call(this, -this.currentData.paging + 1);
 				setTimeout(() => {

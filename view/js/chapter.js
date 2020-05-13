@@ -667,6 +667,7 @@ new Vue({
 		}
 
 		function loadContent(num = 0){
+			$('.chapter').hide();
 			setTimeout(() => {
 				this.setFontBottom();
 				this.setFontIndent();
@@ -675,6 +676,9 @@ new Vue({
 				this.pagingMaxNum = this.currentData.paging;
 				this.pageLeft.call(this, 0);
 			}, 0);
+			setTimeout(() => {
+				$('.chapter').fadeIn();
+			}, 100);
 		}
 
 		function touchEnd(){
@@ -690,11 +694,7 @@ new Vue({
 					title: this.currentData.title,
 					href: this.currentData.currentHref
 				})
-				$('.chapter').css('opacity', 0);
 				loadContent.call(this, -this.currentData.paging + 1);
-				setTimeout(() => {
-					$('.chapter').css('opacity', 1);
-				}, 10);
 				return;
 			}
 			if(Math.abs(this.pagingNum) >= this.pagingMaxNum){

@@ -533,7 +533,7 @@ new Vue({
 							setTimeout(() => {
 								$('.container').css({
 									'opacity': 1,
-									'transition': 'opacity .3s'
+									'transition': 'opacity .1s'
 								});
 							}, 0);
 						}
@@ -744,11 +744,11 @@ new Vue({
 			}, 0);
 			setTimeout(() => {
 				$('.chapter').fadeIn();
-			}, 100);
+			}, 0);
 		}
 
 		function touchEnd(){
-			let anim = .3;
+			let anim = .2;
 			hideBottom();
 			if(this.pagingNum >= 1) {
 				this.pagingNum = false;

@@ -12,7 +12,8 @@ import {
     bottomBarBind,
     userTestToken,
     getBookshelf,
-    deleteBookshelf
+    deleteBookshelf,
+    setCookie
 } from './tool'
 import '../style/bootstrap.css'
 import '../style/style.css'
@@ -111,11 +112,15 @@ new Vue({
                 this.isLoad = false;
                 this.list = res.data.data.list;
             }).catch(err => {
-                alert(err.data.msg);
+                alert(err.response.data.msg);
             })
         }).catch(err => {
-            alert('登录信息失效，请重新登录');
-            location.href = `/user.html?type=login&to=bookshelf`;
+            if(err.response.status == 403){
+                alert('登录信息失效，请重新登录');
+                location.href = `/user.html?type=login&to=bookshelf`;
+            } else if(err.response){
+                alert(err.response.data.msg)
+            }
         })
 
         $(document).scroll(() => {

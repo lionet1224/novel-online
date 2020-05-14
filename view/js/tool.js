@@ -235,9 +235,12 @@ function registerCode(email){
 	})
 }
 
-function userTestToken(){
+function userTestToken(overtime = false){
 	let token = getCookie('userToken');
+	let params = {};
+	overtime && (params.overtime = overtime)
 	return $http.get('/user/test', {
+		params,
 		auth: {
 			username: token
 		}

@@ -748,7 +748,7 @@ new Vue({
 		}
 
 		function touchEnd(){
-			let anim = .2;
+			let anim = .3;
 			hideBottom();
 			if(this.pagingNum >= 1) {
 				this.pagingNum = false;

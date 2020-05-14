@@ -530,13 +530,15 @@ new Vue({
 							this.pagingNum = find.item.pagingNum || 0;
 							this.pageLeft(0, 0);
 							this.rollback = true;
-							setTimeout(() => {
-								$('.container').css({
-									'opacity': 1,
-									'transition': 'opacity .1s'
-								});
-							}, 0);
 						}
+					}
+					if(this.bookType){
+						setTimeout(() => {
+							$('.container').css({
+								'opacity': 1,
+								'transition': 'opacity .1s'
+							});
+						}, 0);
 					}
 				});
 			});

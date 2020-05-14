@@ -33,6 +33,7 @@ npm run start
 * update: 滑动最大距离为设备宽度1/2改为1/3
 * update: reload list 时添加加载显示
 * fix: 章节显示开始动画错误
+* fix: 分页模式下不开启记忆的地方无法显示章节
 * fix: ... 
 
 ## 1.2.3

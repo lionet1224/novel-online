@@ -1,40 +1,40 @@
 module.exports = {
-    biquge: {
-        // 基础设置
-        name: '笔趣阁',
-        href: 'http://www.qbiqu.com',
-        search: 'http://www.qbiqu.com/modules/article/search.php?searchkey={search}',
-        code: 'gbk',
-        device: 'pc',
-        status: true,
+    // biquge: {
+    //     // 基础设置
+    //     name: '笔趣阁',
+    //     href: 'http://www.qbiqu.com',
+    //     search: 'http://www.qbiqu.com/modules/article/search.php?searchkey={search}',
+    //     code: 'gbk',
+    //     device: 'pc',
+    //     status: false,
 
-        // 搜索dom获取
-        searchCode: 'gbk',
-        searchList: 'tbody>tr',
-        searchIndex: 1,
-        searchTitle: 'td/a/eq-0/text',
-        searchHref: 'td/a/eq-0/attr-href',
-        searchAuthor: 'td/eq-2/text',
-        searchNewChapter: 'td/eq-1/text',
-        searchUpdated: 'td/eq-4/text',
+    //     // 搜索dom获取
+    //     searchCode: 'gbk',
+    //     searchList: 'tbody>tr',
+    //     searchIndex: 1,
+    //     searchTitle: 'td/a/eq-0/text',
+    //     searchHref: 'td/a/eq-0/attr-href',
+    //     searchAuthor: 'td/eq-2/text',
+    //     searchNewChapter: 'td/eq-1/text',
+    //     searchUpdated: 'td/eq-4/text',
 
-        // 详情页dom获取
-        infoTitle: '#maininfo h1/text',
-        infoAuthor: '#maininfo p/eq-0/text/allSpace/not-作者：',
-        infoNewChapter: '#maininfo p/eq-3/text/not-最新章节：',
-        infoUpdated: '#maininfo p/eq-2/text/not-最后更新：',
-        infoImage: '#fmimg img/attr-src/addhref',
-        infoDescription: '#intro p/eq-0/html/allSpace',
-        infoChapterList: '#list dd',
-        infoChapterIndex: 9,
-        infoChapterTitle: 'a/text',
-        infoChapterHref: 'a/attr-href/addhref',
+    //     // 详情页dom获取
+    //     infoTitle: '#maininfo h1/text',
+    //     infoAuthor: '#maininfo p/eq-0/text/allSpace/not-作者：',
+    //     infoNewChapter: '#maininfo p/eq-3/text/not-最新章节：',
+    //     infoUpdated: '#maininfo p/eq-2/text/not-最后更新：',
+    //     infoImage: '#fmimg img/attr-src/addhref',
+    //     infoDescription: '#intro p/eq-0/html/allSpace',
+    //     infoChapterList: '#list dd',
+    //     infoChapterIndex: 9,
+    //     infoChapterTitle: 'a/text',
+    //     infoChapterHref: 'a/attr-href/addhref',
 
-        chapterTitle: 'h1/text',
-        chapterContent: '#content/remove-div/html',
-        chapterPrevHref: '.bottem2 a/eq-2/attr-href/addhref',
-        chapterNextHref: '.bottem2 a/eq-4/attr-href/addhref'
-    },
+    //     chapterTitle: 'h1/text',
+    //     chapterContent: '#content/remove-div/html',
+    //     chapterPrevHref: '.bottem2 a/eq-2/attr-href/addhref',
+    //     chapterNextHref: '.bottem2 a/eq-4/attr-href/addhref'
+    // },
     biququ: {
         name: '笔趣趣',
         href: 'http://www.biququ.info',

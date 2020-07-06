@@ -57,7 +57,7 @@ module.exports = (href, key, socketId, cache) => {
         data = Object.assign(data, {
             originkey: key
         })
-        await redis.set('data', 'chapter-list-' + href, JSON.stringify(data), 60 * 60 * 24 * 30);
+        await redis.set('data', 'chapter-list-' + href, JSON.stringify(data), 60 * 60);
         sendMsg(socketId, '返回数据...');
         resolve(data);
     })

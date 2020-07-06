@@ -384,7 +384,7 @@ new Vue({
 		refreshList(){
 			if(!this.getChapterListFlag) return;
 			this.chaptersData = {};
-			this.loadChapterList = true;
+			// this.loadChapterList = true;
 			this.getChapterList(false);
 		},
 		toChapterPosition(){

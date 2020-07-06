@@ -56,7 +56,7 @@ module.exports = (href, key, socketId) => {
 
         let data = await getChapter(href, origin[key], socketId);
         // 缓存数据一个月
-        await redis.set('data', 'chapter-' + href, JSON.stringify(data), 60 * 60 * 24 * 30);
+        await redis.set('data', 'chapter-' + href, JSON.stringify(data), 60 * 60);
 
         sendMsg(socketId, '返回数据...');
         resolve(data);

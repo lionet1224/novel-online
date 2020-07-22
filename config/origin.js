@@ -65,7 +65,7 @@ module.exports = {
 		infoChapterHref: "a|attr-href|addhref",
 
 		chapterTitle: "h1|text",
-		chapterContent: "#content|remove-div|html",
+		chapterContent: "#content|remove-div|remove-script|html",
 		chapterPrevHref: "#pager_prev|attr-href|addhref",
 		chapterNextHref: "#pager_next|attr-href|addhref",
 	},
@@ -144,8 +144,8 @@ module.exports = {
 		code: "gbk",
 		status: true,
 
-        searchCode: "utf-8",
-        searchPageCode: 'utf-8',
+		searchCode: "utf-8",
+		searchPageCode: "utf-8",
 		searchList: ".search-list ul li",
 		searchIndex: 1,
 		searchTitle: ".s2|text",
@@ -201,5 +201,5 @@ module.exports = {
 		chapterContent: "#chapter_content|remove-script|html",
 		chapterPrevHref: "#keyleft|attr-href",
 		chapterNextHref: "#keyright|attr-href",
-	}
+	},
 };

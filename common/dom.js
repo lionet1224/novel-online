@@ -15,7 +15,7 @@ class Dom {
 	}
 
 	parse(dom, selector) {
-		let arr = selector.split("/");
+		let arr = selector.split("|");
 		let result = null;
 		arr.map(item => {
 			let arr = item.split("-");
@@ -34,8 +34,23 @@ class Dom {
 				case "eq":
 					result = result.eq(arr[1]);
 					break;
+				case "find":
+					result = result.find(arr[1]);
+					break;
+				case "or":
+					result = result.length <= 0 ? dom.find(arr[1]) : result;
+					break;
 				case "addhref":
 					result = result ? this.get("href") + result : "";
+					break;
+				case "infohref":
+					result = result ? this.chapterListUri + result : "";
+					break;
+				case "replace":
+					result =
+						typeof result == "string"
+							? result.replace(new RegExp(arr[1], arr[3] || "g"), arr[2] || "")
+							: result;
 					break;
 				case "not":
 					result =
@@ -63,8 +78,8 @@ class Dom {
 		return this.href;
 	}
 
-	transform(body) {
-		return cheerio.load(iconv.decode(body, this.get("code", "utf-8")), {
+	transform(body, code = null) {
+		return cheerio.load(iconv.decode(body, code ? code : this.get("code", "utf-8")), {
 			decodeEntities: false
 		});
 	}
@@ -87,7 +102,7 @@ class Dom {
 				}
 			];
 		} else {
-			let searchList = this.$(this.get("searchList"));
+			let searchList = this.getDom(null, 'searchList');
 			for (let i = this.get("searchIndex", 0); i < searchList.length; i++) {
 				let item = searchList.eq(i);
 				let data = {
@@ -99,6 +114,7 @@ class Dom {
 				};
 				list.push(data);
 			}
+			console.log(list);
 			return list;
 		}
 	}
@@ -111,6 +127,7 @@ class Dom {
 			updated: this.getDom(null, "infoUpdated"),
 			imageUrl: this.getDom(null, "infoImage"),
 			description: this.getDom(null, "infoDescription"),
+			downloadHref: this.getDom(null, 'downloadHref'),
 			origin: this.replite.name
 		};
 		let list = [];

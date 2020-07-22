@@ -16,7 +16,7 @@ function getChapter(uri, replite, socketId){
         sendMsg(socketId, '正在请求网页...');
         Rq({
             uri,
-            transform(body){
+            transform(body, res){
                 return dom.transform(body);
             }
         })

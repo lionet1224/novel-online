@@ -166,9 +166,10 @@ module.exports = {
 		infoChapterHref: "a|attr-href|infohref",
 
 		chapterTitle: ".bookname h1|text",
-		chapterContent: "#content|remove-div|html",
-		chapterPrevHref: ".bottem2|a|eq-0|attr-href|infohref",
-		chapterNextHref: ".bottem2|a|eq-2|attr-href|infohref",
+		chapterContent:
+			"#content|remove-div|remove-script|html|not-请记住本书首发域名：booktxt.net。顶点小说手机版阅读网址：m.booktxt.net",
+		chapterPrevHref: ".bottem2 a|eq-0|attr-href|addhref",
+		chapterNextHref: ".bottem2 a|eq-2|attr-href|addhref",
 	},
 	yuejianfei: {
 		name: "阅见飞",
@@ -187,7 +188,7 @@ module.exports = {
 		searchUpdated: "",
 
 		infoTitle: ".bookname h1 a|eq-0|text",
-		infoAuthor: ".fenlei a|eq-2|text",
+		infoAuthor: ".fenlei a|eq-1|text",
 		infoNewChapter: ".bookIntro h4 a|text",
 		infoUpdated: ".bookIntro h4|remove-a|text|allSpace|not-（|not-）",
 		infoImage: ".bookPic img|attr-src",
@@ -198,7 +199,8 @@ module.exports = {
 		infoChapterHref: "a|attr-href",
 
 		chapterTitle: ".readmain h2|text",
-		chapterContent: "#chapter_content|remove-script|html",
+		chapterContent:
+			"#chapter_content|remove-script|remove-div|html|not-&quot;|not-24k小说 11kt",
 		chapterPrevHref: "#keyleft|attr-href",
 		chapterNextHref: "#keyright|attr-href",
 	},

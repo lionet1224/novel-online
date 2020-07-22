@@ -46,6 +46,9 @@ class Dom {
 				case "infohref":
 					result = result ? this.chapterListUri + result : "";
 					break;
+				case "roothref":
+					result = result ? this.roothref + result : "";
+					break;
 				case "replace":
 					result =
 						typeof result == "string"
@@ -114,7 +117,6 @@ class Dom {
 				};
 				list.push(data);
 			}
-			console.log(list);
 			return list;
 		}
 	}
@@ -127,8 +129,8 @@ class Dom {
 			updated: this.getDom(null, "infoUpdated"),
 			imageUrl: this.getDom(null, "infoImage"),
 			description: this.getDom(null, "infoDescription"),
-			downloadHref: this.getDom(null, 'downloadHref'),
-			origin: this.replite.name
+			origin: this.replite.name,
+			originHref: this.chapterListUri
 		};
 		let list = [];
 		let chapterList = this.$(this.get("infoChapterList"));

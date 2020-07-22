@@ -444,3 +444,7 @@ header .item{
 .links{
     position: relative;
 }
+
+.d-flex{
+    flex-wrap: wrap;
+}

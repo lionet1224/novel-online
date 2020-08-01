@@ -1,3 +1,5 @@
+const { reject } = require("async");
+
 const { Rq, cheerio, iconv, Queue, Dom, checkReplite, redis, ws, isURL } = require(global.ROOTPATH + '/common')
 const { origin } = require(global.ROOTPATH + '/config')
 
@@ -14,6 +16,11 @@ function getChapter(uri, replite, socketId){
     let dom = new Dom(replite);
     return new Promise((resolve, reject) => {
         sendMsg(socketId, '正在请求网页...');
+        if(!dom.isCorreryUri(uri)) {
+            sendMsg(socketId, '错误的地址...');
+            reject();
+            return;
+        }
         Rq({
             uri,
             transform(body){

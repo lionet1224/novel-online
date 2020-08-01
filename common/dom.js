@@ -8,6 +8,7 @@ class Dom {
 
 	load($) {
 		this.$ = $;
+		console.log($.html())
 	}
 
 	get(name, val = "") {

@@ -133,5 +133,5 @@ module.exports = {
         chapterContent: '#content/remove-div/html',
         chapterPrevHref: '#prevLink/attr-href/addhref',
         chapterNextHref: '#nextLink/attr-href/addhref'
-    }
+    },
 }

@@ -56,6 +56,7 @@ new Vue({
 			this.data = {};
 			this.loadNum = 0;
 			this.prevTitle = this.bookTitle;
+			history.pushState(null, null, `?search=${this.bookTitle}`)
 			$http
 				.post("book/search", {
 					name: this.bookTitle,
@@ -164,6 +165,9 @@ new Vue({
 		loadFont();
 
 		bottomBarBind();
+
+		let data = toObj(location.search);
+		this.bookTitle = data.search;
 	}
 });
 }

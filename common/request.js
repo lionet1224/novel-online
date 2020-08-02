@@ -33,7 +33,6 @@ function req(config = {}, proxy = true){
         if(proxy) proxyUri = await getProxy();
         config = Object.assign(config, request);
         proxyUri && (config.proxy = proxyUri);
-        console.log(config)
         if(!config.uri || config.uri == "") return;
         let prefix = config.uri.slice(0, 4);
         if(prefix != 'http') config.uri = 'http://' + config.uri;

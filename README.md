@@ -31,6 +31,7 @@ npm run start
 * add: 添加网站源
 * add: 请求时，明文链接进行判断有效性
 * add: 添加天下霸唱小说来源
+* add: 添加代理ip请求页面
 * update: 缓存策略改为一小时
 * update: 前端调整
 * fix: 重载章节目录无法正确加载

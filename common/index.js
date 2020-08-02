@@ -18,18 +18,18 @@ const redis = require('./redis')
 const ws = require('./socket')
 
 module.exports = {
-    path,
-    Rq,
-    cheerio,
-    iconv,
-    toJson,
-    Queue,
-    Dom,
-    toGBK,
-    checkReplite,
-    encode,
-    getClientIp,
-    redis,
-    ws,
-    isURL
-}
+	path,
+	Rq,
+	cheerio,
+	iconv,
+	toJson,
+	Queue,
+	Dom,
+	toGBK,
+	checkReplite,
+	encode,
+	getClientIp,
+	redis,
+	ws,
+	isURL,
+};

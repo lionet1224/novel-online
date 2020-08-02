@@ -14,10 +14,15 @@ class Dom {
 		return (this.replite && this.replite[name]) || val;
 	}
 
+	isCorreryUri(uri){
+		if (uri.indexOf(this.replite.href) == 0) return true;
+		return false;
+	}
+
 	parse(dom, selector) {
 		let arr = selector.split("|");
 		let result = null;
-		arr.map(item => {
+		arr.map((item) => {
 			let arr = item.split("-");
 			switch (arr[0]) {
 				case "":
@@ -82,9 +87,12 @@ class Dom {
 	}
 
 	transform(body, code = null) {
-		return cheerio.load(iconv.decode(body, code ? code : this.get("code", "utf-8")), {
-			decodeEntities: false
-		});
+		return cheerio.load(
+			iconv.decode(body, code ? code : this.get("code", "utf-8")),
+			{
+				decodeEntities: false,
+			}
+		);
 	}
 
 	getDom(dom, name) {
@@ -102,10 +110,10 @@ class Dom {
 					author: this.getDom(null, "infoAuthor"),
 					newChapter: this.getDom(null, "infoNewChapter"),
 					updated: this.getDom(null, "infoUpdated"),
-				}
+				},
 			];
 		} else {
-			let searchList = this.getDom(null, 'searchList');
+			let searchList = this.getDom(null, "searchList");
 			for (let i = this.get("searchIndex", 0); i < searchList.length; i++) {
 				let item = searchList.eq(i);
 				let data = {
@@ -130,7 +138,7 @@ class Dom {
 			imageUrl: this.getDom(null, "infoImage"),
 			description: this.getDom(null, "infoDescription"),
 			origin: this.replite.name,
-			originHref: this.chapterListUri
+			originHref: this.chapterListUri,
 		};
 		let list = [];
 		let chapterList = this.$(this.get("infoChapterList"));
@@ -138,7 +146,7 @@ class Dom {
 			let item = chapterList.eq(i);
 			list.push({
 				title: this.getDom(item, "infoChapterTitle"),
-				href: this.getDom(item, "infoChapterHref")
+				href: this.getDom(item, "infoChapterHref"),
 			});
 		}
 		result.list = list;
@@ -152,7 +160,7 @@ class Dom {
 			content: this.getDom(null, "chapterContent"),
 			prevHref: this.getDom(null, "chapterPrevHref"),
 			nextHref: this.getDom(null, "chapterNextHref"),
-			currentHref: uri
+			currentHref: uri,
 			// chapterContentLength
 		};
 		return result;

@@ -1,5 +1,6 @@
 const { Rq, cheerio, iconv, Queue, Dom, checkReplite, redis, ws } = require(global.ROOTPATH + '/common')
 const { origin } = require(global.ROOTPATH + '/config')
+const queue = new Queue("搜索小说");
 
 function emitMsg(id, flag) {
     if (!id) return;
@@ -42,7 +43,6 @@ function search(name, replite, key, id) {
 }
 
 module.exports = (name = '', origins = [], socketId) => {
-    const queue = new Queue('搜索小说');
     return new Promise(async resolve => {
         if (name == '' || origins.length <= 0) {
             resolve({

@@ -3,21 +3,32 @@ const iconv = require('iconv-lite')
 const rq = require('request')
 const redis = require('./redis')
 
+let flag  = false;
+
 function getProxy(){
     if(request.proxyUri == '' || !request.proxyUri) return;
     return new Promise(async (resolve, reject) => {
         let cache = await redis.get('data', 'proxyData');
         let data = [];
-        if(cache){
+        if(cache && cache != 'undefined' && cache != undefined){
             data = JSON.parse(cache);
-        } else {
+            if(data.length <= 0) await redis.del('data', 'proxyData')
+        } else if(!flag){
+            flag = true;
             data = await req({
                 uri: request.proxyUri,
                 transform(body){
-			        return JSON.parse(iconv.decode(body, "utf-8"));
+                    let result = null;
+                    try{
+                        result = JSON.parse(iconv.decode(body, "utf-8"));
+                    } catch(err){
+                        console.log('错误: ' + err);
+                    }
+                    return result;
                 }
             }, false)
-            data = data.data;
+            flag = false;
+            data = data ? data.data : [];
         }
 
         await redis.set('data', 'proxyData', JSON.stringify(data), 60 * 20);
@@ -39,7 +50,7 @@ function req(config = {}, proxy = true){
         
         let agent = userAgent[config.agent || 'pc'];
         config.headers['User-Agent'] = agent[Math.floor(agent.length * Math.random())];
-
+        console.log(config)
         rq(config, (err, res, body) => {
             if(err){
                 return reject(err);

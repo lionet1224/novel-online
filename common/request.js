@@ -50,7 +50,6 @@ function req(config = {}, proxy = true){
         
         let agent = userAgent[config.agent || 'pc'];
         config.headers['User-Agent'] = agent[Math.floor(agent.length * Math.random())];
-        console.log(config)
         rq(config, (err, res, body) => {
             if(err){
                 return reject(err);

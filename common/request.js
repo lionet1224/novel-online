@@ -10,6 +10,7 @@ function getProxy(){
     return new Promise(async (resolve, reject) => {
         let cache = await redis.get('data', 'proxyData');
         let data = [];
+        console.log(cache)
         if(cache && cache != 'undefined' && cache != undefined){
             data = JSON.parse(cache);
             if(data.length <= 0) await redis.del('data', 'proxyData')
@@ -31,10 +32,14 @@ function getProxy(){
             data = data ? data.data : [];
         }
 
-        await redis.set('data', 'proxyData', JSON.stringify(data), 60 * 20);
-        let proxy = data[~~(data.length * Math.random())];
-        if(proxy) proxy = 'http://' + proxy.ip + ':' + proxy.port
-        resolve(proxy);
+        if(data.length >= 1){
+            await redis.set("data", "proxyData", JSON.stringify(data), 60 * 20);
+            let proxy = data[~~(data.length * Math.random())];
+            if (proxy) proxy = "http://" + proxy.ip + ":" + proxy.port;
+            resolve(proxy);
+        } else {
+            resolve('')
+        }
     })
 }
 

@@ -32,7 +32,7 @@ function getProxy(){
         }
 
         if(data.length >= 1){
-            await redis.set("data", "proxyData", JSON.stringify(data), 60 * 20);
+            await redis.set("data", "proxyData", JSON.stringify(data), 60 * 5);
             let proxy = data[~~(data.length * Math.random())];
             if (proxy) proxy = "http://" + proxy.ip + ":" + proxy.port;
             resolve(proxy);
@@ -53,7 +53,6 @@ function req(config = {}, proxy = true){
         if(prefix != 'http') config.uri = 'http://' + config.uri;
         
         let agent = userAgent[config.agent || 'pc'];
-        console.log(config)
         config.headers['User-Agent'] = agent[Math.floor(agent.length * Math.random())];
         rq(config, (err, res, body) => {
             if(err){

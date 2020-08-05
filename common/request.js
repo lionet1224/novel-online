@@ -10,7 +10,6 @@ function getProxy(){
     return new Promise(async (resolve, reject) => {
         let cache = await redis.get('data', 'proxyData');
         let data = [];
-        console.log(cache)
         if(cache && cache != 'undefined' && cache != undefined){
             data = JSON.parse(cache);
             if(data.length <= 0) await redis.del('data', 'proxyData')
@@ -38,7 +37,7 @@ function getProxy(){
             if (proxy) proxy = "http://" + proxy.ip + ":" + proxy.port;
             resolve(proxy);
         } else {
-            resolve('')
+            resolve(null)
         }
     })
 }
@@ -54,6 +53,7 @@ function req(config = {}, proxy = true){
         if(prefix != 'http') config.uri = 'http://' + config.uri;
         
         let agent = userAgent[config.agent || 'pc'];
+        console.log(config)
         config.headers['User-Agent'] = agent[Math.floor(agent.length * Math.random())];
         rq(config, (err, res, body) => {
             if(err){

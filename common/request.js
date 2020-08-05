@@ -45,9 +45,9 @@ function getProxy(){
 function req(config = {}, proxy = true){
     return new Promise(async (resolve, reject) => {
         let proxyUri;
-        if(proxy) proxyUri = await getProxy();
+        // if(proxy) proxyUri = await getProxy();
         config = Object.assign(config, request);
-        proxyUri && (config.proxy = proxyUri);
+        // proxyUri && (config.proxy = proxyUri);
         if(!config.uri || config.uri == "") return;
         let prefix = config.uri.slice(0, 4);
         if(prefix != 'http') config.uri = 'http://' + config.uri;

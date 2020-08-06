@@ -83,7 +83,7 @@ module.exports = (name = '', origins = [], socketId) => {
                         }
                     });
                 } else {
-                    errors.push(`不能使用${replite.name}的来源`);
+                    errors.push(`管理员已经关闭使用${replite.name}来源`);
                 }
             });
             queue.end(async () => {

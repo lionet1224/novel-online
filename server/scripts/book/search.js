@@ -1,6 +1,7 @@
-const { Rq, cheerio, iconv, Queue, Dom, checkReplite, redis, ws } = require(global.ROOTPATH + '/common')
+const { Rq, cheerio, iconv, Queue, Dom, checkReplite, redis, ws, toObj } = require(global.ROOTPATH + '/common')
 const { origin } = require(global.ROOTPATH + '/config')
 const queue = new Queue("搜索小说");
+const FormData = require('form-data')
 
 function emitMsg(id, flag) {
     if (!id) return;
@@ -12,20 +13,29 @@ function search(name, replite, key, id) {
     let href = dom.setHref(name);
     // console.log(`爬取《${name}》中, 来源${replite.name}, 地址: ` + href);
     return new Promise((resolve, reject) => {
+        let data = {};
+        let method = dom.get('type') || 'GET';
+        if(method == 'POST'){
+            data[dom.get('postSearchKey')] = name;
+            data = {...data, ...toObj(dom.get('postData', ''))}
+        }
+
         Rq({
             uri: href,
+            formData: data,
             transform(body, response) {
                 return {
                     $: dom.transform(body, replite.searchPageCode),
                     path: response.request.href
                 };
             }
-        })
+        }, true, method)
         .then((obj) => {
             let $ = obj.$;
             dom.load($);
             let data = dom.getSearchList(obj.path);
             emitMsg(id, 1);
+            console.log($.html())
 
             resolve({
                 url: href,

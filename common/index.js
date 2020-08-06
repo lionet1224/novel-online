@@ -4,12 +4,14 @@ const {
     iconv
 } = require('./quick')
 const {
-    toJson,
-    toGBK,
-    checkReplite,
-    encode,
-    getClientIp,
-    isURL
+	toJson,
+	toGBK,
+	checkReplite,
+	encode,
+	getClientIp,
+	isURL,
+	toObj,
+	toStr
 } = require('./tool')
 const Rq = require('./request')
 const Queue = require('./queue')
@@ -32,4 +34,6 @@ module.exports = {
 	redis,
 	ws,
 	isURL,
+	toObj,
+	toStr
 };

@@ -12,7 +12,10 @@ function getProxy(){
         let data = [];
         if(cache && cache != 'undefined' && cache != undefined){
             data = JSON.parse(cache);
-            if(data.length <= 0) await redis.del('data', 'proxyData')
+            if(data.length <= 10){
+                await redis.del("data", "proxyData");
+                data = [];
+            }
         } else if(!flag){
             flag = true;
             data = await req({
@@ -29,25 +32,31 @@ function getProxy(){
             }, false)
             flag = false;
             data = data ? data.data : [];
+
+            await redis.set("data", "proxyData", JSON.stringify(data), 60 * 25);
         }
 
-        if(data.length >= 1){
-            await redis.set("data", "proxyData", JSON.stringify(data), 60 * 5);
+        if(data && data.length >= 1){
             let proxy = data[~~(data.length * Math.random())];
-            if (proxy) proxy = "http://" + proxy.ip + ":" + proxy.port;
-            resolve(proxy);
+            if (proxy) {
+                proxy = "http://" + proxy.ip + ":" + proxy.port;
+                resolve(proxy);
+            } else {
+                resolve(null);
+            }
         } else {
             resolve(null)
         }
     })
 }
 
-function req(config = {}, proxy = true){
+function req(config = {}, proxy = true, method = 'GET'){
     return new Promise(async (resolve, reject) => {
         let proxyUri;
-        // if(proxy) proxyUri = await getProxy();
+        if(proxy) proxyUri = await getProxy();
         config = Object.assign(config, request);
-        // proxyUri && (config.proxy = proxyUri);
+        config.method = method;
+        proxyUri && (config.proxy = proxyUri);
         if(!config.uri || config.uri == "") return;
         let prefix = config.uri.slice(0, 4);
         if(prefix != 'http') config.uri = 'http://' + config.uri;
@@ -56,6 +65,7 @@ function req(config = {}, proxy = true){
         config.headers['User-Agent'] = agent[Math.floor(agent.length * Math.random())];
         rq(config, (err, res, body) => {
             if(err){
+                redis.del('data', 'proxyData');
                 return reject(err);
             }
             resolve(config.transform ? config.transform(body, res) : body);

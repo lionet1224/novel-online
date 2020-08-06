@@ -36,7 +36,7 @@ function getChapterList(uri, replite, socketId){
         })
         .catch(err => {
             console.error(`获取书籍详情出错, 路径：${uri}, 错误: ${err}`);
-            sendErrorsMsg(socketId, '获取详情出错, 错误代码：' + err.code);
+            sendErrorsMsg(socketId, '获取详情出错, 错误代码：' + err.code || err);
             reject();
         })
     })

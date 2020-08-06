@@ -244,7 +244,7 @@ module.exports = {
 		type: "POST",
 		postData: "action=search",
 		postSearchKey: "q",
-		status: true,
+		status: false,
 
 		searchCode: "utf-8",
 		searchList: ".fengtui_top dl",

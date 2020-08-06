@@ -35,7 +35,6 @@ function search(name, replite, key, id) {
             dom.load($);
             let data = dom.getSearchList(obj.path);
             emitMsg(id, 1);
-            console.log($.html())
 
             resolve({
                 url: href,

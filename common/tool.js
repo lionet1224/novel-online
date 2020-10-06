@@ -57,11 +57,31 @@ function isURL(strUrl) {
     }
 }
 
+function toObj(str) {
+	let obj = {};
+	let arr = str.split("&");
+	arr.map((k) => {
+		let v = k.split("=");
+		obj[v[0]] = decodeURI(v[1]);
+	});
+	return obj;
+}
+
+function toStr(obj) {
+	let arr = [];
+	Object.keys(obj).forEach((key) => {
+		arr.push(`${key}=${obj[key]}`);
+	});
+	return arr.join("&");
+}
+
 module.exports = {
     toJson,
     toGBK,
     checkReplite,
     encode,
     getClientIp,
-    isURL
+    isURL,
+    toObj,
+    toStr
 }

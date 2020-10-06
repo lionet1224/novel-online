@@ -13,6 +13,12 @@ function sendErrorsMsg(id, msg){
 function getChapterList(uri, replite, socketId){
     let dom = new Dom(replite);
     return new Promise((resolve, reject) => {
+        sendMsg(socketId, "正在校验地址正确性...");
+        if (!dom.isCorreryUri(uri)) {
+            sendMsg(socketId, "错误的地址...");
+            reject();
+            return;
+        }
         sendMsg(socketId, '正在请求网页...');
         Rq({
             uri,
@@ -30,7 +36,7 @@ function getChapterList(uri, replite, socketId){
         })
         .catch(err => {
             console.error(`获取书籍详情出错, 路径：${uri}, 错误: ${err}`);
-            sendErrorsMsg(socketId, '获取详情出错, 错误代码：' + err.code);
+            sendErrorsMsg(socketId, '获取详情出错, 错误代码：' + err.code || err);
             reject();
         })
     })

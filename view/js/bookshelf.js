@@ -25,6 +25,7 @@ new Vue({
     el: '#app',
     data: {
         personNumber: 0,
+        totalNum: 0,
         errors: [],
 
         list: [],
@@ -52,9 +53,10 @@ new Vue({
             this.io.on('conn', msg => {
                 console.log(msg)
                 fn.call(this);
-                this.io.on('webPersonNumber', res => {
-                    this.personNumber = res;
-                })
+				this.io.on("webPersonNumber", res => {
+					this.personNumber = res.online;
+					this.totalNum = res.totalNum;
+				});
             })
         },
         goBook(data, i){

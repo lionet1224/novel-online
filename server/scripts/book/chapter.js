@@ -15,6 +15,12 @@ function sendErrorsMsg(id, msg){
 function getChapter(uri, replite, socketId){
     let dom = new Dom(replite);
     return new Promise((resolve, reject) => {
+        sendMsg(socketId, "正在校验地址正确性...");
+        if(!dom.isCorreryUri(uri)){
+            sendMsg(socketId, "错误的地址...");
+            reject();
+            return;
+        }
         sendMsg(socketId, '正在请求网页...');
         if(!dom.isCorreryUri(uri)) {
             sendMsg(socketId, '错误的地址...');

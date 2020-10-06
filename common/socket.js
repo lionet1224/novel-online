@@ -7,12 +7,14 @@ class Socket{
         this.io = io;
         this.users = {};
         this.idIo  = {};
+        this.num = 0;
         this.listen();
     }
 
     listen(){
         this.io.on('connection', client => {
             client.on('conn', (id) => {
+                if(!this.users[id]) this.num++;
                 this.users[id] = client;
                 this.idIo[client.id] = id;
                 this.emit('conn', '链接成功', id);
@@ -32,7 +34,10 @@ class Socket{
     }
 
     webNumber(){
-        this.emit('webPersonNumber', Object.keys(this.users).length);
+        this.emit('webPersonNumber', {
+            online: Object.keys(this.users).length,
+            totalNum: this.num
+        });
     }
 
     emit(name, data, id){

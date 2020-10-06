@@ -25,6 +25,7 @@ new Vue({
     data: {
       io: null,
       personNumber: 0,
+      totalNum: 0,
       errors: [],
       infos: [],
 
@@ -73,9 +74,10 @@ new Vue({
             this.io.on('conn', msg => {
                 console.log(msg)
                 fn.call(this);
-                this.io.on('webPersonNumber', res => {
-                    this.personNumber = res;
-                })
+                this.io.on("webPersonNumber", res => {
+                  this.personNumber = res.online;
+                  this.totalNum = res.totalNum;
+                });
             })
         },
         getHref(type){

@@ -32,6 +32,7 @@ new Vue({
 		io: null,
 		loadNum: 0,
 		personNumber: 0,
+		totalNum: 0,
 		bookData: [],
 
 		isConn: false
@@ -56,6 +57,7 @@ new Vue({
 			this.data = {};
 			this.loadNum = 0;
 			this.prevTitle = this.bookTitle;
+			history.pushState(null, null, `?search=${this.bookTitle}`)
 			$http
 				.post("book/search", {
 					name: this.bookTitle,
@@ -97,7 +99,8 @@ new Vue({
 					this.loadNum++;
 				});
 				this.io.on("webPersonNumber", res => {
-					this.personNumber = res;
+					this.personNumber = res.online;
+					this.totalNum = res.totalNum;
 				});
 			})
 		},
@@ -164,6 +167,9 @@ new Vue({
 		loadFont();
 
 		bottomBarBind();
+
+		let data = toObj(location.search);
+		this.bookTitle = data.search;
 	}
 });
 }

@@ -26,6 +26,7 @@ new Vue({
         infos: [],
         data: {},
         personNumber: 0,
+        totalNum: 0,
         loadBookShelf: false,
 
         order: 'asc',
@@ -50,9 +51,10 @@ new Vue({
                 this.io.on('errorsMsg', msg => {
                     this.errors.push(msg);
                 })
-                this.io.on('webPersonNumber', res => {
-                    this.personNumber = res;
-                })
+				this.io.on("webPersonNumber", res => {
+					this.personNumber = res.online;
+					this.totalNum = res.totalNum;
+				});
             })
         },
         getChapter(href){

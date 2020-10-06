@@ -29,12 +29,9 @@ npm run start
 
 ## 1.2.5
 
-* add: 首页添加版本号
-* add: 添加网站源
 * add: 请求时，明文链接进行判断有效性
-* add: 添加天下霸唱小说来源
-* add: 添加代理ip请求页面
 * add: 搜索后，将搜索关键词置入地址
+* add: 添加浏览量计数
 * update: 缓存策略改为一小时
 * update: 前端调整
 * fix: 重载章节目录无法正确加载
@@ -45,8 +42,7 @@ npm run start
 
 * update: 动画调整
 * update: 修改设置的描述
-* update: 滑动距离从10改为5
-* update: 滑动最大距离为设备宽度1/2改为1/3
+* update: 滑动调整
 * update: reload list 时添加加载显示
 * fix: 章节显示开始动画错误
 * fix: 分页模式下不开启记忆的地方无法显示章节
@@ -54,13 +50,10 @@ npm run start
 
 ## 1.2.3
 
-* add: 分页模式增加标题显示
 * add: 设置页增加分页配置
 * add: 判断是否在书架中增加loading显示
 * update: 分页模式下面的页数显示优化
 * update: 优化切换章节的显示
-* update: 滑动距离从20改为10
-* update: 章节列表pc端显示在右边，手机端在左边
 * fix: 无法关闭导航
 * fix: 分页模式下，来回切换章节导致的回滚错乱
 * fix: 关于章节列表的一些问题+1
@@ -91,7 +84,6 @@ npm run start
 
 ## 1.2.0
 
-* add: 增加github地址
 * add: 增加字体缩进
 * update: vue使用生产版本
 * fix: 首页无法正确显示报错信息

@@ -23,7 +23,7 @@ function getChapter(uri, replite, socketId){
         }
         Rq({
             uri,
-            transform(body){
+            transform(body, res){
                 return dom.transform(body);
             }
         })

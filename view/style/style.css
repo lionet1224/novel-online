@@ -69,6 +69,10 @@ img{
     .history td{
         font-size: 12px;
     }
+    .top{
+        right: unset !important;
+        left: 30px;
+    }
 }
 
 .cbx {
@@ -238,11 +242,6 @@ stroke-dashoffset: 0;
     padding: 10px 15px;
     cursor: pointer;
     display: none;
-}
-.top.left{
-    left: 30px;
-}
-.top.right{
     right: 30px;
 }
 .hiddenBar{
@@ -408,6 +407,7 @@ footer{
     position: fixed;
     bottom: 80px;
     right: 20px;
+    z-index: 100;
     /* display: none; */
 }
 
@@ -443,4 +443,8 @@ header .item{
 
 .links{
     position: relative;
+}
+
+.d-flex{
+    flex-wrap: wrap;
 }

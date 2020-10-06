@@ -101,8 +101,8 @@
                             </h4>
                             <p class="mb-0">
                                 <a class="text-dark" href="javascript:void(0)" @click="searchAuthor(item.author)" class='ml-1 mr-1'>{{ item.author }}</a>
-                                 · <a class="text-dark" target="_blank" :href="getChapterList(item.href, item.originKey)">{{ item.newChapter }}</a> 
-                                 · {{ item.updated }}</p>
+                                 <a class="text-dark" target="_blank" :href="getChapterList(item.href, item.originKey)" v-if="item.newChapter">· {{ item.newChapter }}</a> 
+                                 <span v-if="item.updated">· {{ item.updated }}</span></p>
                             <p>此条数据来自: <a :href="item.href" class="text-dark">{{ item.origin }}</a></p>
 
                         </div>

@@ -149,7 +149,7 @@ new Vue({
                             this.loadBookShelf = true;
                         })
                     }).catch(err => {
-                        // $('.addBookshelf').hide();
+                        $('.addBookshelf').hide();
                     })
                 })
             });

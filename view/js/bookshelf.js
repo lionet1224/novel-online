@@ -86,12 +86,16 @@ new Vue({
                     if(!val) return;
                     let data = this.list[i];
                     deleteBookshelf(
-                        data.bookTitle,
-                        data.bookHref,
-                        data.author,
-                        data.origin
+                        data.id
                     ).then(res => {
-                        this.list.splice(i, 1);
+                        this.list = this.list.filter(i => i.id != data.id);
+                        // this.list.splice(i, 1);
+                        // getBookshelf().then(res => {
+                        //     this.isLoad = false;
+                        //     this.list = res.data.data.list;
+                        // }).catch(err => {
+                        //     alert(err.response.data.msg);
+                        // })
                     }).catch(err => {
                         this.errors.push(`${data.bookTitle}删除失败`);
                     })

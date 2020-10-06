@@ -207,10 +207,12 @@ let $http = axios.create({
 	baseURL: 'http://blog.lionet.top:3000/api/v1',
 	// baseURL: 'http://127.0.0.1:8888/api/v1',
 })
-// $http.interceptors.response.use(res=>res, err => {
-
-// 	console.log(err.response.data.data.code)
-// })
+$http.interceptors.response.use(res=>{
+	if (res.data.data && res.data.data.token) {
+		setCookie("userToken", res.data.data.token);
+	}
+	return res;
+});
 function login(email, password){
 	return $http.post('/user/login', {
 		email, password
@@ -235,7 +237,7 @@ function registerCode(email){
 	})
 }
 
-function userTestToken(overtime = false){
+function userTestToken(overtime = true){
 	let token = getCookie('userToken');
 	let params = {};
 	overtime && (params.overtime = overtime)
@@ -267,13 +269,10 @@ function findBookshelf(bookTitle, bookHref, author, origin){
 		}
 	})
 }
-function deleteBookshelf(bookTitle, bookHref, author, origin){
+function deleteBookshelf(id){
 	return $http.delete('/bookshelf', {
 		data: {
-			bookTitle,
-			bookHref,
-			author,
-			origin,
+			id
 		},
 		auth: {
 			username: getCookie('userToken')

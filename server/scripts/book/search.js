@@ -15,7 +15,7 @@ function search(name, replite, key, id) {
             uri: href,
             transform(body, response) {
                 return {
-                    $: dom.transform(body),
+                    $: dom.transform(body, replite.searchPageCode),
                     path: response.request.href
                 };
             }

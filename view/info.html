@@ -38,12 +38,12 @@
             <div class="info mt-4" v-if="data.list">
                 <h1>{{ data.title }}</h1>
                 <b>{{ data.author }}</b> ·
-                <b>{{ data.origin }}</b>
+                <b><a target="_blank" :href="data.originHref">{{ data.origin }}</a></b>
                 <div class="row mt-3">
                     <div v-if="data.imageUrl" class="d-none d-md-block col-md-2">
                         <img :src="data.imageUrl" alt="bookImage">
                     </div>
-                    <div class="col-md-10 col-12" :class="{'col-12': !data.imageUrl}">
+                    <div class="col-md-10 col-12" :class="{'col-md-12': !data.imageUrl}">
                         <div class="description word-wrap jumbotron mb-0" v-html="data.description"></div>
                     </div>
                     <div class="col-12 mt-3">

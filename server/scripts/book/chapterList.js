@@ -16,7 +16,8 @@ function getChapterList(uri, replite, socketId){
         sendMsg(socketId, '正在请求网页...');
         Rq({
             uri,
-            transform(body){
+            transform(body, res){
+                dom.chapterListUri = res.request.href;
                 return dom.transform(body);
             }
         })

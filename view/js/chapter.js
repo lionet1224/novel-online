@@ -78,8 +78,18 @@ new Vue({
 
 		pagingNum: 0,
 		pagingMaxNum: 0,
+
+		meCss: `// 小说内容的容器
+.chapterPage .container{
+    width: 100% !important;
+}`
 	},
 	watch: {
+		meCss(){
+			localStorage.setItem('css', this.meCss);
+			let styleDom = $('style').eq($('style').length - 1);
+			// styleDom.html(styleDom.html() + this.meCss)
+		},
 		autoChapter(){
 			this.loadChapter();
 			this.storeSet();

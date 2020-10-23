@@ -199,4 +199,4 @@ npm run start
 
 # 协议
 
-ISC
+MIT
